@@ -97,21 +97,62 @@
                      target-dir="src/java/com/bdnetwork/vuforia/app/utils" />
 
         <!-- Include our resources -->
-        <resource-file src="src/android/assets/bd_targets.dat"
-                       target="assets/bd_targets.dat" />
-        <resource-file src="src/android/assets/bd_targets.xml"
-                       target="assets/bd_targets.xml" />
+        <resource-file src="targets/StonesAndChips.dat"
+                       target="assets/StonesAndChips.dat" />
+        <resource-file src="targets/StonesAndChips.xml"
+                       target="assets/StonesAndChips.xml" />
     </platform>
 
     <!-- ios -->
     <platform name="ios">
+        <!-- config file -->
         <config-file target="config.xml" parent="/*">
-            <feature name="Device">
-                <param name="ios-package" value="CDVDevice"/>
+            <feature name="VuforiaPlugin">
+                <param name="ios-package" value="VuforiaPlugin" />
             </feature>
         </config-file>
 
-        <header-file src="src/ios/CDVDevice.h" />
-        <source-file src="src/ios/CDVDevice.m" />
+        <header-file src="src/ios/VuforiaPlugin.h" />
+        <source-file src="src/ios/VuforiaPlugin.m" />
+        <header-file src="src/ios/ViewController.h" />
+        <source-file src="src/ios/ViewController.mm" />
+
+        <framework src="AVFoundation.framework" weak="true" />
+        <framework src="CoreGraphics.framework" weak="true" />
+        <framework src="CoreMedia.framework" weak="true" />
+        <framework src="CoreMotion.framework" weak="true" />
+        <framework src="CoreVideo.framework" weak="true" />
+        <framework src="Foundation.framework" weak="true" />
+        <framework src="OpenGLES.framework" weak="true" />
+        <framework src="QuartzCore.framework" weak="true" />
+        <framework src="Security.framework" weak="true" />
+        <framework src="SystemConfiguration.framework" weak="true" />
+        <framework src="UIKit.framework" weak="true" />
+
+        <source-file src="src/vuforia/lib/arm/libVuforia.a" target-dir="libs" framework="true" />
+
+
+        <header-file src="src/ios/ImageTargets/ImageTargetsEAGLView.h" />
+        <source-file src="src/ios/ImageTargets/ImageTargetsEAGLView.mm" compiler-flags="-fno-objc-arc"/>
+        <header-file src="src/ios/ImageTargets/ImageTargetsViewController.h" />
+        <source-file src="src/ios/ImageTargets/ImageTargetsViewController.mm" compiler-flags="-fno-objc-arc"/>
+
+
+        <source-file src="src/ios/Utils/ApplicationSession.h" />
+        <source-file src="src/ios/Utils/ApplicationSession.mm" compiler-flags="-fno-objc-arc"/>
+        <source-file src="src/ios/Utils/GLResourceHandler.h" />
+
+
+        <resource-file src="src/ios/Utils/shaders/line.fragsh" target-dir="com.bdnetwork.vuforia/shader" />
+        <resource-file src="src/ios/Utils/shaders/line.vertsh" target-dir="com.bdnetwork.vuforia/shader" />
+        <resource-file src="src/ios/Utils/shaders/simple.fragsh" target-dir="com.bdnetwork.vuforia" />
+        <resource-file src="src/ios/Utils/shaders/simple.vertsh" target-dir="com.bdnetwork.vuforia" />
+
+
+        <resource-file src="targets/StonesAndChips.dat" target-dir="com.bdnetwork.vuforia" />
+        <resource-file src="targets/StonesAndChips.xml" target-dir="com.bdnetwork.vuforia" />
+
+        <resource-file src="src/ios/Assets/ImageTargets/close-button.png" target-dir="Resources" />
+        <resource-file src="src/ios/Assets/ImageTargets/iOSDevices.png" target-dir="Resources" />
     </platform>
 </plugin>

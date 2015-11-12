@@ -1,0 +1,14 @@
+/*==============================================================================
+ Copyright (c) 2012-2014 Qualcomm Connected Experiences, Inc.
+ All Rights Reserved.
+ ==============================================================================*/
+
+precision mediump float;
+
+uniform float opacity;
+uniform vec3 color;
+
+void main()
+{
+    gl_FragColor = vec4(color.r, color.g, color.b, opacity);
+}
