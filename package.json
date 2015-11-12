@@ -1,0 +1,27 @@
+{
+  "name": "cordova-plugin-vuforia",
+  "version": "0.0.1-dev",
+  "description": "Cordova Vuforia Plugin",
+  "cordova": {
+    "id": "cordova-plugin-vuforia",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thisisbd/cordova-plugin-vuforia"
+  },
+  "keywords": [
+    "cordova",
+    "vuforia",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "image",
+    "recognition"
+  ],
+  "author": "BD Network",
+  "license": "GPL 2.0"
+}

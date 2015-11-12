@@ -1,1 +1,1 @@
-# cordova-plugin-vuforia
+# Cordova Vuforia Plugin

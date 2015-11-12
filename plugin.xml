@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:rim="http://www.blackberry.com/ns/widgets"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="cordova-plugin-vuforia"
+        version="0.0.1-dev">
+    <name>Vuforia</name>
+    <description>Cordova Vuforia Plugin</description>
+    <license>GPL 2.0</license>
+    <keywords>cordova,vuforia,image,recognition</keywords>
+    <repo>https://github.com/thisisbd/cordova-plugin-vuforia.git</repo>
+    <issue>https://github.com/thisisbd/cordova-plugin-vuforia/issues</issue>
+
+    <author>Matthew Rayner</author>
+
+    <info>
+        Cordova Vuforia Plugin version 0.0.1, Copyright (C) 2015 Matthew Rayner
+        Cordova Vuforia Plugin comes with ABSOLUTELY NO WARRANTY; see the LICENSE
+        file for more information.
+        This is free software, and you are welcome to redistribute it
+        under certain conditions; see the LICENSE file for more information.
+    </info>
+
+    <js-module src="www/VuforiaPlugin.js" name="VuforiaPlugin">
+        <clobbers target="navigator.VuforiaPlugin" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <!-- Plugin Config -->
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="VuforiaPlugin" >
+                <param name="android-package" value="com.bdnetwork.vuforia.VuforiaPlugin"/>
+            </feature>
+        </config-file>
+
+        <!-- Add our permissions to the Android Manifest -->
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-feature android:glEsVersion="0x00020000" />
+            <uses-feature android:name="android.hardware.camera" />
+
+            <uses-permission android:name="android.permission.CAMERA" />
+
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+        </config-file>
+
+        <!-- Add our activities to the Android Manifest -->
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity
+                    android:name="com.bdnetwork.vuforia.app.ImageTargets"
+                    android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
+                    android:screenOrientation="landscape"
+                    android:noHistory="true">
+            </activity>
+        </config-file>
+
+        <!-- Add our required strings -->
+        <config-file target="res/values/strings.xml" parent="/*">
+            <string name="button_OK">OK</string>
+        </config-file>
+
+        <!-- Plugin Source -->
+        <source-file src="src/android/VuforiaPlugin.java" target-dir="src/com/bdnetwork/vuforia" />
+
+        <!-- Libraries -->
+        <source-file src="src/vuforia/jniLibs/armeabi/libVuforia.so" target-dir="libs/armeabi-v7a" />
+        <source-file src="src/android/Vuforia.jar" target-dir="libs" />
+
+        <!-- Assets -->
+        <resource-file src="src/android/res/drawable/devices.png" target="res/drawable/devices.png" />
+        <resource-file src="src/android/res/drawable-hdpi/devices.png" target="res/drawable-hdpi/devices.png" />
+        <resource-file src="src/android/res/drawable-xxhdpi/devices.png" target="res/drawable-xxhdpi/devices.png" />
+        <resource-file src="src/android/res/layout/camera_overlay.xml" target="res/layout/camera_overlay.xml" />
+
+        <source-file src="src/android/java/com/bdnetwork/vuforia/app/ImageTargets.java"
+                     target-dir="src/java/com/bdnetwork/vuforia/app" />
+        <source-file src="src/android/java/com/bdnetwork/vuforia/app/ImageTargetRenderer.java"
+                     target-dir="src/java/com/bdnetwork/vuforia/app" />
+        <source-file src="src/android/java/com/bdnetwork/vuforia/app/ApplicationControl.java"
+                     target-dir="src/java/com/bdnetwork/vuforia/app" />
+        <source-file src="src/android/java/com/bdnetwork/vuforia/app/ApplicationException.java"
+                     target-dir="src/java/com/bdnetwork/vuforia/app" />
+        <source-file src="src/android/java/com/bdnetwork/vuforia/app/ApplicationSession.java"
+                     target-dir="src/java/com/bdnetwork/vuforia/app" />
+        <source-file src="src/android/java/com/bdnetwork/vuforia/app/utils/LoadingDialogHandler.java"
+                     target-dir="src/java/com/bdnetwork/vuforia/app/utils" />
+        <source-file src="src/android/java/com/bdnetwork/vuforia/app/utils/MeshObject.java"
+                     target-dir="src/java/com/bdnetwork/vuforia/app/utils" />
+        <source-file src="src/android/java/com/bdnetwork/vuforia/app/utils/ApplicationGLView.java"
+                     target-dir="src/java/com/bdnetwork/vuforia/app/utils" />
+        <source-file src="src/android/java/com/bdnetwork/vuforia/app/utils/Texture.java"
+                     target-dir="src/java/com/bdnetwork/vuforia/app/utils" />
+
+        <!-- Include our resources -->
+        <resource-file src="src/android/assets/bd_targets.dat"
+                       target="assets/bd_targets.dat" />
+        <resource-file src="src/android/assets/bd_targets.xml"
+                       target="assets/bd_targets.xml" />
+    </platform>
+
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Device">
+                <param name="ios-package" value="CDVDevice"/>
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/CDVDevice.h" />
+        <source-file src="src/ios/CDVDevice.m" />
+    </platform>
+</plugin>
