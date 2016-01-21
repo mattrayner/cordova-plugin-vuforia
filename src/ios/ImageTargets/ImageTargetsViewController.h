@@ -30,6 +30,8 @@
 @property (retain) NSString *overlayText;
 @property (retain) NSString *vuforiaLicenseKey;
 
+@property (nonatomic) bool delaying;
+
 - (id)initWithOverlayText:(NSString *)overlayText vuforiaLicenseKey:(NSString *)vuforiaLicenseKey;
 
 @end

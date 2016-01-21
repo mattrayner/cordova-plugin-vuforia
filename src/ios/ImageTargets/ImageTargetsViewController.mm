@@ -18,6 +18,8 @@
 #import <QCAR/DataSet.h>
 #import <QCAR/CameraDevice.h>
 
+#import <QCAR/QCAR_iOS.h>
+
 @interface ImageTargetsViewController ()
 
 @property (assign, nonatomic) id<GLResourceHandler> glResourceHandler;
@@ -37,6 +39,8 @@
     self.vuforiaLicenseKey = vuforiaLicenseKey;
     
     self = [self initWithNibName:nil bundle:nil];
+    
+    self.delaying = false;
     
     return self;
 }
@@ -90,6 +94,7 @@
         [button setTitle:@"" forState:UIControlStateNormal];
         [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
         button.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - 70.0, 30.0, 40.0, 40.0);
+        button.tag = 10;
         [self.view addSubview:button];
         
         UIView *detailView=[[UIView alloc]initWithFrame:CGRectMake(30, 30, 250, 70)];
@@ -189,8 +194,10 @@
     // show loading animation while AR is being initialized
     [self showLoadingAnimation];
 
-    // initialize the AR session
-    [vapp initAR:QCAR::GL_20 ARViewBoundsSize:viewFrame.size orientation:UIInterfaceOrientationLandscapeRight];
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    [vapp initAR:QCAR::GL_20 ARViewBoundsSize:viewFrame.size orientation:orientation];
+    
+    [self performSelector:@selector(test) withObject:nil afterDelay:.5];
 }
 
 
@@ -208,13 +215,14 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
 
-    [vapp stopAR:nil];
+    [self stopVuforia];
+    
     // Be a good OpenGL ES citizen: now that QCAR is paused and the render
     // thread is not executing, inform the root view controller that the
     // EAGLView should finish any OpenGL ES commands
     [eaglView finishOpenGLESCommands];
     [eaglView freeOpenGLESResources];
-
+    
     self.glResourceHandler = nil;
 
     [super viewWillDisappear:animated];
@@ -254,6 +262,10 @@
     loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
     [eaglView addSubview:loadingIndicator];
     [loadingIndicator startAnimating];
+}
+
+-(void) positionLoadingAnimation {
+    
 }
 
 - (void) hideLoadingAnimation {
@@ -552,6 +564,86 @@
     QCAR::CameraDevice::getInstance().setFocusMode(QCAR::CameraDevice::FOCUS_MODE_TRIGGERAUTO);
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 
+    // Code here will execute before the rotation begins.
+    // Equivalent to placing it in the deprecated method -[willRotateToInterfaceOrientation:duration:]
 
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        if(!self.delaying){
+            [self stopVuforia];
+            
+            [self showLoadingAnimation];
+        }
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        if(!self.delaying){
+            self.delaying = true;
+            
+            [self performSelector:@selector(startVuforia) withObject:nil afterDelay:1];
+            //        [self performSelectorOnMainThread:@selector(startVuforia) withObject:nil waitUntilDone:YES];
+        }
+        
+        CGRect mainBounds = [[UIScreen mainScreen] bounds];
+        
+        
+        UIButton *closeButton = (UIButton *)[eaglView viewWithTag:10];
+        UIActivityIndicatorView *loadingIndicator = (UIActivityIndicatorView *)[eaglView viewWithTag:1];
+        
+        [UIView animateWithDuration:0.33 animations:^{
+            closeButton.frame = CGRectMake(mainBounds.size.width - 70.0, 30.0, 40.0, 40.0);
+            
+            loadingIndicator.frame = CGRectMake(mainBounds.size.width / 2 - 12,
+                                                mainBounds.size.height / 2 - 12, 24, 24);
+        }];
+        
+        
+    }];
+}
+
+- (void)stopVuforia
+{
+    [vapp pauseAR:nil];
+}
+
+-(void)startVuforia
+{
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    // Frames from the camera are always landscape, no matter what the
+    // orientation of the device.  Tell QCAR to rotate the video background (and
+    // the projection matrix it provides to us for rendering our augmentation)
+    // by the proper angle in order to match the EAGLView orientation
+    if (orientation == UIInterfaceOrientationPortrait)
+    {
+        QCAR::setRotation(QCAR::ROTATE_IOS_90);
+    }
+    else if (orientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        QCAR::setRotation(QCAR::ROTATE_IOS_270);
+    }
+    else if (orientation == UIInterfaceOrientationLandscapeLeft)
+    {
+        QCAR::setRotation(QCAR::ROTATE_IOS_180);
+    }
+    else if (orientation == UIInterfaceOrientationLandscapeRight)
+    {
+        QCAR::setRotation(1);
+    }
+
+    
+    // initialize the AR session
+    //[vapp initAR:QCAR::GL_20 ARViewBoundsSize:viewFrame.size orientation:orientation];
+    [vapp resumeAR:nil];
+    
+    [self performSelector:@selector(test) withObject:nil afterDelay:.5];
+}
+
+-(void)test
+{
+    self.delaying = false;
+    
+    [self hideLoadingAnimation];
+}
 @end
