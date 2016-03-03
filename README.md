@@ -130,7 +130,7 @@ If you wish to submit a bug fix or feature, you can create a pull request and it
 ## License
 Cordova-Plugin-Vuforia is licensed under the [GPL 2.0 License][info-license].
 
-[logo]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/logo.png
+[logo]: https://cdn.rawgit.com/thisisbd/cordova-plugin-vuforia/d14d00720569fea02d29cded4de3c6e617c87537/images/logo.svg
 [stage-1]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-1.gif
 [stage-2]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-2.gif
 [stage-3]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-3.gif
