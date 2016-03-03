@@ -100,6 +100,16 @@ self.window.rootViewController = nc;
 return YES;
 ```
 
+![[Deployment Target GIF][stage-1]][stage-5]
+
+
+##### Run your build!
+You should now be all setup! All that's left is to run your build.
+
+**NOTE**: You are unable to run the Vuforia plugin within a simulator as is lacks a number of required hardware and software features.
+
+![[Deployment Target GIF][stage-1]][stage-6]
+
 
 ## Requirements
 SilverStripe-Capistrano requires the following:
@@ -120,13 +130,13 @@ If you wish to submit a bug fix or feature, you can create a pull request and it
 ## License
 Cordova-Plugin-Vuforia is licensed under the [GPL 2.0 License][info-license].
 
-[logo]: https://raw.github.com/thisisbd/cordova-vuforia-plugin/master/images/logo.png
-[stage-1]: https://raw.github.com/thisisbd/cordova-vuforia-plugin/master/images/stage-1.gif
-[stage-2]: https://raw.github.com/thisisbd/cordova-vuforia-plugin/master/images/stage-2.gif
-[stage-3]: https://raw.github.com/thisisbd/cordova-vuforia-plugin/master/images/stage-3.gif
-[stage-4]: https://raw.github.com/thisisbd/cordova-vuforia-plugin/master/images/stage-4.gif
-[stage-5]: https://raw.github.com/thisisbd/cordova-vuforia-plugin/master/images/stage-5.gif
-[stage-6]: https://raw.github.com/thisisbd/cordova-vuforia-plugin/master/images/stage-6.gif
+[logo]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/logo.png
+[stage-1]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-1.gif
+[stage-2]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-2.gif
+[stage-3]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-3.gif
+[stage-4]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-4.gif
+[stage-5]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-5.gif
+[stage-6]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-6.gif
 
 [cordova]: https://cordova.apache.org/
 [vuforia]: https://www.vuforia.com/
