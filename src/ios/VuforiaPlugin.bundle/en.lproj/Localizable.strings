@@ -1,0 +1,8 @@
+// No network connection available
+"INIT_LICENSE_ERROR_NO_NETWORK_TRANSIENT" = "Network error: Please check your connection and try again.";
+"INIT_LICENSE_ERROR_NO_NETWORK_PERMANENT" = "Network error: Please connect to a network and try again.";
+// License error
+"INIT_LICENSE_ERROR_CANCELED_KEY" = "There was an issue validating the Vuforia license. If this persists, please contact the application creator.";
+"INIT_LICENSE_ERROR_MISSING_KEY" = "License error: The license key you have entered is invalid. Please check your key and try again. (MISSING_KEY)";
+// Catch all error - relating to the camera
+"INIT_default" = "Camera error: We were unable to contact the camera. Please close the app and try again.";

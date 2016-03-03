@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/camera_overlay_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <ProgressBar
+    style="@android:style/Widget.ProgressBar"
+    android:id="@+id/loading_indicator"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true" />
+    
+    <TextView
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:textAppearance="?android:attr/textAppearanceMedium"
+    android:text="Scan an image..."
+    android:id="@+id/overlay_message"
+    android:maxWidth="300dp"
+    android:textSize="14dp"
+    android:layout_weight="0.14"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_marginLeft="20dp"
+    android:layout_marginTop="20dp"
+    android:paddingRight="60dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:autoText="false"
+    android:background="#cc000000" />
+    
+    <ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/imageView"
+    android:src="@drawable/devices"
+    android:layout_alignTop="@+id/overlay_message"
+    android:layout_alignRight="@+id/overlay_message"
+    android:layout_alignEnd="@+id/overlay_message"
+    android:layout_alignBottom="@+id/overlay_message"
+    android:layout_toRightOf="@+id/loading_indicator"
+    android:layout_toEndOf="@+id/loading_indicator"
+    android:layout_marginLeft="41dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp" />
+    
+</RelativeLayout>
