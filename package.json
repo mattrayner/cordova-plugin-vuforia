@@ -1,17 +1,21 @@
 {
   "name": "cordova-plugin-vuforia",
-  "version": "0.0.1-dev",
   "description": "Cordova Vuforia Plugin",
+  "version": "1.0.0",
+  "homepage": "https://github.com/thisisbd/cordova-plugin-vuforia",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:thisisbd/cordova-plugin-vuforia.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thisisbd/cordova-plugin-vuforia/issues"
+  },
   "cordova": {
     "id": "cordova-plugin-vuforia",
     "platforms": [
       "android",
       "ios"
     ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/thisisbd/cordova-plugin-vuforia"
   },
   "keywords": [
     "cordova",
@@ -20,8 +24,15 @@
     "cordova-android",
     "cordova-ios",
     "image",
-    "recognition"
+    "recognition",
+    "thisisbd"
   ],
-  "author": "BD Network",
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=5.0.0"
+    }
+  ],
+  "author": "BD Network (Matt Rayner)",
   "license": "GPL 2.0"
 }

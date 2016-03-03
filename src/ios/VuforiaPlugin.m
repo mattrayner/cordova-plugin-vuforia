@@ -24,6 +24,7 @@
 #pragma mark - Util_Methods
 - (void) startVuforiaWithImageTargetFile:(NSString *)imageTargetfile imageTargetNames:(NSArray *)imageTargetNames customOverlayText:(NSString *)customOverlayText vuforiaLicenseKey:(NSString *)vuforiaLicenseKey {
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageMatched" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageMatched:) name:@"ImageMatched" object:nil];
     
     UINavigationController *nc = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;

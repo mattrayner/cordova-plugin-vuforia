@@ -4,18 +4,18 @@
         xmlns:rim="http://www.blackberry.com/ns/widgets"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-plugin-vuforia"
-        version="0.0.2-dev">
+        version="1.0.0">
     <name>Vuforia</name>
     <description>Cordova Vuforia Plugin</description>
     <license>GPL 2.0</license>
     <keywords>cordova,vuforia,image,recognition,augmented,reality</keywords>
-    <repo>https://github.com/thisisbd/cordova-plugin-vuforia.git</repo>
+    <repo>git@github.com:thisisbd/cordova-plugin-vuforia.git</repo>
     <issue>https://github.com/thisisbd/cordova-plugin-vuforia/issues</issue>
 
     <author>Matthew Rayner</author>
 
     <info>
-        Cordova Vuforia Plugin version 0.0.2, Copyright (C) 2015 Matthew Rayner
+        Cordova Vuforia Plugin version 1.0.0, Copyright (C) 2016 BD Network
         Cordova Vuforia Plugin comes with ABSOLUTELY NO WARRANTY; see the
         LICENSE file for more information.
         This is free software, and you are welcome to redistribute it

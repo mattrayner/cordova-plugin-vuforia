@@ -573,7 +573,8 @@
 
     [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         if(!self.delaying){
-            [self stopVuforia];
+            //[self stopVuforia];
+            [vapp pauseAR:nil];
             
             [self showLoadingAnimation];
         }
@@ -604,7 +605,17 @@
 
 - (void)stopVuforia
 {
-    [vapp pauseAR:nil];
+    //[vapp pauseAR:nil];
+    
+    [vapp stopAR:nil];
+    // Be a good OpenGL ES citizen: now that QCAR is paused and the render
+    // thread is not executing, inform the root view controller that the
+    // EAGLView should finish any OpenGL ES commands
+    [eaglView finishOpenGLESCommands];
+    [eaglView freeOpenGLESResources];
+    
+    self.glResourceHandler = nil;
+
 }
 
 -(void)startVuforia
