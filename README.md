@@ -143,8 +143,8 @@ Cordova-Plugin-Vuforia is licensed under the [GPL 2.0 License][info-license].
 [npm]: https://www.npmjs.com
 [peugeot]: https://itunes.apple.com/gb/app/new-peugeot-208/id1020630968?mt=8
 
-[info-npm]: https://github.com/mattrayner/silverstripe-capistrano
-[info-travis]: https://github.com/mattrayner/silverstripe-capistrano
+[info-npm]: https://www.npmjs.com/package/cordova-plugin-vuforia
+[info-travis]: https://travis-ci.org/thisisbd/cordova-plugin-vuforia
 [info-license]: LICENSE
 [info-bithound]: https://www.bithound.io/github/thisisbd/cordova-plugin-vuforia
 [shield-npm]: https://img.shields.io/npm/v/cordova-plugin-vuforia.svg
