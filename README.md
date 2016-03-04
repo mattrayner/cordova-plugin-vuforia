@@ -112,7 +112,7 @@ You should now be all setup! All that's left is to run your build.
 
 
 ## Requirements
-SilverStripe-Capistrano requires the following:
+Cordova-Plugin-Vuforia requires the following:
 * [NPM][npm]
 * [Cordova][cordova]
 
