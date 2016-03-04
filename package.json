@@ -1,7 +1,7 @@
 {
   "name": "cordova-plugin-vuforia",
   "description": "Cordova Vuforia Plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/thisisbd/cordova-plugin-vuforia",
   "repository": {
     "type": "git",
