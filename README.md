@@ -110,6 +110,27 @@ You should now be all setup! All that's left is to run your build.
 
 ![[Deployment Target GIF][stage-1]][stage-6]
 
+## Additional Configurations
+### Fixed orientation
+Firstly, you will need to add an orientation preference to your config.xml file:
+```xml
+<preference name="Orientation" value="landscape" />
+```
+
+If you are building for iOS you will need to make the following change too within Xcode:-
+
+Within `Classes>AppDeligate.m` scroll to the bottom and remove the references to Portrait and UpsideDown. It sould look something like this when finished:
+```objective-c
+- (NSUInteger)application:(UIApplication*)application supportedInterfaceOrientationsForWindow:(UIWindow*)window
+{
+    // iPhone doesn't support upside down by default, while the iPad does.  Override to allow all orientations always, and let the root view controller decide what's allowed (the supported orientations mask gets intersected).
+    NSUInteger supportedInterfaceOrientations = (1 << UIInterfaceOrientationLandscapeLeft) | (1 << UIInterfaceOrientationLandscapeRight);
+
+    return supportedInterfaceOrientations;
+}
+```
+
+**NOTE:** The above example assumes you are looking for a fixed *LANDSCAPE* orientation. You will need to update the above with portrait values if you need portrait.
 
 ## Requirements
 Cordova-Plugin-Vuforia requires the following:
