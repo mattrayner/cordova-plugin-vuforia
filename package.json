@@ -1,7 +1,7 @@
 {
   "name": "cordova-plugin-vuforia",
   "description": "Cordova Vuforia Plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/thisisbd/cordova-plugin-vuforia",
   "repository": {
     "type": "git",
@@ -30,9 +30,9 @@
   "engines": [
     {
       "name": "cordova",
-      "version": ">=5.0.0"
+      "version": "^5.0.0"
     }
   ],
   "author": "BD Network (Matt Rayner)",
-  "license": "GPL 2.0"
+  "license": "MIT"
 }
