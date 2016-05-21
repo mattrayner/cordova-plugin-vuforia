@@ -144,10 +144,10 @@
 
 
         <resource-file src="src/ios/VuforiaPlugin.bundle" />
-        <resource-file src="src/ios/Utils/shaders/line.fragsh" target-dir="com.bdnetwork.vuforia/shader" />
-        <resource-file src="src/ios/Utils/shaders/line.vertsh" target-dir="com.bdnetwork.vuforia/shader" />
-        <resource-file src="src/ios/Utils/shaders/simple.fragsh" target-dir="com.bdnetwork.vuforia" />
-        <resource-file src="src/ios/Utils/shaders/simple.vertsh" target-dir="com.bdnetwork.vuforia" />
+        <resource-file src="src/ios/Utils/shaders/Line.fragsh" target-dir="com.bdnetwork.vuforia/shader" />
+        <resource-file src="src/ios/Utils/shaders/Line.vertsh" target-dir="com.bdnetwork.vuforia/shader" />
+        <resource-file src="src/ios/Utils/shaders/Simple.fragsh" target-dir="com.bdnetwork.vuforia" />
+        <resource-file src="src/ios/Utils/shaders/Simple.vertsh" target-dir="com.bdnetwork.vuforia" />
 
 
         <resource-file src="targets/StonesAndChips.dat" target-dir="com.bdnetwork.vuforia" />
