@@ -18,6 +18,12 @@ Cordova-Plugin-Vuforia is a [Cordova][cordova] plugin that uses [Vuforia][vufori
 - WP8
 
 
+## Requirements
+Cordova-Plugin-Vuforia requires the following:
+* [NPM][npm]
+* [Cordova][cordova] (5.x - see [issue #4][issue-4] r.e Cordova 6.x support)
+
+
 ## Getting Started
 ### Plugin Installation
 ```bash
@@ -132,11 +138,6 @@ Within `Classes>AppDeligate.m` scroll to the bottom and remove the references to
 
 **NOTE:** The above example assumes you are looking for a fixed *LANDSCAPE* orientation. You will need to update the above with portrait values if you need portrait.
 
-## Requirements
-Cordova-Plugin-Vuforia requires the following:
-* [NPM][npm]
-* [Cordova][cordova]
-
 
 ## Contributing
 If you wish to submit a bug fix or feature, you can create a pull request and it will be merged pending a code review.
@@ -162,6 +163,7 @@ Cordova-Plugin-Vuforia is licensed under the [MIT License][info-license].
 [cordova]: https://cordova.apache.org/
 [vuforia]: https://www.vuforia.com/
 [npm]: https://www.npmjs.com
+[issue-4]: https://github.com/thisisbd/cordova-plugin-vuforia/issues/4
 [peugeot]: https://itunes.apple.com/gb/app/new-peugeot-208/id1020630968?mt=8
 
 [info-npm]: https://www.npmjs.com/package/cordova-plugin-vuforia
