@@ -4,18 +4,18 @@
         xmlns:rim="http://www.blackberry.com/ns/widgets"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-plugin-vuforia"
-        version="1.0.2">
+        version="1.1.0">
     <name>Vuforia</name>
     <description>Cordova Vuforia Plugin</description>
     <license>MIT</license>
     <keywords>cordova,vuforia,image,recognition,augmented,reality</keywords>
-    <repo>git@github.com:thisisbd/cordova-plugin-vuforia.git</repo>
-    <issue>https://github.com/thisisbd/cordova-plugin-vuforia/issues</issue>
+    <repo>git@github.com:mattrayner/cordova-plugin-vuforia.git</repo>
+    <issue>https://github.com/mattrayner/cordova-plugin-vuforia/issues</issue>
 
     <author>Matthew Rayner</author>
 
     <info>
-        Cordova Vuforia Plugin version 1.0.2, Copyright (C) 2016 BD Network
+        Cordova Vuforia Plugin version 1.1.0, Copyright (C) 2016 Matthew Rayner
         Cordova Vuforia Plugin comes with ABSOLUTELY NO WARRANTY; see the
         LICENSE file for more information.
         This is free software, and you are welcome to redistribute it
@@ -31,7 +31,7 @@
         <!-- Plugin Config -->
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="VuforiaPlugin" >
-                <param name="android-package" value="com.bdnetwork.vuforia.VuforiaPlugin"/>
+                <param name="android-package" value="com.mattrayner.vuforia.VuforiaPlugin"/>
             </feature>
         </config-file>
 
@@ -52,7 +52,7 @@
         <!-- Add our activities to the Android Manifest -->
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <activity
-                    android:name="com.bdnetwork.vuforia.app.ImageTargets"
+                    android:name="com.mattrayner.vuforia.app.ImageTargets"
                     android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
                     android:screenOrientation="landscape"
                     android:noHistory="true">
@@ -65,7 +65,7 @@
         </config-file>
 
         <!-- Plugin Source -->
-        <source-file src="src/android/VuforiaPlugin.java" target-dir="src/com/bdnetwork/vuforia" />
+        <source-file src="src/android/VuforiaPlugin.java" target-dir="src/com/mattrayner/vuforia" />
 
         <!-- Libraries -->
         <source-file src="src/vuforia/jniLibs/armeabi/libVuforia.so" target-dir="libs/armeabi-v7a" />
@@ -77,30 +77,30 @@
         <resource-file src="src/android/res/drawable-xxhdpi/devices.png" target="res/drawable-xxhdpi/devices.png" />
         <resource-file src="src/android/res/layout/camera_overlay.xml" target="res/layout/camera_overlay.xml" />
 
-        <source-file src="src/android/java/com/bdnetwork/vuforia/app/ImageTargets.java"
-                     target-dir="src/java/com/bdnetwork/vuforia/app" />
-        <source-file src="src/android/java/com/bdnetwork/vuforia/app/ImageTargetRenderer.java"
-                     target-dir="src/java/com/bdnetwork/vuforia/app" />
-        <source-file src="src/android/java/com/bdnetwork/vuforia/app/ApplicationControl.java"
-                     target-dir="src/java/com/bdnetwork/vuforia/app" />
-        <source-file src="src/android/java/com/bdnetwork/vuforia/app/ApplicationException.java"
-                     target-dir="src/java/com/bdnetwork/vuforia/app" />
-        <source-file src="src/android/java/com/bdnetwork/vuforia/app/ApplicationSession.java"
-                     target-dir="src/java/com/bdnetwork/vuforia/app" />
-        <source-file src="src/android/java/com/bdnetwork/vuforia/app/utils/LoadingDialogHandler.java"
-                     target-dir="src/java/com/bdnetwork/vuforia/app/utils" />
-        <source-file src="src/android/java/com/bdnetwork/vuforia/app/utils/MeshObject.java"
-                     target-dir="src/java/com/bdnetwork/vuforia/app/utils" />
-        <source-file src="src/android/java/com/bdnetwork/vuforia/app/utils/ApplicationGLView.java"
-                     target-dir="src/java/com/bdnetwork/vuforia/app/utils" />
-        <source-file src="src/android/java/com/bdnetwork/vuforia/app/utils/Texture.java"
-                     target-dir="src/java/com/bdnetwork/vuforia/app/utils" />
+        <source-file src="src/android/java/com/mattrayner/vuforia/app/ImageTargets.java"
+                     target-dir="src/java/com/mattrayner/vuforia/app" />
+        <source-file src="src/android/java/com/mattrayner/vuforia/app/ImageTargetRenderer.java"
+                     target-dir="src/java/com/mattrayner/vuforia/app" />
+        <source-file src="src/android/java/com/mattrayner/vuforia/app/ApplicationControl.java"
+                     target-dir="src/java/com/mattrayner/vuforia/app" />
+        <source-file src="src/android/java/com/mattrayner/vuforia/app/ApplicationException.java"
+                     target-dir="src/java/com/mattrayner/vuforia/app" />
+        <source-file src="src/android/java/com/mattrayner/vuforia/app/ApplicationSession.java"
+                     target-dir="src/java/com/mattrayner/vuforia/app" />
+        <source-file src="src/android/java/com/mattrayner/vuforia/app/utils/LoadingDialogHandler.java"
+                     target-dir="src/java/com/mattrayner/vuforia/app/utils" />
+        <source-file src="src/android/java/com/mattrayner/vuforia/app/utils/MeshObject.java"
+                     target-dir="src/java/com/mattrayner/vuforia/app/utils" />
+        <source-file src="src/android/java/com/mattrayner/vuforia/app/utils/ApplicationGLView.java"
+                     target-dir="src/java/com/mattrayner/vuforia/app/utils" />
+        <source-file src="src/android/java/com/mattrayner/vuforia/app/utils/Texture.java"
+                     target-dir="src/java/com/mattrayner/vuforia/app/utils" />
 
         <!-- Include our resources -->
-        <resource-file src="targets/StonesAndChips.dat"
-                       target="assets/StonesAndChips.dat" />
-        <resource-file src="targets/StonesAndChips.xml"
-                       target="assets/StonesAndChips.xml" />
+        <resource-file src="targets/PluginTest.dat"
+                       target="assets/PluginTest.dat" />
+        <resource-file src="targets/PluginTest.xml"
+                       target="assets/PluginTest.xml" />
     </platform>
 
     <!-- ios -->
@@ -144,14 +144,14 @@
 
 
         <resource-file src="src/ios/VuforiaPlugin.bundle" />
-        <resource-file src="src/ios/Utils/shaders/Line.fragsh" target-dir="com.bdnetwork.vuforia/shader" />
-        <resource-file src="src/ios/Utils/shaders/Line.vertsh" target-dir="com.bdnetwork.vuforia/shader" />
-        <resource-file src="src/ios/Utils/shaders/Simple.fragsh" target-dir="com.bdnetwork.vuforia" />
-        <resource-file src="src/ios/Utils/shaders/Simple.vertsh" target-dir="com.bdnetwork.vuforia" />
+        <resource-file src="src/ios/Utils/shaders/Line.fragsh" target-dir="com.mattrayner.vuforia/shader" />
+        <resource-file src="src/ios/Utils/shaders/Line.vertsh" target-dir="com.mattrayner.vuforia/shader" />
+        <resource-file src="src/ios/Utils/shaders/Simple.fragsh" target-dir="com.mattrayner.vuforia" />
+        <resource-file src="src/ios/Utils/shaders/Simple.vertsh" target-dir="com.mattrayner.vuforia" />
 
 
-        <resource-file src="targets/StonesAndChips.dat" target-dir="com.bdnetwork.vuforia" />
-        <resource-file src="targets/StonesAndChips.xml" target-dir="com.bdnetwork.vuforia" />
+        <resource-file src="targets/PluginTest.dat" target-dir="com.mattrayner.vuforia" />
+        <resource-file src="targets/PluginTest.xml" target-dir="com.mattrayner.vuforia" />
 
         <resource-file src="src/ios/Assets/ImageTargets/close-button.png" target-dir="Resources" />
         <resource-file src="src/ios/Assets/ImageTargets/iOSDevices.png" target-dir="Resources" />

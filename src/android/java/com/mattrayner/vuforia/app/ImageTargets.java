@@ -5,7 +5,7 @@ Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States
 and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 ===============================================================================*/
 
-package com.bdnetwork.vuforia.app;
+package com.mattrayner.vuforia.app;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -47,12 +47,12 @@ import com.qualcomm.vuforia.Trackable;
 import com.qualcomm.vuforia.Tracker;
 import com.qualcomm.vuforia.TrackerManager;
 import com.qualcomm.vuforia.Vuforia;
-import com.bdnetwork.vuforia.app.ApplicationControl;
-import com.bdnetwork.vuforia.app.ApplicationException;
-import com.bdnetwork.vuforia.app.ApplicationSession;
-import com.bdnetwork.vuforia.app.utils.LoadingDialogHandler;
-import com.bdnetwork.vuforia.app.utils.ApplicationGLView;
-import com.bdnetwork.vuforia.app.utils.Texture;
+import com.mattrayner.vuforia.app.ApplicationControl;
+import com.mattrayner.vuforia.app.ApplicationException;
+import com.mattrayner.vuforia.app.ApplicationSession;
+import com.mattrayner.vuforia.app.utils.LoadingDialogHandler;
+import com.mattrayner.vuforia.app.utils.ApplicationGLView;
+import com.mattrayner.vuforia.app.utils.Texture;
 
 public class ImageTargets extends Activity implements ApplicationControl
 {

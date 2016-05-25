@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="iceland" size="960.000000 960.000000" />
+    <ImageTarget name="canterbury-grass" size="816.000000 612.000000" />
+    <ImageTarget name="brick-lane" size="2048.000000 1366.000000" />
+    <ImageTarget name="plugin-logo" size="8192.000000 5788.883789" />
+  </Tracking>
+</QCARConfig>

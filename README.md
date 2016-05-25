@@ -36,9 +36,9 @@ cordova plugin add cordova-plugin-vuforia
 From within your Javascript file, add the following to launch the [Vuforia][vuforia] plugin.
 ```javascript
 navigator.VuforiaPlugin.startVuforia(
-  'StonesAndChips.xml',
-  [ 'stones', 'chips' ],
-  'Point your camera at either the stones or the chips image...',
+  'PluginTest.xml',
+  [ 'logo', 'iceland', 'canterbury-grass', 'brick-lane' ],
+  'Point your camera at a test image...',
   'YOUR_VUFORIA_KEY',
   function(data){
     console.log(data);
@@ -49,9 +49,31 @@ navigator.VuforiaPlugin.startVuforia(
 
 **NOTE**: You will need to replace `YOUR_VUFORIA_KEY` with a valid license key for the plugin to launch correctly.
 
-You will also need to replace the `StonesAndChips.xml` and `[ 'stones', 'chips' ]` array with specific information for your application. These are here for initial setup and demo purposes.
+For testing you can use the `targets/PluginTest_Targets.pdf` file, it contains all four testing targets.
 
-For testing you can use the `targets/imagetargets_targets.pdf` file, it contains the stones and chips targets.
+
+#### Using your own data
+##### Cordova `config.xml`
+We know that eventually you're going to want to use your own data. You should place your .xml and .dat files inside a `targets` folder at the root of your project, then add the following to your config.xml file:
+
+```xml
+<platform name="android">
+    <resource-file src="targets/CustomData.dat" target="assets/CustomData.dat" />
+    <resource-file src="targets/CustomData.xml" target="assets/CustomData.xml" />
+</platform>
+
+<platform name="ios">
+    <resource-file src="targets/CustomData.dat" target-dir="com.mattrayner.vuforia" />
+    <resource-file src="targets/CustomData.xml" target-dir="com.mattrayner.vuforia" />
+</platform>
+```
+
+##### JS Change
+You will need to replace the `PluginTest.xml` and `[ 'logo', 'iceland', 'canterbury-grass', 'brick-lane' ]` lines with specific information for your application. These are here for initial setup and demo purposes only.
+
+
+#### Android Steps
+That's it... As far as setup goes... You're done! Android is nice and flexible, the plugin **should** have done everything for you!
 
 
 #### iOS Steps
@@ -162,25 +184,25 @@ If you wish to submit a bug fix or feature, you can create a pull request and it
 ## License
 Cordova-Plugin-Vuforia is licensed under the [MIT License][info-license].
 
-[logo]: https://cdn.rawgit.com/thisisbd/cordova-plugin-vuforia/d14d00720569fea02d29cded4de3c6e617c87537/images/logo.svg
-[stage-3]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-3.gif
-[stage-4]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-4.gif
-[stage-5-2]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-5-2.gif
-[stage-6-2]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-6-2.gif
+[logo]: https://cdn.rawgit.com/mattrayner/cordova-plugin-vuforia/d14d00720569fea02d29cded4de3c6e617c87537/images/logo.svg
+[stage-3]: https://raw.githubusercontent.com/mattrayner/cordova-plugin-vuforia/master/images/stage-3.gif
+[stage-4]: https://raw.githubusercontent.com/mattrayner/cordova-plugin-vuforia/master/images/stage-4.gif
+[stage-5-2]: https://raw.githubusercontent.com/mattrayner/cordova-plugin-vuforia/master/images/stage-5-2.gif
+[stage-6-2]: https://raw.githubusercontent.com/mattrayner/cordova-plugin-vuforia/master/images/stage-6-2.gif
 
 [cordova]: https://cordova.apache.org/
 [vuforia]: https://www.vuforia.com/
 [npm]: https://www.npmjs.com
-[issue-16]: https://github.com/thisisbd/cordova-plugin-vuforia/issues/16
+[issue-16]: https://github.com/mattrayner/cordova-plugin-vuforia/issues/16
 [cordova-orientation-issue]: https://github.com/apache/cordova-lib/pull/260
 [peugeot]: https://itunes.apple.com/gb/app/new-peugeot-208/id1020630968?mt=8
 
 [info-npm]: https://www.npmjs.com/package/cordova-plugin-vuforia
-[info-travis]: https://travis-ci.org/thisisbd/cordova-plugin-vuforia
+[info-travis]: https://travis-ci.org/mattrayner/cordova-plugin-vuforia
 [info-license]: LICENSE
-[info-bithound]: https://www.bithound.io/github/thisisbd/cordova-plugin-vuforia
+[info-bithound]: https://www.bithound.io/github/mattrayner/cordova-plugin-vuforia
 [shield-npm]: https://img.shields.io/npm/v/cordova-plugin-vuforia.svg
-[shield-travis]: https://img.shields.io/travis/thisisbd/cordova-plugin-vuforia.svg
+[shield-travis]: https://img.shields.io/travis/mattrayner/cordova-plugin-vuforia.svg
 [shield-license]: https://img.shields.io/badge/license-MIT-blue.svg
-[shield-bithound]: https://www.bithound.io/github/thisisbd/cordova-plugin-vuforia/badges/score.svg
+[shield-bithound]: https://www.bithound.io/github/mattrayner/cordova-plugin-vuforia/badges/score.svg
 [shield-cordova]: https://img.shields.io/badge/cordova%20support-5.*%20--%206.*-blue.svg
