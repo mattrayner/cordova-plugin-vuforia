@@ -5,7 +5,7 @@ Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States
 and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 ===============================================================================*/
 
-package com.bdnetwork.vuforia.app;
+package com.mattrayner.vuforia.app;
 
 // Used to send back to the activity any error during vuforia processes
 public class ApplicationException extends Exception

@@ -1,4 +1,4 @@
-package com.bdnetwork.vuforia;
+package com.mattrayner.vuforia;
 
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaInterface;
@@ -15,7 +15,7 @@ import android.content.Intent;
 import android.content.Context;
 import android.util.Log;
 
-import com.bdnetwork.vuforia.app.ImageTargets;
+import com.mattrayner.vuforia.app.ImageTargets;
 
 public class VuforiaPlugin extends CordovaPlugin {
     static final String LOGTAG = "Cordova Vuforia Plugin";
