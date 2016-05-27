@@ -86,6 +86,10 @@
          name:UIApplicationDidBecomeActiveNotification
          object:nil];
 
+        UIView *detailView=[[UIView alloc]initWithFrame:CGRectMake(15, 30, 245, 80)];
+        detailView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
+        [self.view addSubview:detailView];
+        
         UIImage * buttonImage = [UIImage imageNamed:@"close-button.png"];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [button addTarget:self
@@ -93,13 +97,9 @@
          forControlEvents:UIControlEventTouchUpInside];
         [button setTitle:@"" forState:UIControlStateNormal];
         [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
-        button.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - 70.0, 30.0, 40.0, 40.0);
+        button.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - 50.0, 30.0, 40.0, 40.0);
         button.tag = 10;
         [self.view addSubview:button];
-        
-        UIView *detailView=[[UIView alloc]initWithFrame:CGRectMake(30, 30, 250, 70)];
-        detailView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
-        [self.view addSubview:detailView];
         
         UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 180, 60)];
         
@@ -593,7 +593,7 @@
         UIActivityIndicatorView *loadingIndicator = (UIActivityIndicatorView *)[eaglView viewWithTag:1];
         
         [UIView animateWithDuration:0.33 animations:^{
-            closeButton.frame = CGRectMake(mainBounds.size.width - 70.0, 30.0, 40.0, 40.0);
+            closeButton.frame = CGRectMake(mainBounds.size.width - 50.0, 30.0, 40.0, 40.0);
             
             loadingIndicator.frame = CGRectMake(mainBounds.size.width / 2 - 12,
                                                 mainBounds.size.height / 2 - 12, 24, 24);
