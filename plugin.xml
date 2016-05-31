@@ -26,6 +26,9 @@
         <clobbers target="navigator.VuforiaPlugin" />
     </js-module>
 
+    <platform name="ios">
+        <hook type="after_plugin_install" src="hooks/AfterPluginInstall.js" />
+    </platform>
     <!-- android -->
     <platform name="android">
         <!-- Plugin Config -->
