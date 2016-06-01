@@ -28,6 +28,7 @@
 
     <platform name="ios">
         <hook type="after_plugin_install" src="hooks/AfterPluginInstall.js" />
+        <hook type="before_plugin_uninstall" src="hooks/BeforePluginUninstall.js" />
     </platform>
     <!-- android -->
     <platform name="android">

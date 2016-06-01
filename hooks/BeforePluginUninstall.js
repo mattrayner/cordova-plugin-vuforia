@@ -14,49 +14,44 @@ module.exports = function(context) {
     let cordovaConfig = new ConfigParser(cordova_util.projectConfig(projectRoot));
     let projectName =  cordovaConfig.doc.findtext('./name');
 
-    console.log('Vuforia AfterPluginInstall.js, attempting to modify build.xcconfig');
+    console.log('Vuforia BeforePluginUninstall.js, attempting to modify build.xcconfig');
 
     let xcConfigBuildFilePath = path.join(cwd, 'platforms', 'ios', 'cordova', 'build.xcconfig');
 
     try {
       let xcConfigBuildFileExists = fs.accessSync(xcConfigBuildFilePath);
     } catch(e) {
-      console.log('Could not locate build.xcconfig, you will need to set HEADER_SEARCH_PATHS manually.');
+      console.log('Could not locate build.xcconfig.');
       return;
     }
 
     console.log('xcConfigBuildFilePath: ', xcConfigBuildFilePath);
 
     let lines = fs.readFileSync(xcConfigBuildFilePath, 'utf8').split('\n');
-    let paths = xcodeInfos.headerPaths;
-    // = '"../../plugins/cordova-plugin-vuforia/build/include"';
-    // let path2 = '"$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include"';
-
 
     let headerSearchPathLineNumber;
-
     lines.forEach((l, i) => {
       if (l.indexOf('HEADER_SEARCH_PATHS') > -1) {
         headerSearchPathLineNumber = i;
       }
     });
 
-    if (headerSearchPathLineNumber) {
-        for(let actualPath of paths){
-            if (lines[headerSearchPathLineNumber].indexOf(actualPath) == -1) {
-                lines[headerSearchPathLineNumber] += ' ' + actualPath;
-                console.log(actualPath + ' was added to the search paths');
-              }else{
-                console.log(actualPath + ' was already setup in build.xcconfig');
-              }
-        }
-    } else {
-        lines[lines.length - 1] = 'HEADER_SEARCH_PATHS = '
-        for(let actualPath of paths){
-            lines[lines.length - 1] += actualPath;
-        }
+    if (!headerSearchPathLineNumber) {
+      console.log('build.xcconfig does not have HEADER_SEARCH_PATHS');
+      return;
     }
 
+
+    let paths = xcodeInfos.headerPaths;
+
+    for(let actualPath of paths){
+        if (lines[headerSearchPathLineNumber].indexOf(actualPath) === -1) {
+          console.log('build.xcconfig does not have header path for Instagram Assets Picker');
+          continue;
+        }
+        let line = lines[headerSearchPathLineNumber];
+        lines[headerSearchPathLineNumber] = line.replace(' '+actualPath, '');
+    }
     let newConfig = lines.join('\n');
 
     fs.writeFile(xcConfigBuildFilePath, newConfig, function (err) {
@@ -64,7 +59,7 @@ module.exports = function(context) {
         console.log('error updating build.xcconfig, err: ', err);
         return;
       }
-      console.log('Successfully updated HEADER_SEARCH_PATHS in build.xcconfig');
+      console.log('successfully updated HEADER_SEARCH_PATHS in build.xcconfig');
     });
 
 
@@ -85,18 +80,18 @@ module.exports = function(context) {
     }
 
     let appDelegateContent = fs.readFileSync(appDelegateFilePath, 'utf8');
-    if(appDelegateContent.indexOf(oldMethod) > -1){
-        let newAppDelegateContent = appDelegateContent.replace(oldMethod, newMethod);
+    if(appDelegateContent.indexOf(newMethod) > -1){
+        let newAppDelegateContent = appDelegateContent.replace(newMethod, oldMethod);
         fs.writeFile(appDelegateFilePath, newAppDelegateContent, function (err) {
               if (err) {
                 console.log('error updating AppDelegate.m, err: ', err);
                 return;
             }
-            console.log('Successfully updated the AppDelegate.m file with the right code.');
+            console.log('Successfully updated the AppDelegate.m file with the old code.');
         });
     }else{
-        if(appDelegateContent.indexOf(newMethod) > -1){
-            console.log("AppDelegate.m was already modified");
+        if(appDelegateContent.indexOf(oldMethod) > -1){
+            console.log("AppDelegate.m has not been modified");
         }else{
             console.log("Didn't find the code to modify");
         }
