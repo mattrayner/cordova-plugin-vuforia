@@ -52,11 +52,9 @@ For testing you can use the `targets/PluginTest_Targets.pdf` file, it contains a
 
 
 #### Using your own data
-
 We know that eventually you're going to want to use your own data. To do so, follow these extra steps.
 
 ##### `www/`
-
 First, create a `targets/` folder inside `www/` and place your own `.xml`/`.dat`/`.pdf` files inside.
 
 ##### `config.xml`
