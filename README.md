@@ -14,8 +14,7 @@ Cordova-Plugin-Vuforia is a [Cordova][cordova] plugin that uses [Vuforia][vufori
 
 
 ## Supported Platforms
-- Android
-- iOS
+Android, iOS
 
 
 ## Requirements
@@ -53,23 +52,30 @@ For testing you can use the `targets/PluginTest_Targets.pdf` file, it contains a
 
 
 #### Using your own data
-##### Cordova `config.xml`
-We know that eventually you're going to want to use your own data. You should place your .xml and .dat files inside a `targets` folder at the root of your project, then add the following to your config.xml file:
+
+We know that eventually you're going to want to use your own data. To do so, follow these extra steps.
+
+##### `www/`
+
+First, create a `targets/` folder inside `www/` and place your own `.xml`/`.dat`/`.pdf` files inside.
+
+##### `config.xml`
+Add the following to your `config.xml` file:
 
 ```xml
 <platform name="android">
-    <resource-file src="targets/CustomData.dat" target="assets/CustomData.dat" />
-    <resource-file src="targets/CustomData.xml" target="assets/CustomData.xml" />
+    <resource-file src="www/targets/CustomData.xml" target="assets/CustomData.xml" />
+    <resource-file src="www/targets/CustomData.dat" target="assets/CustomData.dat" />
 </platform>
 
 <platform name="ios">
-    <resource-file src="targets/CustomData.dat" target-dir="com.mattrayner.vuforia" />
-    <resource-file src="targets/CustomData.xml" target-dir="com.mattrayner.vuforia" />
+    <resource-file src="targets/CustomData.xml" />
+    <resource-file src="targets/CustomData.dat" />
 </platform>
 ```
 
-##### JS Change
-You will need to replace the `PluginTest.xml` and `[ 'logo', 'iceland', 'canterbury-grass', 'brick-lane' ]` lines with specific information for your application. These are here for initial setup and demo purposes only.
+##### `.js`
+You will need to replace the `PluginTest.xml` argument with `www/targets/CustomData.xml` and the `[ 'logo', 'iceland', 'canterbury-grass', 'brick-lane' ]` argument with the specific information for your application. These are here for initial setup and demo purposes only.
 
 
 #### Android Steps
