@@ -147,7 +147,7 @@ public class ImageTargets extends Activity implements ApplicationControl
         mDatasetStrings.add(target_file);
 
         vuforiaAppSession
-            .initAR(this, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            .initAR(this, ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
         
         mGestureDetector = new GestureDetector(this, new GestureListener());
         
