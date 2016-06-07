@@ -38,8 +38,6 @@ public class VuforiaPlugin extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
 
-        cordova.requestPermission(this, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE, CAMERA);
-
         Log.d(LOGTAG, "Plugin initialized.");
     }
 
