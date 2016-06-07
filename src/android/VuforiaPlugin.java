@@ -16,7 +16,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.util.Log;
 import android.Manifest;
-import android.Manifest.permission
+import android.Manifest.permission;
 
 import com.mattrayner.vuforia.app.ImageTargets;
 
