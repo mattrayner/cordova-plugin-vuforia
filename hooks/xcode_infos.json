@@ -1,0 +1,8 @@
+{
+    "headerPaths": [
+        "\"../../plugins/cordova-plugin-vuforia/build/include\"",
+        "\"$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include\""
+    ],
+    "methodToReplace": "self.viewController = [[MainViewController alloc] init];\n    return [super application:application didFinishLaunchingWithOptions:launchOptions];",
+    "replaceMethod": "CGRect screenBounds = [[UIScreen mainScreen] bounds];\n#if __has_feature(objc_arc)\nself.window = [[UIWindow alloc] initWithFrame:screenBounds];\n#else\nself.window = [[[UIWindow alloc] initWithFrame:screenBounds] autorelease];\n#endif\nself.window.autoresizesSubviews = YES;\n#if __has_feature(objc_arc)\nself.viewController = [[MainViewController alloc] init];\n#else\nself.viewController = [[[MainViewController alloc] init] autorelease];\n#endif\nUINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:self.viewController];\n[nc setNavigationBarHidden:YES animated:NO];\nself.window.rootViewController = nc;\n[self.window makeKeyAndVisible];\nreturn YES;\n"
+}
