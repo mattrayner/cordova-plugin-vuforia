@@ -1,6 +1,6 @@
 /*===============================================================================
  Copyright (c) 2012-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
- 
+
  Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States
  and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
  ===============================================================================*/
@@ -34,14 +34,14 @@
     NSLog(@"Vuforia Plugin :: INIT IMAGE TARGETS VIEW CONTROLLER");
     NSLog(@"Vuforia Plugin :: OVERLAY: %@", overlayText);
     NSLog(@"Vuforia Plugin :: LICENSE: %@", vuforiaLicenseKey);
-    
+
     self.overlayText = overlayText;
     self.vuforiaLicenseKey = vuforiaLicenseKey;
-    
+
     self = [self initWithNibName:nil bundle:nil];
-    
+
     self.delaying = false;
-    
+
     return self;
 }
 
@@ -68,7 +68,7 @@
 
         dataSetCurrent = nil;
         extendedTrackingIsOn = NO;
-       
+
         // a single tap will trigger a single autofocus operation
         tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(autofocus:)];
 
@@ -89,7 +89,7 @@
         UIView *detailView=[[UIView alloc]initWithFrame:CGRectMake(15, 30, 245, 80)];
         detailView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
         [self.view addSubview:detailView];
-        
+
         UIImage * buttonImage = [UIImage imageNamed:@"close-button.png"];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [button addTarget:self
@@ -100,40 +100,40 @@
         button.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - 50.0, 30.0, 40.0, 40.0);
         button.tag = 10;
         [self.view addSubview:button];
-        
+
         UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 180, 60)];
-        
+
         [detailLabel setTextColor:[UIColor whiteColor]];
         [detailLabel setBackgroundColor:[UIColor clearColor]];
         [detailLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 10.0f]];
-        
+
         NSLog(@"Vuforia Plugin :: overlayText: %@", self.overlayText);
 
         [detailLabel setText: self.overlayText];
-        
+
         detailLabel.lineBreakMode = NSLineBreakByWordWrapping;
         detailLabel.numberOfLines = 0;
         [detailLabel sizeToFit];
-        
+
         /* Reposition label based on height */
         // Get the height of the label
         int labelHeight = detailLabel.frame.size.height;
-        
+
         // Get the container height
         int frameHeight = detailView.frame.size.height;
-        
+
         // Create a new Y value for the label
         int labelY = (frameHeight / 2) - (labelHeight / 2);
-        
+
         // Create a new frame with the new Y origin
         CGRect frameRect = detailLabel.frame;
         frameRect.origin.y = labelY;
-        
+
         // Set the label's frame
         detailLabel.frame = frameRect;
-        
+
         [detailView addSubview:detailLabel];
-        
+
         UIImage *image = [UIImage imageNamed:@"iOSDevices.png"];
         UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
         imageView.frame = CGRectMake(195, 15, 40, 40);
@@ -147,7 +147,7 @@
     [self doStopTrackers];
     NSLog(@"Vuforia Plugin :: button pressed!!!");
     NSDictionary* userInfo = @{@"imageName": @"none"};
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ImageMatched" object:self userInfo:userInfo];
 
 }
@@ -196,7 +196,7 @@
 
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     [vapp initAR:QCAR::GL_20 ARViewBoundsSize:viewFrame.size orientation:orientation];
-    
+
     [self performSelector:@selector(test) withObject:nil afterDelay:.5];
 }
 
@@ -216,13 +216,13 @@
 - (void)viewWillDisappear:(BOOL)animated {
 
     [self stopVuforia];
-    
+
     // Be a good OpenGL ES citizen: now that QCAR is paused and the render
     // thread is not executing, inform the root view controller that the
     // EAGLView should finish any OpenGL ES commands
     [eaglView finishOpenGLESCommands];
     [eaglView freeOpenGLESResources];
-    
+
     self.glResourceHandler = nil;
 
     [super viewWillDisappear:animated];
@@ -265,7 +265,7 @@
 }
 
 -(void) positionLoadingAnimation {
-    
+
 }
 
 - (void) hideLoadingAnimation {
@@ -292,7 +292,7 @@
 }
 
 - (bool) doLoadTrackersData {
-    
+
     NSLog(@"Vuforia Plugin :: imageTargetFile = %@", self.imageTargetFile);
     dataSetTargets = [self loadObjectTrackerDataSet:self.imageTargetFile];
     if (dataSetTargets == NULL) {
@@ -399,8 +399,20 @@
         if (NULL != dataSet) {
             NSLog(@"INFO: successfully loaded data set");
 
+            //Determine the storage type.
+            QCAR::STORAGE_TYPE storageType;
+            if([dataFile hasPrefix:@"file://"]) {
+                dataFile = [dataFile stringByReplacingOccurrencesOfString:@"file://" withString:@""];
+                storageType = QCAR::STORAGE_ABSOLUTE;
+                NSLog(@"Reading the absolute path to target file : %@", dataFile);
+
+            }else{
+                NSLog(@"Reading the path to target file %@ from resources folder", dataFile);
+                storageType = QCAR::STORAGE_APPRESOURCE;
+            }
+
             // Load the data set from the app's resources location
-            if (!dataSet->load([dataFile cStringUsingEncoding:NSASCIIStringEncoding], QCAR::STORAGE_APPRESOURCE)) {
+            if (!dataSet->load([dataFile cStringUsingEncoding:NSASCIIStringEncoding], storageType)) {
                 NSLog(@"ERROR: failed to load data set");
                 objectTracker->destroyDataSet(dataSet);
                 dataSet = NULL;
@@ -575,45 +587,45 @@
         if(!self.delaying){
             //[self stopVuforia];
             [vapp pauseAR:nil];
-            
+
             [self showLoadingAnimation];
         }
     } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         if(!self.delaying){
             self.delaying = true;
-            
+
             [self performSelector:@selector(startVuforia) withObject:nil afterDelay:1];
             //        [self performSelectorOnMainThread:@selector(startVuforia) withObject:nil waitUntilDone:YES];
         }
-        
+
         CGRect mainBounds = [[UIScreen mainScreen] bounds];
-        
-        
+
+
         UIButton *closeButton = (UIButton *)[eaglView viewWithTag:10];
         UIActivityIndicatorView *loadingIndicator = (UIActivityIndicatorView *)[eaglView viewWithTag:1];
-        
+
         [UIView animateWithDuration:0.33 animations:^{
             closeButton.frame = CGRectMake(mainBounds.size.width - 50.0, 30.0, 40.0, 40.0);
-            
+
             loadingIndicator.frame = CGRectMake(mainBounds.size.width / 2 - 12,
                                                 mainBounds.size.height / 2 - 12, 24, 24);
         }];
-        
-        
+
+
     }];
 }
 
 - (void)stopVuforia
 {
     //[vapp pauseAR:nil];
-    
+
     [vapp stopAR:nil];
     // Be a good OpenGL ES citizen: now that QCAR is paused and the render
     // thread is not executing, inform the root view controller that the
     // EAGLView should finish any OpenGL ES commands
     [eaglView finishOpenGLESCommands];
     [eaglView freeOpenGLESResources];
-    
+
     self.glResourceHandler = nil;
 
 }
@@ -621,7 +633,7 @@
 -(void)startVuforia
 {
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    
+
     // Frames from the camera are always landscape, no matter what the
     // orientation of the device.  Tell QCAR to rotate the video background (and
     // the projection matrix it provides to us for rendering our augmentation)
@@ -643,18 +655,18 @@
         QCAR::setRotation(1);
     }
 
-    
+
     // initialize the AR session
     //[vapp initAR:QCAR::GL_20 ARViewBoundsSize:viewFrame.size orientation:orientation];
     [vapp resumeAR:nil];
-    
+
     [self performSelector:@selector(test) withObject:nil afterDelay:.5];
 }
 
 -(void)test
 {
     self.delaying = false;
-    
+
     [self hideLoadingAnimation];
 }
 @end
