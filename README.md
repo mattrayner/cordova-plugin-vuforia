@@ -1,5 +1,7 @@
 # ![Cordova-Plugin-Vuforia][logo]
-Cordova-Plugin-Vuforia is a [Cordova][cordova] plugin that uses [Vuforia][vuforia] to perform image recognition. You can see an example in the [Peugeot 208][peugeot] app on iOS and Android.
+Cordova-Plugin-Vuforia is a [Cordova][cordova] plugin that uses [Vuforia][vuforia] to perform image recognition. 
+
+You can see a live example in the [Peugeot 208][peugeot] app on iOS and Android and a basic open source example in the [cordova-vuforia-example][example-repo] repo.
 
 [![NPM Version][shield-npm]][info-npm]
 [![Supported Cordova Versions][shield-cordova]][info-npm]
@@ -8,21 +10,19 @@ Cordova-Plugin-Vuforia is a [Cordova][cordova] plugin that uses [Vuforia][vufori
 [![License][shield-license]][info-license]
 
 
-## Key Features
-- Image recognition using reliable [Vuforia][vuforia] library
-- Comprehensive setup instructions
-
-
 ## Supported Platforms
-Android, iOS
+Android (Minimum 4), iOS (Minimum 8)
 
 
 ## Requirements
 Cordova-Plugin-Vuforia requires the following:
-* [NPM][npm]
-* [Cordova][cordova] (Minimum 5.0 - tested to 6.1.1)
-  * `cordova-ios@3.*` instructions on `cordova-ios-3` branch
-  * `cordova-ios@4.*` (default for Cordova 6.*) instructions are below
+* [npm][npm]
+* [Cordova 6.*][cordova] - 6.* is required as it adds support for Android 6 (Marshmellow) and iOS 9.
+  * If you haven't yet installed the Cordova CLI, grab the latest version by following [these steps][install-cordova].
+  * If you've already got a project running with an older version of Cordova (e.g. 4 or 5), [see here][updating-cordova] how to update your project's Cordova version.
+  * Or if you want to upgrade to the latest version on a platform-by-platform basis, see either [upgrading to cordova-ios 4][upgrading-ios] or [upgrading to cordova-android 5][upgrading-android].
+
+**NOTE:** You will require an Android or iOS device. Cordova-Plugin-Vuforia requires hardware and software support that is not present in either the iOS or Android simulators. 
 
 
 ## Getting Started
@@ -49,16 +49,18 @@ navigator.VuforiaPlugin.startVuforia(
 );
 ```
 
-**NOTE**: You will need to replace `YOUR_VUFORIA_KEY` with a valid license key for the plugin to launch correctly.
-
-For testing you can use the `targets/PluginTest_Targets.pdf` file, it contains all four testing targets.
-
+**NOTES**: 
+* You will need to replace `YOUR_VUFORIA_KEY` with a valid license key for the plugin to launch correctly.
+* For testing you can use the `targets/PluginTest_Targets.pdf` file inside the plugin folder; it contains all four testing targets.
 
 #### Using your own data
 We know that eventually you're going to want to use your own data. To do so, follow these extra steps.
 
 ##### `www/`
 First, create a `targets/` folder inside `www/` and place your own `.xml`/`.dat`/`.pdf` files inside.
+
+##### `.js`
+You will need to replace the `PluginTest.xml` argument with `www/targets/CustomData.xml` and the `[ 'logo', 'iceland', 'canterbury-grass', 'brick-lane' ]` argument with the specific information for your application. These are here for initial setup and demo purposes only.
 
 ##### `config.xml`
 Add the following to your `config.xml` file:
@@ -75,103 +77,9 @@ Add the following to your `config.xml` file:
 </platform>
 ```
 
-##### `.js`
-You will need to replace the `PluginTest.xml` argument with `www/targets/CustomData.xml` and the `[ 'logo', 'iceland', 'canterbury-grass', 'brick-lane' ]` argument with the specific information for your application. These are here for initial setup and demo purposes only.
+**NOTE:** 
+* File paths can be either from the **resources folder** (which is the default) or **absolute** (in which case you'd start the `src` with `file://`). Absolute paths are useful if you'd like to access files in specific folders, like the iTunes sharing document folder for iOS, or the app root folder for Android.
 
-
-#### Android Steps
-That's it... As far as setup goes... You're done! Android is nice and flexible, the plugin **should** have done everything for you!
-
-
-#### iOS Steps
-##### IMPORTANT
-> If you are planning to use the plugin with iOS you have to complete the below steps for the application to properly compile.
-
-
-##### Deployment Target
-**NOTE:** `cordova-ios` version 4, the default ios platform version for cordova 6, has a minimum ios SDK version of `8.0`. Vuforia's minimum version is `7.0`, if you want your applications version to be `7.0` please check out the `cordova-ios-3` branch for instructions.
-
-
-##### Header Search Paths
-In order for Xcode to find the [Vuforia][vuforia] library we need to add it's location into our header search paths.
-
-Within `Build Settings > Header Search Paths`, add the following:
-
-`../../plugins/cordova-plugin-vuforia/build/include`
-
-![[Deployment Target GIF][stage-3]][stage-3]
-
-We also need to add the following:
-
-`"$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include"`
-
-![[Deployment Target GIF][stage-4]][stage-4]
-
-These paths will allow the Xcode compiler to find the Vuforia library and include it in your application.
-
-
-##### Update `appdelegate.m`
-In order to launch our [Vuforia][vuforia] plugin we have to make a change to the `appdelegate.m` file within Xcode.
-
-Add this import statement at the top of the file:
-```objective-c
-#import <Cordova/CDVPlugin.h>
-```
-
-Then, search for and replace:
-```objective-c
-- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
-{
-    self.viewController = [[MainViewController alloc] init];
-    return [super application:application didFinishLaunchingWithOptions:launchOptions];
-}
-```
-
-with:
-```objective-c
-- (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
-{
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
-
-#if __has_feature(objc_arc)
-    self.window = [[UIWindow alloc] initWithFrame:screenBounds];
-#else
-    self.window = [[[UIWindow alloc] initWithFrame:screenBounds] autorelease];
-#endif
-    self.window.autoresizesSubviews = YES;
-#if __has_feature(objc_arc)
-    self.viewController = [[MainViewController alloc] init];
-#else
-    self.viewController = [[[MainViewController alloc] init] autorelease];
-#endif
-
-    // Set your app's start page by setting the <content src='foo.html' /> tag in config.xml.
-    // If necessary, uncomment the line below to override it.
-    // self.viewController.startPage = @"index.html";
-
-    // NOTE: To customize the view's frame size (which defaults to full screen), override
-    // [self.viewController viewWillAppear:] in your view controller.
-
-    UINavigationController * nc = [[UINavigationController alloc]initWithRootViewController:self.viewController];
-    [nc setNavigationBarHidden:YES animated:NO];
-
-    self.window.rootViewController = nc;
-    [self.window makeKeyAndVisible];
-
-    return YES;
-}
-
-```
-
-![[Deployment Target GIF][stage-5-2]][stage-5-2]
-
-
-##### Run your build!
-You should now be all setup! All that's left is to run your build.
-
-**NOTE**: You are unable to run the Vuforia plugin within a simulator as is lacks a number of required hardware and software features.
-
-![[Deployment Target GIF][stage-6-2]][stage-6-2]
 
 ## Known Issues
 ### Fixed orientation - [issue #16][issue-16]
@@ -192,14 +100,15 @@ If you wish to submit a bug fix or feature, you can create a pull request and it
 Cordova-Plugin-Vuforia is licensed under the [MIT License][info-license].
 
 [logo]: https://cdn.rawgit.com/mattrayner/cordova-plugin-vuforia/d14d00720569fea02d29cded4de3c6e617c87537/images/logo.svg
-[stage-3]: https://raw.githubusercontent.com/mattrayner/cordova-plugin-vuforia/master/images/stage-3.gif
-[stage-4]: https://raw.githubusercontent.com/mattrayner/cordova-plugin-vuforia/master/images/stage-4.gif
-[stage-5-2]: https://raw.githubusercontent.com/mattrayner/cordova-plugin-vuforia/master/images/stage-5-2.gif
-[stage-6-2]: https://raw.githubusercontent.com/mattrayner/cordova-plugin-vuforia/master/images/stage-6-2.gif
 
 [cordova]: https://cordova.apache.org/
 [vuforia]: https://www.vuforia.com/
+[example-repo]: https://github.com/dsgriffin/cordova-vuforia-example
 [npm]: https://www.npmjs.com
+[install-cordova]: https://cordova.apache.org/docs/en/latest/guide/cli/index.html#installing-the-cordova-cli
+[updating-cordova]: https://cordova.apache.org/docs/en/latest/guide/cli/index.html#updating-cordova-and-your-project
+[upgrading-ios]: https://cordova.apache.org/docs/en/latest/guide/platforms/ios/upgrade.html#upgrading-360-projects-to-400
+[upgrading-android]: https://cordova.apache.org/docs/en/latest/guide/platforms/android/upgrade.html#upgrading-to-5xx
 [issue-16]: https://github.com/mattrayner/cordova-plugin-vuforia/issues/16
 [cordova-orientation-issue]: https://github.com/apache/cordova-lib/pull/260
 [peugeot]: https://itunes.apple.com/gb/app/new-peugeot-208/id1020630968?mt=8
@@ -212,4 +121,4 @@ Cordova-Plugin-Vuforia is licensed under the [MIT License][info-license].
 [shield-travis]: https://img.shields.io/travis/mattrayner/cordova-plugin-vuforia.svg
 [shield-license]: https://img.shields.io/badge/license-MIT-blue.svg
 [shield-bithound]: https://www.bithound.io/github/mattrayner/cordova-plugin-vuforia/badges/score.svg
-[shield-cordova]: https://img.shields.io/badge/cordova%20support-5.*%20--%206.*-blue.svg
+[shield-cordova]: https://img.shields.io/badge/cordova%20support-6.*-blue.svg
