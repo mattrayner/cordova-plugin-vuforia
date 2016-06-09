@@ -11,7 +11,7 @@ You can see a live example in the [Peugeot 208][peugeot] app on iOS and Android 
 
 
 ## Supported Platforms
-Android (minimum Android 4), iOS (minimum iOS 8)
+Android (Minimum 4), iOS (Minimum 8)
 
 
 ## Requirements
@@ -21,6 +21,8 @@ Cordova-Plugin-Vuforia requires the following:
   * If you haven't yet installed the Cordova CLI, grab the latest version by following [these steps][install-cordova].
   * If you've already got a project running with an older version of Cordova (e.g. 4 or 5), [see here][updating-cordova] how to update your project's Cordova version.
   * Or if you want to upgrade to the latest version on a platform-by-platform basis, see either [upgrading to cordova-ios 4][upgrading-ios] or [upgrading to cordova-android 5][upgrading-android].
+
+**NOTE:** You will require an Android or iOS device. Cordova-Plugin-Vuforia requires hardware and software support that is not present in either the iOS or Android simulators. 
 
 
 ## Getting Started
@@ -48,7 +50,6 @@ navigator.VuforiaPlugin.startVuforia(
 ```
 
 **NOTES**: 
-
 * You will need to replace `YOUR_VUFORIA_KEY` with a valid license key for the plugin to launch correctly.
 * For testing you can use the `targets/PluginTest_Targets.pdf` file inside the plugin folder; it contains all four testing targets.
 
@@ -76,8 +77,7 @@ Add the following to your `config.xml` file:
 </platform>
 ```
 
-**NOTES:** 
-
+**NOTE:** 
 * File paths can be either from the **resources folder** (which is the default) or **absolute** (in which case you'd start the `src` with `file://`). Absolute paths are useful if you'd like to access files in specific folders, like the iTunes sharing document folder for iOS, or the app root folder for Android.
 
 
@@ -121,4 +121,4 @@ Cordova-Plugin-Vuforia is licensed under the [MIT License][info-license].
 [shield-travis]: https://img.shields.io/travis/mattrayner/cordova-plugin-vuforia.svg
 [shield-license]: https://img.shields.io/badge/license-MIT-blue.svg
 [shield-bithound]: https://www.bithound.io/github/mattrayner/cordova-plugin-vuforia/badges/score.svg
-[shield-cordova]: https://img.shields.io/badge/cordova%20support-%206.*-blue.svg
+[shield-cordova]: https://img.shields.io/badge/cordova%20support-6.*-blue.svg
