@@ -57,7 +57,7 @@ import com.mattrayner.vuforia.app.utils.Texture;
 public class ImageTargets extends Activity implements ApplicationControl
 {
     private static final String LOGTAG = "ImageTargets";
-    private static final String FILE_PROTOCOLE_FIX = "file://";
+    private static final String FILE_PROTOCOL = "file://";
 
     ApplicationSession vuforiaAppSession;
 
@@ -367,9 +367,9 @@ public class ImageTargets extends Activity implements ApplicationControl
         int storage_type;
         String dataFile = mDatasetStrings.get(mCurrentDatasetSelectionIndex);
 
-        if(dataFile.startsWith(FILE_PROTOCOLE_FIX)){
+        if(dataFile.startsWith(FILE_PROTOCOL)){
             storage_type = STORAGE_TYPE.STORAGE_ABSOLUTE;
-            dataFile = dataFile.substring(FILE_PROTOCOLE_FIX.length(), dataFile.length());
+            dataFile = dataFile.substring(FILE_PROTOCOL.length(), dataFile.length());
             mDatasetStrings.set(mCurrentDatasetSelectionIndex, dataFile);
             Log.d(LOGTAG, "Reading the absolute path: " + dataFile);
         }else{
