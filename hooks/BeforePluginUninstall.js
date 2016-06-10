@@ -14,13 +14,14 @@ module.exports = function(context) {
     let cordovaConfig = new ConfigParser(cordova_util.projectConfig(projectRoot));
     let projectName =  cordovaConfig.doc.findtext('./name');
 
-    console.log('Vuforia BeforePluginUninstall.js, attempting to modify build.xcconfig');
-
     let xcConfigBuildFilePath = path.join(cwd, 'platforms', 'ios', 'cordova', 'build.xcconfig');
+
+    console.log('Vuforia BeforePluginUninstall.js, attempting to modify build.xcconfig');
 
     try {
       let xcConfigBuildFileExists = fs.accessSync(xcConfigBuildFilePath);
-    } catch(e) {
+    }
+    catch(e) {
       console.log('Could not locate build.xcconfig.');
       return;
     }
@@ -96,4 +97,4 @@ module.exports = function(context) {
             console.log("Didn't find the code to modify");
         }
     }
-}
+};
