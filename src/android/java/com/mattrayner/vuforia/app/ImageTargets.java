@@ -15,6 +15,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.BroadcastReceiver;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -54,6 +56,8 @@ import com.mattrayner.vuforia.app.utils.LoadingDialogHandler;
 import com.mattrayner.vuforia.app.utils.ApplicationGLView;
 import com.mattrayner.vuforia.app.utils.Texture;
 
+import com.mattrayner.vuforia.VuforiaPlugin;
+
 public class ImageTargets extends Activity implements ApplicationControl
 {
     private static final String LOGTAG = "ImageTargets";
@@ -87,6 +91,8 @@ public class ImageTargets extends Activity implements ApplicationControl
 
     private RelativeLayout mUILayout;
 
+    private ActionReceiver vuforiaActionReceiver;
+
     LoadingDialogHandler loadingDialogHandler = new LoadingDialogHandler(this);
 
     // Alert Dialog used to display SDK errors
@@ -103,11 +109,31 @@ public class ImageTargets extends Activity implements ApplicationControl
     // Vuforia license key
     String mLicenseKey;
 
+    private class ActionReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context ctx, Intent intent) {
+            String receivedAction = intent.getExtras().getString(VuforiaPlugin.PLUGIN_ACTION);
+
+            if (receivedAction.equals(VuforiaPlugin.DISMISS_ACTION)) {
+                onBackPressed();
+            }
+        }
+    }
+
+
     // Called when the activity first starts or the user navigates back to an
     // activity.
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        // if (vuforiaActionReceiver == null){
+        //     vuforiaActionReceiver = new ActionReceiver();
+        //     IntentFilter intentFilter = new IntentFilter(VuforiaPlugin.PLUGIN_ACTION);
+        //     registerReceiver(vuforiaActionReceiver, intentFilter);
+        // }
+
+
         Log.d(LOGTAG, "onCreate");
         super.onCreate(savedInstanceState);
 
@@ -191,10 +217,36 @@ public class ImageTargets extends Activity implements ApplicationControl
         }
     }
 
+
+    @Override
+    protected void onStart()
+    {
+        if (vuforiaActionReceiver == null)
+            vuforiaActionReceiver = new ActionReceiver();
+        IntentFilter intentFilter = new IntentFilter(VuforiaPlugin.PLUGIN_ACTION);
+        registerReceiver(vuforiaActionReceiver, intentFilter);
+
+        Log.d(LOGTAG, "onStart");
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop()
+    {
+        if (vuforiaActionReceiver != null)
+			unregisterReceiver(vuforiaActionReceiver);
+
+        Log.d(LOGTAG, "onStop");
+        super.onStop();
+
+    }
+
     // Called when the activity will start interacting with the user.
     @Override
     protected void onResume()
     {
+
+
         Log.d(LOGTAG, "onResume");
         super.onResume();
 
