@@ -153,12 +153,12 @@ If you wish to submit a bug fix or feature, you can create a pull request and it
 Cordova-Plugin-Vuforia is licensed under the [MIT License][info-license].
 
 [logo]: https://cdn.rawgit.com/thisisbd/cordova-plugin-vuforia/d14d00720569fea02d29cded4de3c6e617c87537/images/logo.svg
-[stage-1]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-1.gif
-[stage-2]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-2.gif
-[stage-3]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-3.gif
-[stage-4]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-4.gif
-[stage-5]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-5.gif
-[stage-6]: https://raw.githubusercontent.com/thisisbd/cordova-plugin-vuforia/master/images/stage-6.gif
+[stage-1]: https://raw.githubusercontent.com/mattrayner/cordova-plugin-vuforia/cordova-ios-3/images/stage-1.gif
+[stage-2]: https://raw.githubusercontent.com/mattrayner/cordova-plugin-vuforia/cordova-ios-3/images/stage-2.gif
+[stage-3]: https://raw.githubusercontent.com/mattrayner/cordova-plugin-vuforia/cordova-ios-3/images/stage-3.gif
+[stage-4]: https://raw.githubusercontent.com/mattrayner/cordova-plugin-vuforia/cordova-ios-3/images/stage-4.gif
+[stage-5]: https://raw.githubusercontent.com/mattrayner/cordova-plugin-vuforia/cordova-ios-3/images/stage-5.gif
+[stage-6]: https://raw.githubusercontent.com/mattrayner/cordova-plugin-vuforia/cordova-ios-3/images/stage-6.gif
 
 [cordova]: https://cordova.apache.org/
 [vuforia]: https://www.vuforia.com/
