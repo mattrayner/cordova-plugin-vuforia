@@ -26,7 +26,7 @@ var VuforiaPlugin = {
     cordova.exec(
 
       // Register the callback handler
-        success,
+      success,
       // Register the error handler
       function errorHandler(err) {
         if(typeof errorCallback !== 'undefined') {
@@ -42,4 +42,5 @@ var VuforiaPlugin = {
     );
   }
 };
+
 module.exports = VuforiaPlugin;

@@ -52,7 +52,12 @@ navigator.VuforiaPlugin.startVuforia(
 **NOTES**: 
 * You will need to replace `YOUR_VUFORIA_KEY` with a valid license key for the plugin to launch correctly.
 * For testing you can use the `targets/PluginTest_Targets.pdf` file inside the plugin folder; it contains all four testing targets.
+* If you'd like to stop Vuforia programmatically for any reason (e.g. after a timer), there is the `dismiss()` method you can use, e.g. 
 
+    ```javascript
+    navigator.VuforiaPlugin.dismiss();
+    ```
+    
 #### Using your own data
 We know that eventually you're going to want to use your own data. To do so, follow these extra steps.
 

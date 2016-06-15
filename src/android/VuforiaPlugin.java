@@ -49,7 +49,7 @@ public class VuforiaPlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if(action.equals("cordovaStartVuforia")){
+        if(action.equals("cordovaStartVuforia")) {
             ACTION = action;
             ARGS = args;
 
@@ -81,19 +81,20 @@ public class VuforiaPlugin extends CordovaPlugin {
                 // Request the camera permission and handle the outcome.
                 cordova.requestPermission(this, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE, CAMERA);
             }
-        }else if(action.equals("cordovaStopVuforia")){
-            if(vuforiaStarted){
+        }
+        else if(action.equals("cordovaStopVuforia")) {
+            if(vuforiaStarted) {
                 Log.d(LOGTAG, "Cordova stopped");
                 Intent dismissIntent = new Intent(PLUGIN_ACTION);
                 dismissIntent.putExtra(PLUGIN_ACTION, DISMISS_ACTION);
 
                 this.cordova.getActivity().sendBroadcast(dismissIntent);
                 vuforiaStarted = false;
-            }else{
+            }
+            else {
                 Log.d(LOGTAG, "Cordova didn't stop because it didn't start");
             }
         }
-
 
         return true;
     }
@@ -117,10 +118,10 @@ public class VuforiaPlugin extends CordovaPlugin {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         String name;
 
-        if (data == null)
-        {
+        if (data == null) {
             name = "ERROR";
-        } else {
+        }
+        else {
             name = data.getStringExtra("name");
         }
 
@@ -134,10 +135,12 @@ public class VuforiaPlugin extends CordovaPlugin {
                     JSONObject json = new JSONObject();
                     json.put("imageName", name);
                     callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
-                } catch( JSONException e ) {
+                }
+                catch( JSONException e ) {
                     Log.d(LOGTAG, "JSON ERROR: " + e);
                 }
-            } else {
+            }
+            else {
                 Log.d(LOGTAG, "Error - received code: " + resultCode);
             }
         }
