@@ -669,4 +669,8 @@
 
     [self hideLoadingAnimation];
 }
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
 @end
