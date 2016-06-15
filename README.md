@@ -31,8 +31,12 @@ Cordova-Plugin-Vuforia requires the following:
 cordova plugin add cordova-plugin-vuforia
 ```
 
-#### Javascript example
-From within your Javascript file, add the following to launch the [Vuforia][vuforia] plugin.
+#### JavaScript
+Cordova-Plugin-Vuforia comes with two JavaScript methods, startVuforia, and dismiss. Below is an implementation for each.
+
+##### `startVuforia` - Start your Vuforia session
+From within your JavaScript file, add the following to launch the [Vuforia][vuforia] session.
+
 ```javascript
 navigator.VuforiaPlugin.startVuforia(
   'PluginTest.xml',
@@ -52,11 +56,18 @@ navigator.VuforiaPlugin.startVuforia(
 **NOTES**: 
 * You will need to replace `YOUR_VUFORIA_KEY` with a valid license key for the plugin to launch correctly.
 * For testing you can use the `targets/PluginTest_Targets.pdf` file inside the plugin folder; it contains all four testing targets.
-* If you'd like to stop Vuforia programmatically for any reason (e.g. after a timer), there is the `dismiss()` method you can use, e.g. 
 
-    ```javascript
-    navigator.VuforiaPlugin.dismiss();
-    ```
+##### `dismiss` - Stop your Vuforia session
+From within your JavaScript file, add the following to stop the [Vuforia][vuforia] session.
+
+```javascript
+navigator.VuforiaPlugin.dismiss();
+```
+
+This script could be paired with a timer, or other method to trigger the session close.
+
+> **NOTE:** You do not need to call `dismiss()` other than to force the session to end. If the user scans an image, or chooses to close the session themselves, the session will be automatically closed.
+
     
 #### Using your own data
 We know that eventually you're going to want to use your own data. To do so, follow these extra steps.
