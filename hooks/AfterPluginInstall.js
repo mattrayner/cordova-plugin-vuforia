@@ -6,7 +6,7 @@ module.exports = function(context) {
   let cwd = process.cwd();
   let fs = require('fs');
   let path = require('path');
-  let xcodeInfos = require('./xcode_infos.json');
+  let hookData = require('./hook_data.json');
 
   // Using the ConfigParser from Cordova to get the project name.
   let cordova_util = context.requireCordovaModule("cordova-lib/src/cordova/util");
@@ -35,7 +35,7 @@ module.exports = function(context) {
   // Read the build config, add the correct Header Search Paths to the config before calling modifyAppDelegate.
   const addHeaderSearchPaths = function(xcConfigBuildFilePath) {
     let lines = fs.readFileSync(xcConfigBuildFilePath, 'utf8').split('\n');
-    let paths = xcodeInfos.headerPaths;
+    let paths = hookData.headerPaths;
 
     let headerSearchPathLineNumber;
 
@@ -83,8 +83,8 @@ module.exports = function(context) {
     let appDelegateFilePath = path.join(cwd, 'platforms', 'ios', projectName, 'Classes', 'AppDelegate.m');
 
     // Ugly file modification but it does the job.
-    let oldMethod = xcodeInfos.methodToReplace;
-    let newMethod = xcodeInfos.replaceMethod;
+    let oldMethod = hookData.methodToReplace;
+    let newMethod = hookData.replaceMethod;
 
     try {
       let appDelegateFileExists = fs.accessSync(appDelegateFilePath);
