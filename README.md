@@ -32,7 +32,7 @@ cordova plugin add cordova-plugin-vuforia
 ```
 
 #### JavaScript
-Cordova-Plugin-Vuforia comes with two JavaScript methods, startVuforia, and dismiss. Below is an implementation for each.
+Cordova-Plugin-Vuforia comes with two JavaScript methods, startVuforia, and stopVuforia. Below is an implementation for each.
 
 ##### `startVuforia` - Start your Vuforia session
 From within your JavaScript file, add the following to launch the [Vuforia][vuforia] session.
@@ -57,13 +57,13 @@ navigator.VuforiaPlugin.startVuforia(
 > * You will need to replace `YOUR_VUFORIA_KEY` with a valid license key for the plugin to launch correctly.
 > * For testing you can use the `targets/PluginTest_Targets.pdf` file inside the plugin folder; it contains all four testing targets.
 
-##### `dismiss` - Stop your Vuforia session
+##### `stopVuforia` - Stop your Vuforia session
 From within your JavaScript file, add the following to stop the [Vuforia][vuforia] session.
 
 **Why?** - Well, you could pair this with a setTimeout to give users a certain amount of time to search for an image.
 
 ```javascript
-navigator.VuforiaPlugin.dismiss(function (data) {
+navigator.VuforiaPlugin.stopVuforia(function (data) {
     console.log(data);
 
     if (data.success == 'true') {
@@ -78,7 +78,7 @@ navigator.VuforiaPlugin.dismiss(function (data) {
 
 This script could be paired with a timer, or other method to trigger the session close.
 
-> **NOTE:** You do not need to call `dismiss()` other than to force the session to end. If the user scans an image, or chooses to close the session themselves, the session will be automatically closed.
+> **NOTE:** You do not need to call `stopVuforia()` other than to force the session to end. If the user scans an image, or chooses to close the session themselves, the session will be automatically closed.
 
     
 #### Using your own data

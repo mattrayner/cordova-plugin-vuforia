@@ -49,7 +49,7 @@ var VuforiaPlugin = {
    * @param {function} success A callback for when the session is closed successfully.
    * @param {function|null} errorCallback A callback for when an error occurs.
    */
-  dismiss: function(success, errorCallback){
+  stopVuforia: function(success, errorCallback){
     cordova.exec(
       // Register the callback handler
       function callback(data) {
