@@ -1,7 +1,7 @@
 {
   "name": "cordova-plugin-vuforia",
   "description": "Cordova Vuforia Plugin",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "homepage": "https://github.com/mattrayner/cordova-plugin-vuforia",
   "repository": {
     "type": "git",
