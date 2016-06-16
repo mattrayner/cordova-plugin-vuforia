@@ -69,7 +69,7 @@
 
         <!-- Libraries -->
         <source-file src="src/vuforia/jniLibs/armeabi/libVuforia.so" target-dir="libs/armeabi-v7a" />
-        <source-file src="src/android/Vuforia.jar" target-dir="libs" />
+        <source-file src="src/vuforia/Vuforia.jar" target-dir="libs" />
 
         <!-- Assets -->
         <resource-file src="src/android/res/drawable/devices.png" target="res/drawable/devices.png" />
