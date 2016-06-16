@@ -36,6 +36,7 @@ import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 //import android.R;
 //import com.example.hello.R;
@@ -158,7 +159,6 @@ public class ImageTargets extends Activity implements ApplicationControl
         String target_file = intent.getStringExtra("IMAGE_TARGET_FILE");
         mTargets = intent.getStringExtra("IMAGE_TARGETS");
         mOverlayMessage = intent.getStringExtra("OVERLAY_TEXT");
-
         startLoadingAnimation();
 
         Log.d(LOGTAG, "MRAY :: VUFORIA RECEIVED FILE: " + target_file);
@@ -380,11 +380,17 @@ public class ImageTargets extends Activity implements ApplicationControl
         // Gets a reference to the overlay text
         TextView overlayText = (TextView) mUILayout.findViewById(resources.getIdentifier("overlay_message", "id", package_name));
 
-        Log.d(LOGTAG, "Overlay Text: "+mOverlayMessage);
+        if(mOverlayMessage == null){
+            Log.d(LOGTAG, "Hiding the Overlay TextView and the ImageView");
+            overlayText.setVisibility(View.GONE);
+            ImageView overlayImage = (ImageView) mUILayout.findViewById(resources.getIdentifier("imageView", "id", package_name));
+            overlayImage.setVisibility(View.GONE);
+        }else{
+            Log.d(LOGTAG, "Overlay Text: "+mOverlayMessage);
 
-        // Updates the overlay message with the text passed-in
-        overlayText.setText( mOverlayMessage );
-
+            // Updates the overlay message with the text passed-in
+            overlayText.setText( mOverlayMessage );
+        }
         // Adds the inflated layout to the view
         addContentView(mUILayout, new LayoutParams(LayoutParams.MATCH_PARENT,
             LayoutParams.MATCH_PARENT));

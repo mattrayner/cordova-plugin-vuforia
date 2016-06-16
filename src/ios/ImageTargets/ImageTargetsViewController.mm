@@ -86,58 +86,61 @@
          name:UIApplicationDidBecomeActiveNotification
          object:nil];
 
-        UIView *detailView=[[UIView alloc]initWithFrame:CGRectMake(15, 30, 245, 80)];
-        detailView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
-        [self.view addSubview:detailView];
+         UIImage * buttonImage = [UIImage imageNamed:@"close-button.png"];
+         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+         [button addTarget:self
+                    action:@selector(buttonPressed)
+          forControlEvents:UIControlEventTouchUpInside];
+         [button setTitle:@"" forState:UIControlStateNormal];
+         [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
+         button.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - 50.0, 30.0, 40.0, 40.0);
+         button.tag = 10;
+         [self.view addSubview:button];
 
-        UIImage * buttonImage = [UIImage imageNamed:@"close-button.png"];
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [button addTarget:self
-                   action:@selector(buttonPressed)
-         forControlEvents:UIControlEventTouchUpInside];
-        [button setTitle:@"" forState:UIControlStateNormal];
-        [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
-        button.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - 50.0, 30.0, 40.0, 40.0);
-        button.tag = 10;
-        [self.view addSubview:button];
 
-        UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 180, 60)];
+        if(self.overlayText != (id)[NSNull null] ){
+            UIView *detailView=[[UIView alloc]initWithFrame:CGRectMake(15, 30, 245, 80)];
+            detailView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
+            [self.view addSubview:detailView];
 
-        [detailLabel setTextColor:[UIColor whiteColor]];
-        [detailLabel setBackgroundColor:[UIColor clearColor]];
-        [detailLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 10.0f]];
+            UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 180, 60)];
 
-        NSLog(@"Vuforia Plugin :: overlayText: %@", self.overlayText);
+            [detailLabel setTextColor:[UIColor whiteColor]];
+            [detailLabel setBackgroundColor:[UIColor clearColor]];
+            [detailLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 10.0f]];
 
-        [detailLabel setText: self.overlayText];
+            NSLog(@"Vuforia Plugin :: overlayText: %@", self.overlayText);
 
-        detailLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        detailLabel.numberOfLines = 0;
-        [detailLabel sizeToFit];
+            [detailLabel setText: self.overlayText];
 
-        /* Reposition label based on height */
-        // Get the height of the label
-        int labelHeight = detailLabel.frame.size.height;
+            detailLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            detailLabel.numberOfLines = 0;
+            [detailLabel sizeToFit];
 
-        // Get the container height
-        int frameHeight = detailView.frame.size.height;
+            /* Reposition label based on height */
+            // Get the height of the label
+            int labelHeight = detailLabel.frame.size.height;
 
-        // Create a new Y value for the label
-        int labelY = (frameHeight / 2) - (labelHeight / 2);
+            // Get the container height
+            int frameHeight = detailView.frame.size.height;
 
-        // Create a new frame with the new Y origin
-        CGRect frameRect = detailLabel.frame;
-        frameRect.origin.y = labelY;
+            // Create a new Y value for the label
+            int labelY = (frameHeight / 2) - (labelHeight / 2);
 
-        // Set the label's frame
-        detailLabel.frame = frameRect;
+            // Create a new frame with the new Y origin
+            CGRect frameRect = detailLabel.frame;
+            frameRect.origin.y = labelY;
 
-        [detailView addSubview:detailLabel];
+            // Set the label's frame
+            detailLabel.frame = frameRect;
 
-        UIImage *image = [UIImage imageNamed:@"iOSDevices.png"];
-        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-        imageView.frame = CGRectMake(195, 15, 40, 40);
-        [detailView addSubview:imageView];
+            [detailView addSubview:detailLabel];
+
+            UIImage *image = [UIImage imageNamed:@"iOSDevices.png"];
+            UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+            imageView.frame = CGRectMake(195, 15, 40, 40);
+            [detailView addSubview:imageView];
+        }
     }
     return self;
 }

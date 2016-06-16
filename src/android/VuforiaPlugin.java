@@ -55,7 +55,7 @@ public class VuforiaPlugin extends CordovaPlugin {
 
             String targetFile = args.getString(0);
             String targets = args.getJSONArray(1).toString();
-            String overlayText = args.getString(2);
+            String overlayText = (args.isNull(2)) ? null : args.getString(2);
             String vuforiaLicense = args.getString(3);
 
             Log.d(LOGTAG, "Args: "+args);
@@ -69,7 +69,8 @@ public class VuforiaPlugin extends CordovaPlugin {
             Intent intent = new Intent(context, ImageTargets.class);
             intent.putExtra("IMAGE_TARGET_FILE", targetFile);
             intent.putExtra("IMAGE_TARGETS", targets);
-            intent.putExtra("OVERLAY_TEXT", overlayText);
+            if(overlayText != null)
+                intent.putExtra("OVERLAY_TEXT", overlayText);
             intent.putExtra("LICENSE_KEY", vuforiaLicense);
 
             if(cordova.hasPermission(CAMERA)) {
