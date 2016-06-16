@@ -158,7 +158,7 @@ public class ImageTargets extends Activity implements ApplicationControl
         } catch(Exception e) {
             Intent mIntent = new Intent();
             mIntent.putExtra("name", "VUFORIA ERROR");
-            setResult(6, mIntent);
+            setResult(VuforiaPlugin.ERROR_RESULT, mIntent);
             finish();
         }
 
@@ -706,7 +706,7 @@ public class ImageTargets extends Activity implements ApplicationControl
     public void onBackPressed() {
         Intent mIntent = new Intent();
         mIntent.putExtra("name", "CLOSED");
-        setResult(6, mIntent);
+        setResult(VuforiaPlugin.MANUAL_CLOSE_RESULT, mIntent);
         super.onBackPressed();
     }
 

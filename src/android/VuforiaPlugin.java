@@ -25,6 +25,10 @@ public class VuforiaPlugin extends CordovaPlugin {
     public static final String PLUGIN_ACTION = "org.cordova.plugin.vuforia.action";
     public static final String DISMISS_ACTION = "dismiss";
 
+    public static final int IMAGE_REC_RESULT = 0;
+    public static final int MANUAL_CLOSE_RESULT = 1;
+    public static final int ERROR_RESULT = 2;
+
     private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
 
     private static String ACTION;
@@ -146,18 +150,22 @@ public class VuforiaPlugin extends CordovaPlugin {
         // Check which request we're responding to
         if (requestCode == IMAGE_REC_REQUEST) {
             // Make sure the request was successful
-            if (resultCode == 0) {
-                try {
-                    JSONObject json = new JSONObject();
-                    json.put("imageName", name);
-                    callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
-                }
-                catch( JSONException e ) {
-                    Log.d(LOGTAG, "JSON ERROR: " + e);
-                }
-            }
-            else {
-                Log.d(LOGTAG, "Error - received code: " + resultCode);
+            switch(resultCode){
+                case IMAGE_REC_RESULT:
+                    try {
+                        JSONObject json = new JSONObject();
+                        json.put("imageName", name);
+                        callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
+                    }
+                    catch( JSONException e ) {
+                        Log.d(LOGTAG, "JSON ERROR: " + e);
+                    }
+                    break;
+                case MANUAL_CLOSE_RESULT:
+                    Log.d(LOGTAG, "Vuforia closed manually.");
+                    break;
+                default:
+                    Log.d(LOGTAG, "Error - received code: " + resultCode);
             }
         }
         vuforiaStarted = false;
