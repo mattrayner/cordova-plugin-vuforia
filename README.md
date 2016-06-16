@@ -60,8 +60,20 @@ navigator.VuforiaPlugin.startVuforia(
 ##### `dismiss` - Stop your Vuforia session
 From within your JavaScript file, add the following to stop the [Vuforia][vuforia] session.
 
+**Why?** - Well, you could pair this with a setTimeout to give users a certain amount of time to search for an image.
+
 ```javascript
-navigator.VuforiaPlugin.dismiss();
+navigator.VuforiaPlugin.dismiss(function (data) {
+    console.log(data);
+
+    if (data.success == 'true') {
+        alert('Stopped Vuforia');
+    } else {
+        alert('Couldn\'t stop Vuforia\n'+data.message);
+    }
+}, function (data) {
+    console.log("Error: " + data);
+});
 ```
 
 This script could be paired with a timer, or other method to trigger the session close.
