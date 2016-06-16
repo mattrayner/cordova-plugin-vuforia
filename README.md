@@ -22,7 +22,7 @@ Cordova-Plugin-Vuforia requires the following:
   * If you've already got a project running with an older version of Cordova (e.g. 4 or 5), [see here][updating-cordova] how to update your project's Cordova version.
   * Or if you want to upgrade to the latest version on a platform-by-platform basis, see either [upgrading to cordova-ios 4][upgrading-ios] or [upgrading to cordova-android 5][upgrading-android].
 
-> **NOTE:** You will require an Android or iOS device. Cordova-Plugin-Vuforia requires hardware and software support that is not present in either the iOS or Android simulators. 
+> **NOTE:** You will require an Android or iOS device for development and testing. Cordova-Plugin-Vuforia requires hardware and software support that is not present in either the iOS or Android simulators. 
 
 
 ## Getting Started
@@ -32,7 +32,7 @@ cordova plugin add cordova-plugin-vuforia
 ```
 
 #### JavaScript
-Cordova-Plugin-Vuforia comes with two JavaScript methods, startVuforia, and stopVuforia. Below is an implementation for each.
+Cordova-Plugin-Vuforia comes with two JavaScript methods, `startVuforia`, and `stopVuforia`. Below is an implementation for each.
 
 ##### `startVuforia` - Start your Vuforia session
 From within your JavaScript file, add the following to launch the [Vuforia][vuforia] session.
@@ -96,7 +96,9 @@ There are two pieces you will need to replace:
 1. `PluginTest.xml` - Replace with a reference to your custom data file e.g. `www/targets/CustomData.xml`
 1. `[ 'logo', 'iceland', 'canterbury-grass', 'brick-lane' ]` - Replace with the specific images for your data file that you are searching for.
 
-> **Note:** You don't have to search for all of the images in your data file each time. Your data file may contain 20 images, but for this particular acrion you may be only interested in two.
+> **Notes:**
+> * You don't have to search for all of the images in your data file each time. Your data file may contain 20 images, but for this particular action you may be only interested in two.
+> * Data file paths can be either from the **resources folder** (which is the default) or **absolute** (in which case you'd start the `src` with `file://`). Absolute paths are useful if you'd like to access files in specific folders, like the iTunes sharing document folder for iOS, or the app root folder for Android.
 
 ##### `config.xml`
 Add the following to your `config.xml` file:
@@ -112,8 +114,6 @@ Add the following to your `config.xml` file:
     <resource-file src="targets/CustomData.dat" />
 </platform>
 ```
-
-> **NOTE:** File paths can be either from the **resources folder** (which is the default) or **absolute** (in which case you'd start the `src` with `file://`). Absolute paths are useful if you'd like to access files in specific folders, like the iTunes sharing document folder for iOS, or the app root folder for Android.
 
 
 ## Known Issues
