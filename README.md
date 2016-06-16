@@ -22,7 +22,7 @@ Cordova-Plugin-Vuforia requires the following:
   * If you've already got a project running with an older version of Cordova (e.g. 4 or 5), [see here][updating-cordova] how to update your project's Cordova version.
   * Or if you want to upgrade to the latest version on a platform-by-platform basis, see either [upgrading to cordova-ios 4][upgrading-ios] or [upgrading to cordova-android 5][upgrading-android].
 
-**NOTE:** You will require an Android or iOS device. Cordova-Plugin-Vuforia requires hardware and software support that is not present in either the iOS or Android simulators. 
+> **NOTE:** You will require an Android or iOS device. Cordova-Plugin-Vuforia requires hardware and software support that is not present in either the iOS or Android simulators. 
 
 
 ## Getting Started
@@ -53,9 +53,9 @@ navigator.VuforiaPlugin.startVuforia(
 );
 ```
 
-**NOTES**: 
-* You will need to replace `YOUR_VUFORIA_KEY` with a valid license key for the plugin to launch correctly.
-* For testing you can use the `targets/PluginTest_Targets.pdf` file inside the plugin folder; it contains all four testing targets.
+> **NOTES**: 
+> * You will need to replace `YOUR_VUFORIA_KEY` with a valid license key for the plugin to launch correctly.
+> * For testing you can use the `targets/PluginTest_Targets.pdf` file inside the plugin folder; it contains all four testing targets.
 
 ##### `dismiss` - Stop your Vuforia session
 From within your JavaScript file, add the following to stop the [Vuforia][vuforia] session.
@@ -72,11 +72,19 @@ This script could be paired with a timer, or other method to trigger the session
 #### Using your own data
 We know that eventually you're going to want to use your own data. To do so, follow these extra steps.
 
-##### `www/`
-First, create a `targets/` folder inside `www/` and place your own `.xml`/`.dat`/`.pdf` files inside.
+##### `www/targets/`
+First, create a `targets/` folder inside `www/` and place your own `.xml` and `.dat` files inside.
 
-##### `.js`
-You will need to replace the `PluginTest.xml` argument with `www/targets/CustomData.xml` and the `[ 'logo', 'iceland', 'canterbury-grass', 'brick-lane' ]` argument with the specific information for your application. These are here for initial setup and demo purposes only.
+> **Note:** Adding a `.pdf` file isn't required, but might be helpful for testing and development purposes.
+
+##### JavaScript
+###### `startVuforia(...)`
+There are two pieces you will need to replace:
+
+1. `PluginTest.xml` - Replace with a reference to your custom data file e.g. `www/targets/CustomData.xml`
+1. `[ 'logo', 'iceland', 'canterbury-grass', 'brick-lane' ]` - Replace with the specific images for your data file that you are searching for.
+
+> **Note:** You don't have to search for all of the images in your data file each time. Your data file may contain 20 images, but for this particular acrion you may be only interested in two.
 
 ##### `config.xml`
 Add the following to your `config.xml` file:
@@ -93,8 +101,7 @@ Add the following to your `config.xml` file:
 </platform>
 ```
 
-**NOTE:** 
-* File paths can be either from the **resources folder** (which is the default) or **absolute** (in which case you'd start the `src` with `file://`). Absolute paths are useful if you'd like to access files in specific folders, like the iTunes sharing document folder for iOS, or the app root folder for Android.
+> **NOTE:** File paths can be either from the **resources folder** (which is the default) or **absolute** (in which case you'd start the `src` with `file://`). Absolute paths are useful if you'd like to access files in specific folders, like the iTunes sharing document folder for iOS, or the app root folder for Android.
 
 
 ## Known Issues
