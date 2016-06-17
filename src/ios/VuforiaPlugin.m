@@ -29,6 +29,8 @@
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageMatched" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageMatched:) name:@"ImageMatched" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"CloseRequest" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeRequest:) name:@"CloseRequest" object:nil];
 
     UINavigationController *nc = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     self.imageRecViewController = [[ViewController alloc] initWithFileName:imageTargetfile targetNames:imageTargetNames customOverlayText:customOverlayText vuforiaLicenseKey:vuforiaLicenseKey];
@@ -55,12 +57,13 @@
                                      messageAsDictionary : jsonObj
                                      ];
 
-    self.startedVuforia = false;
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.command.callbackId];
+    [self VP_closeView];
 
-    UINavigationController *nc = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-    [nc popToRootViewControllerAnimated:YES];
+}
 
+- (void)closeRequest:(NSNotification *)notification {
+    [self VP_closeView];
 }
 
 - (void) cordovaStopVuforia:(CDVInvokedUrlCommand *)command {
@@ -92,6 +95,11 @@
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.command.callbackId];
 
+    [self VP_closeView];
+}
+
+
+- (void) VP_closeView {
     if(self.startedVuforia == true){
         UINavigationController *nc = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
         [nc popToRootViewControllerAnimated:YES];
