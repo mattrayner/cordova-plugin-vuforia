@@ -1,5 +1,5 @@
 # ![Cordova-Plugin-Vuforia][logo]
-Cordova-Plugin-Vuforia is a [Cordova][cordova] plugin that uses [Vuforia][vuforia] to perform image recognition. 
+Cordova-Plugin-Vuforia is a [Cordova][cordova] plugin that uses [Vuforia][vuforia] to perform image recognition.
 
 You can see a live example in the [Peugeot 208][peugeot] app on iOS and Android and a basic open source example in the [cordova-vuforia-example][example-repo] repo.
 
@@ -22,8 +22,7 @@ Cordova-Plugin-Vuforia requires the following:
   * If you've already got a project running with an older version of Cordova (e.g. 4 or 5), [see here][updating-cordova] how to update your project's Cordova version.
   * Or if you want to upgrade to the latest version on a platform-by-platform basis, see either [upgrading to cordova-ios 4][upgrading-ios] or [upgrading to cordova-android 5][upgrading-android].
 
-> **NOTE:** You will require an Android or iOS device for development and testing. Cordova-Plugin-Vuforia requires hardware and software support that is not present in either the iOS or Android simulators. 
-
+**NOTE:** You will require an Android or iOS device for development and testing. Cordova-Plugin-Vuforia requires hardware and software support that is not present in either the iOS or Android simulators.
 
 ## Getting Started
 ### Plugin Installation
@@ -38,11 +37,15 @@ Cordova-Plugin-Vuforia comes with two JavaScript methods, `startVuforia`, and `s
 From within your JavaScript file, add the following to launch the [Vuforia][vuforia] session.
 
 ```javascript
+var options = {
+  databaseXmlFile: 'PluginTest.xml',
+  targetList: [ 'logo', 'iceland', 'canterbury-grass', 'brick-lane' ],
+  overlayMessage: 'Point your camera at a test image...',
+  vuforiaLicense: 'YOUR_VUFORIA_KEY'
+};
+
 navigator.VuforiaPlugin.startVuforia(
-  'PluginTest.xml',
-  [ 'logo', 'iceland', 'canterbury-grass', 'brick-lane' ],
-  'Point your camera at a test image...',
-  'YOUR_VUFORIA_KEY',
+  options,
   function(data){
     console.log(data);
     alert("Image found: "+data.imageName);
@@ -53,9 +56,10 @@ navigator.VuforiaPlugin.startVuforia(
 );
 ```
 
-> **NOTES**: 
-> * You will need to replace `YOUR_VUFORIA_KEY` with a valid license key for the plugin to launch correctly.
-> * For testing you can use the `targets/PluginTest_Targets.pdf` file inside the plugin folder; it contains all four testing targets.
+**NOTES**:
+* You will need to replace `YOUR_VUFORIA_KEY` with a valid license key for the plugin to launch correctly.
+* For testing you can use the `targets/PluginTest_Targets.pdf` file inside the plugin folder; it contains all four testing targets.
+* If you'd like to stop Vuforia programmatically for any reason (e.g. after a timer), there is the `dismiss()` method you can use, e.g.
 
 ##### `stopVuforia` - Stop your Vuforia session
 From within your JavaScript file, add the following to stop the [Vuforia][vuforia] session.
@@ -78,16 +82,16 @@ navigator.VuforiaPlugin.stopVuforia(function (data) {
 
 This script could be paired with a timer, or other method to trigger the session close.
 
-> **NOTE:** You do not need to call `stopVuforia()` other than to force the session to end. If the user scans an image, or chooses to close the session themselves, the session will be automatically closed.
+**NOTE:** You do not need to call `stopVuforia()` other than to force the session to end. If the user scans an image, or chooses to close the session themselves, the session will be automatically closed.
 
-    
+
 #### Using your own data
 We know that eventually you're going to want to use your own data. To do so, follow these extra steps.
 
 ##### `www/targets/`
 First, create a `targets/` folder inside `www/` and place your own `.xml` and `.dat` files inside.
 
-> **Note:** Adding a `.pdf` file isn't required, but might be helpful for testing and development purposes.
+**Note:** Adding a `.pdf` file isn't required, but might be helpful for testing and development purposes.
 
 ##### JavaScript
 ###### `startVuforia(...)`
@@ -96,9 +100,9 @@ There are two pieces you will need to replace:
 1. `PluginTest.xml` - Replace with a reference to your custom data file e.g. `www/targets/CustomData.xml`
 1. `[ 'logo', 'iceland', 'canterbury-grass', 'brick-lane' ]` - Replace with the specific images for your data file that you are searching for.
 
-> **Notes:**
-> * You don't have to search for all of the images in your data file each time. Your data file may contain 20 images, but for this particular action you may be only interested in two.
-> * Data file paths can be either from the **resources folder** (which is the default) or **absolute** (in which case you'd start the `src` with `file://`). Absolute paths are useful if you'd like to access files in specific folders, like the iTunes sharing document folder for iOS, or the app root folder for Android.
+**Notes:**
+* You don't have to search for all of the images in your data file each time. Your data file may contain 20 images, but for this particular action you may be only interested in two.
+* Data file paths can be either from the **resources folder** (which is the default) or **absolute** (in which case you'd start the `src` with `file://`). Absolute paths are useful if you'd like to access files in specific folders, like the iTunes sharing document folder for iOS, or the app root folder for Android.
 
 ##### `config.xml`
 Add the following to your `config.xml` file:
@@ -114,6 +118,9 @@ Add the following to your `config.xml` file:
     <resource-file src="targets/CustomData.dat" />
 </platform>
 ```
+
+**NOTE:**
+* File paths can be either from the **resources folder** (which is the default) or **absolute** (in which case you'd start the `src` with `file://`). Absolute paths are useful if you'd like to access files in specific folders, like the iTunes sharing document folder for iOS, or the app root folder for Android.
 
 
 ## Known Issues

@@ -3,7 +3,7 @@
     android:id="@+id/camera_overlay_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
+
     <ProgressBar
     style="@android:style/Widget.ProgressBar"
     android:id="@+id/loading_indicator"
@@ -11,42 +11,42 @@
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true" />
-    
-    <TextView
-    android:layout_width="300dp"
-    android:layout_height="wrap_content"
-    android:textAppearance="?android:attr/textAppearanceMedium"
-    android:text="Scan an image..."
-    android:id="@+id/overlay_message"
-    android:maxWidth="300dp"
-    android:textSize="14dp"
-    android:layout_weight="0.14"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:layout_marginLeft="20dp"
-    android:layout_marginTop="20dp"
-    android:paddingRight="60dp"
-    android:paddingLeft="10dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:autoText="false"
-    android:background="#cc000000" />
-    
-    <ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/imageView"
-    android:src="@drawable/devices"
-    android:layout_alignTop="@+id/overlay_message"
-    android:layout_alignRight="@+id/overlay_message"
-    android:layout_alignEnd="@+id/overlay_message"
-    android:layout_alignBottom="@+id/overlay_message"
-    android:layout_toRightOf="@+id/loading_indicator"
-    android:layout_toEndOf="@+id/loading_indicator"
-    android:layout_marginLeft="41dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp" />
-    
+
+    <RelativeLayout
+     android:id="@+id/layout_top"
+     android:layout_width="fill_parent"
+     android:layout_height= "52dp"
+     android:layout_alignParentTop= "true"
+     android:background="#66000000">
+
+         <ImageView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="5dp"
+         android:id="@+id/devices_icon_top"
+         android:src="@drawable/devices"/>
+         <TextView
+         android:layout_width= "match_parent"
+         android:layout_height= "match_parent"
+         android:textAppearance="?android:attr/textAppearanceMedium"
+         android:id="@+id/overlay_message_top"
+         android:gravity="center_vertical|left"
+         android:text="Scan an image..."
+         android:textSize="14dp"
+         android:paddingLeft="10dp"
+         android:autoText="false"
+         android:layout_toLeftOf= "@+id/close_button_top"
+         android:layout_toRightOf= "@+id/devices_icon_top"/>
+
+
+         <Button
+         android:id="@+id/close_button_top"
+         android:layout_width="75dp"
+         android:layout_height="52dp"
+         android:layout_alignParentRight="true"
+         android:background="@drawable/closebutton_selector"
+         android:onClick="handleCloseButton" />
+
+    </RelativeLayout>
+
 </RelativeLayout>

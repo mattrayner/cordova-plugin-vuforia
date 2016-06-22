@@ -9,22 +9,32 @@ var VuforiaPlugin = {
    * @type {string}
    */
   pluginClass: 'VuforiaPlugin',
-
   /**
    * Start a new Vuforia image recognition session on the user's device.
    *
-   * @param {string} imageFile The Vuforia database file (.xml) with our target data inside.
-   * @param {Array.<string>} imageTargets An array of images we are going to search for within our database. For example
+   * @param {object} options An object containing different parameters needed to start Vuforia
+
+   * @param {string} options.imageFile The Vuforia database file (.xml) with our target data inside.
+   * @param {Array.<string>} options.imageTargets An array of images we are going to search for within our database. For example
    *                                      you may have a database of 100 images, but only be interested in 5 right now.
-   * @param {string} overlayCopy A piece of copy displayed as a helpful hint to users i.e. 'Point your camera at the
+   * @param {string} options.overlayMessage A piece of copy displayed as a helpful hint to users i.e. 'Point your camera at the
    *                             orange target'.
-   * @param {string} vuforiaLicense Your Vuforia license key. This is required for Vuforia to initialise successfully.
+   * @param {string} options.vuforiaLicense Your Vuforia license key. This is required for Vuforia to initialise successfully.
+   * @param {boolean} options.showAndroidCloseButton (Optional). Display or not the close button on Android.
+   * @param {boolean} options.showDevicesIcon (Optional). Display or not the devices icon
    * @param {function} imageFoundCallback A callback for when an image is found. Passes a data object with the image
    *                                      name inside.
    * @param {function|null} errorCallback A callback for when an error occurs. Could include device not having a camera,
    *                                      or invalid Vuforia key. Passes an error string with more information.
    */
-  startVuforia: function(imageFile ,imageTargets, overlayCopy, vuforiaLicense, imageFoundCallback, errorCallback){
+  startVuforia: function(options, imageFoundCallback, errorCallback){
+    var imageFile = options.databaseXmlFile;
+    var imageTargets = options.targetList;
+    var overlayCopy = options.overlayMessage;
+    var vuforiaLicense = options.vuforiaLicense;
+    var showAndroidCloseButton = options.showAndroidCloseButton?true:false;
+    var showDevicesIcon = options.showDevicesIcon ? true : false;
+
     cordova.exec(
       // Register the callback handler
       function callback(data) {
@@ -39,7 +49,7 @@ var VuforiaPlugin = {
       // Execute this method on the above class
       'cordovaStartVuforia',
       // Provide an array of arguments above method
-      [ imageFile , imageTargets, overlayCopy, vuforiaLicense ]
+      [ imageFile , imageTargets, overlayCopy, vuforiaLicense, showAndroidCloseButton, showDevicesIcon ]
     );
   },
 

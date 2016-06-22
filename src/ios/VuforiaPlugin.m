@@ -18,14 +18,17 @@
     NSLog(@"Arguments: %@", command.arguments);
     NSLog(@"KEY: %@", [command.arguments objectAtIndex:3]);
 
-    [self startVuforiaWithImageTargetFile:[command.arguments objectAtIndex:0] imageTargetNames: [command.arguments objectAtIndex:1] customOverlayText: [command.arguments objectAtIndex:2] vuforiaLicenseKey: [command.arguments objectAtIndex:3]];
+    NSDictionary *overlayOptions =  [[NSDictionary alloc] initWithObjectsAndKeys: [command.arguments objectAtIndex:2], @"overlayText", [NSNumber numberWithBool:[[command.arguments objectAtIndex:5] integerValue]], @"showDevicesIcon", nil];
+
+
+    [self startVuforiaWithImageTargetFile:[command.arguments objectAtIndex:0] imageTargetNames: [command.arguments objectAtIndex:1] overlayOptions: overlayOptions vuforiaLicenseKey: [command.arguments objectAtIndex:3]];
     self.command = command;
 
     self.startedVuforia = true;
 }
 
 #pragma mark - Util_Methods
-- (void) startVuforiaWithImageTargetFile:(NSString *)imageTargetfile imageTargetNames:(NSArray *)imageTargetNames customOverlayText:(NSString *)customOverlayText vuforiaLicenseKey:(NSString *)vuforiaLicenseKey {
+- (void) startVuforiaWithImageTargetFile:(NSString *)imageTargetfile imageTargetNames:(NSArray *)imageTargetNames overlayOptions:(NSDictionary *)overlayOptions vuforiaLicenseKey:(NSString *)vuforiaLicenseKey {
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"ImageMatched" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageMatched:) name:@"ImageMatched" object:nil];
@@ -33,7 +36,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeRequest:) name:@"CloseRequest" object:nil];
 
     UINavigationController *nc = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-    self.imageRecViewController = [[ViewController alloc] initWithFileName:imageTargetfile targetNames:imageTargetNames customOverlayText:customOverlayText vuforiaLicenseKey:vuforiaLicenseKey];
+    self.imageRecViewController = [[ViewController alloc] initWithFileName:imageTargetfile targetNames:imageTargetNames overlayOptions:overlayOptions vuforiaLicenseKey:vuforiaLicenseKey];
 
     [nc pushViewController:self.imageRecViewController animated:YES];
 }

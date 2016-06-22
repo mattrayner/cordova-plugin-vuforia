@@ -75,6 +75,19 @@
         <resource-file src="src/android/res/drawable/devices.png" target="res/drawable/devices.png" />
         <resource-file src="src/android/res/drawable-hdpi/devices.png" target="res/drawable-hdpi/devices.png" />
         <resource-file src="src/android/res/drawable-xxhdpi/devices.png" target="res/drawable-xxhdpi/devices.png" />
+
+        <resource-file src="src/android/res/drawable/closebutton.png" target="res/drawable/closebutton.png" />
+        <resource-file src="src/android/res/drawable-hdpi/closebutton.png" target="res/drawable-hdpi/closebutton.png" />
+        <resource-file src="src/android/res/drawable-xxhdpi/closebutton.png" target="res/drawable-xxhdpi/closebutton.png" />
+
+        <resource-file src="src/android/res/drawable/closebutton_onpress.png" target="res/drawable/closebutton_onpress.png" />
+        <resource-file src="src/android/res/drawable-hdpi/closebutton_onpress.png" target="res/drawable-hdpi/closebutton_onpress.png" />
+        <resource-file src="src/android/res/drawable-xxhdpi/closebutton_onpress.png" target="res/drawable-xxhdpi/closebutton_onpress.png" />
+
+        <resource-file src="src/android/res/drawable/closebutton_selector.xml" target="res/drawable/closebutton_selector.xml" />
+        <resource-file src="src/android/res/drawable-hdpi/closebutton_selector.xml" target="res/drawable-hdpi/closebutton_selector.xml" />
+        <resource-file src="src/android/res/drawable-xxhdpi/closebutton_selector.xml" target="res/drawable-xxhdpi/closebutton_selector.xml" />
+
         <resource-file src="src/android/res/layout/camera_overlay.xml" target="res/layout/camera_overlay.xml" />
 
         <source-file src="src/android/java/com/mattrayner/vuforia/app/ImageTargets.java"
