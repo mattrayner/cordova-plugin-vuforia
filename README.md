@@ -46,9 +46,16 @@ var options = {
 
 navigator.VuforiaPlugin.startVuforia(
   options,
-  function(data){
+  function(data) {
+    // To see exactly what `data` can return, see below.
     console.log(data);
-    alert("Image found: "+data.imageName);
+    
+    if(data.status.imageFound) {
+      alert("Image name: "+ data.result.imageName);
+    }
+    else if (data.status.manuallyClosed) {
+      alert("User manually closed Vuforia by pressing back!");
+    }
   },
   function(data) {
     alert("Error: " + data);
@@ -56,10 +63,39 @@ navigator.VuforiaPlugin.startVuforia(
 );
 ```
 
-**NOTES**:
+**NOTES:**
 * You will need to replace `YOUR_VUFORIA_KEY` with a valid license key for the plugin to launch correctly.
 * For testing you can use the `targets/PluginTest_Targets.pdf` file inside the plugin folder; it contains all four testing targets.
-* If you'd like to stop Vuforia programmatically for any reason (e.g. after a timer), there is the `dismiss()` method you can use, e.g.
+
+###### Return data API
+`startVuforia` takes two callbacks - one for `success` and one for `faliure`. When `success` is called, a `data` object is passed to cordova:
+
+**Image Found** - when an image has been successfully found, `data` returns:
+
+```json
+{
+  "status": {
+    "imageFound": true,
+    "message": "Image found."
+  },
+  "result": {
+    "imageName": "IMAGE_NAME"
+  }
+}
+```
+
+**NOTE:** `imageName` will return the name of the image found by Vuforia.
+
+**Manually Closed** - when a user has exited Vuforia via pressing the close/back button, `data` returns: 
+
+```json
+{
+  "status": {
+    "manuallyClosed": true,
+    "message": "User manually closed the plugin."
+  }
+}
+```
 
 ##### `stopVuforia` - Stop your Vuforia session
 From within your JavaScript file, add the following to stop the [Vuforia][vuforia] session.
@@ -91,7 +127,7 @@ We know that eventually you're going to want to use your own data. To do so, fol
 ##### `www/targets/`
 First, create a `targets/` folder inside `www/` and place your own `.xml` and `.dat` files inside.
 
-**Note:** Adding a `.pdf` file isn't required, but might be helpful for testing and development purposes.
+**NOTE:** Adding a `.pdf` file isn't required, but might be helpful for testing and development purposes.
 
 ##### JavaScript
 ###### `startVuforia(...)`
@@ -100,7 +136,7 @@ There are two pieces you will need to replace:
 1. `PluginTest.xml` - Replace with a reference to your custom data file e.g. `www/targets/CustomData.xml`
 1. `[ 'logo', 'iceland', 'canterbury-grass', 'brick-lane' ]` - Replace with the specific images for your data file that you are searching for.
 
-**Notes:**
+**NOTES:**
 * You don't have to search for all of the images in your data file each time. Your data file may contain 20 images, but for this particular action you may be only interested in two.
 * Data file paths can be either from the **resources folder** (which is the default) or **absolute** (in which case you'd start the `src` with `file://`). Absolute paths are useful if you'd like to access files in specific folders, like the iTunes sharing document folder for iOS, or the app root folder for Android.
 

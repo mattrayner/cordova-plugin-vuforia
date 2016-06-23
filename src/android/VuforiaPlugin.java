@@ -153,16 +153,39 @@ public class VuforiaPlugin extends CordovaPlugin {
             switch(resultCode){
                 case IMAGE_REC_RESULT:
                     try {
-                        JSONObject json = new JSONObject();
-                        json.put("imageName", name);
-                        callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
+                        JSONObject jsonObj = new JSONObject();
+
+                        JSONObject jsonStatus = new JSONObject();
+                        jsonStatus.put("imageFound", true);
+                        jsonStatus.put("message", "An image was found.");
+
+                        JSONObject jsonResult = new JSONObject();
+                        jsonResult.put("imageName", name);
+
+                        jsonObj.put("status", jsonStatus);
+                        jsonObj.put("result", jsonResult);
+
+                        callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, jsonObj));
                     }
-                    catch( JSONException e ) {
+                    catch(JSONException e) {
                         Log.d(LOGTAG, "JSON ERROR: " + e);
                     }
                     break;
                 case MANUAL_CLOSE_RESULT:
-                    Log.d(LOGTAG, "Vuforia closed manually.");
+                    try {
+                        JSONObject jsonObj = new JSONObject();
+
+                        JSONObject jsonStatus = new JSONObject();
+                        jsonStatus.put("manuallyClosed", true);
+                        jsonStatus.put("message", "User manually closed the plugin.");
+
+                        jsonObj.put("status", jsonStatus);
+
+                        callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, jsonObj));
+                    }
+                    catch( JSONException e ) {
+                        Log.d(LOGTAG, "JSON ERROR: " + e);
+                    }
                     break;
                 default:
                     Log.d(LOGTAG, "Error - received code: " + resultCode);

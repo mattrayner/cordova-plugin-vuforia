@@ -151,9 +151,9 @@
 
     [self doStopTrackers];
     NSLog(@"Vuforia Plugin :: button pressed!!!");
+    NSDictionary* userInfo = @{@"status": @{@"manuallyClosed": @true, @"message": @"User manually closed the plugin."}};
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"CloseRequest" object:self ];
-
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CloseRequest" object:self userInfo:userInfo];
 }
 
 
@@ -372,7 +372,7 @@
             {
                 [self doStopTrackers];
                 NSLog(@"Vuforia Plugin :: image found!!!");
-                NSDictionary* userInfo = @{@"imageName": imageName};
+                NSDictionary* userInfo = @{@"status": @{@"imageFound": @true, @"message": @"Image Found."}, @"result": @{@"imageName": imageName}};
 
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     NSLog(@"Vuforia Plugin :: messaged dispatched!!!");

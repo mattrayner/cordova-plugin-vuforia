@@ -47,25 +47,21 @@
     NSDictionary* userInfo = notification.userInfo;
 
     NSLog(@"Vuforia Plugin :: image matched");
-    // Create an object with a simple success property.
-    NSDictionary *jsonObj = [ [NSDictionary alloc]
-                             initWithObjectsAndKeys :
-                             userInfo[@"imageName"], @"imageName",
-                             @"true", @"success",
-                             nil
-                             ];
+    NSDictionary* jsonObj = @{@"status": @{@"imageFound": @true, @"message": @"Image Found."}, @"result": @{@"imageName": userInfo[@"result"][@"imageName"]}};
 
-    CDVPluginResult *pluginResult = [ CDVPluginResult
-                                     resultWithStatus    : CDVCommandStatus_OK
-                                     messageAsDictionary : jsonObj
-                                     ];
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsDictionary: jsonObj];
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.command.callbackId];
     [self VP_closeView];
-
 }
 
 - (void)closeRequest:(NSNotification *)notification {
+
+    NSDictionary* jsonObj = @{@"status": @{@"manuallyClosed": @true, @"message": @"User manually closed the plugin."}};
+
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsDictionary: jsonObj];
+
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:self.command.callbackId];
     [self VP_closeView];
 }
 
