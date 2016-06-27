@@ -1,6 +1,8 @@
 # ![Cordova-Plugin-Vuforia][logo]
 Cordova-Plugin-Vuforia is a [Cordova][cordova] plugin that uses [Vuforia][vuforia] to perform image recognition.
 
+> **NOTE:** The documentation below is for an upcoming version of the plugin, if you are looking for `v2.*` documentation, click [here](https://github.com/mattrayner/cordova-plugin-vuforia/tree/2.1.0).
+
 You can see a live example in the [Peugeot 208][peugeot] app on iOS and Android and a basic open source example in the [cordova-vuforia-example][example-repo] repo.
 
 [![NPM Version][shield-npm]][info-npm]
