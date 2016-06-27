@@ -24,6 +24,8 @@ public class VuforiaPlugin extends CordovaPlugin {
     public static final String CAMERA = Manifest.permission.CAMERA;
     public static final String PLUGIN_ACTION = "org.cordova.plugin.vuforia.action";
     public static final String DISMISS_ACTION = "dismiss";
+    public static final String PAUSE_ACTION = "pause";
+    public static final String RESUME_ACTION = "resume";
 
     public static final int IMAGE_REC_RESULT = 0;
     public static final int MANUAL_CLOSE_RESULT = 1;
@@ -65,6 +67,7 @@ public class VuforiaPlugin extends CordovaPlugin {
             String vuforiaLicense = args.getString(3);
             Boolean closeButton = args.getBoolean(4);
             Boolean showDevicesIcon = args.getBoolean(5);
+            Boolean autostopOnImageFound = args.getBoolean(6);
 
             Log.d(LOGTAG, "Args: "+args);
             Log.d(LOGTAG, "Text: "+overlayText);
@@ -80,6 +83,7 @@ public class VuforiaPlugin extends CordovaPlugin {
             intent.putExtra("LICENSE_KEY", vuforiaLicense);
             intent.putExtra("DISPLAY_CLOSE_BUTTON", closeButton);
             intent.putExtra("DISPLAY_DEVICES_ICON", showDevicesIcon);
+            intent.putExtra("STOP_AFTER_IMAGE_FOUND", autostopOnImageFound);
 
             if(cordova.hasPermission(CAMERA)) {
                 // Launch a new activity with Vuforia in it. Expect it to return a result.
@@ -108,12 +112,19 @@ public class VuforiaPlugin extends CordovaPlugin {
             callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
 
             if(vuforiaStarted) {
-                Intent dismissIntent = new Intent(PLUGIN_ACTION);
-                dismissIntent.putExtra(PLUGIN_ACTION, DISMISS_ACTION);
-
-                this.cordova.getActivity().sendBroadcast(dismissIntent);
+                sendAction(DISMISS_ACTION);
                 vuforiaStarted = false;
             }
+        }else if(action.equals("pauseVuforia")){
+            Log.d(LOGTAG, "Pausing trackers");
+            
+            sendSuccessPluginResult();
+            sendAction(PAUSE_ACTION);
+        }else if(action.equals("resumeVuforia")){
+            Log.d(LOGTAG, "Resuming trackers");
+
+            sendSuccessPluginResult();
+            sendAction(RESUME_ACTION);
         }
 
         return true;
@@ -192,5 +203,22 @@ public class VuforiaPlugin extends CordovaPlugin {
             }
         }
         vuforiaStarted = false;
+    }
+
+    private void sendAction(String action){
+        Intent resumeIntent = new Intent(PLUGIN_ACTION);
+        resumeIntent.putExtra(PLUGIN_ACTION, action);
+        this.cordova.getActivity().sendBroadcast(resumeIntent);
+    }
+
+    private void sendSuccessPluginResult(){
+        try {
+            JSONObject json = new JSONObject();
+            json.put("success", "true");
+            callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
+        }
+        catch( JSONException e ) {
+            Log.d(LOGTAG, "JSON ERROR: " + e);
+        }
     }
 }

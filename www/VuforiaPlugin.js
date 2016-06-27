@@ -34,6 +34,9 @@ var VuforiaPlugin = {
     var vuforiaLicense = options.vuforiaLicense;
     var showAndroidCloseButton = options.showAndroidCloseButton?true:false;
     var showDevicesIcon = options.showDevicesIcon ? true : false;
+    var autostopOnImageFound = true;
+    if (typeof options.autostopOnImageFound !== "undefined" && options.autostopOnImageFound !==null && !options.autostopOnImageFound)
+      autostopOnImageFound = false;
 
     cordova.exec(
       // Register the callback handler
@@ -49,7 +52,7 @@ var VuforiaPlugin = {
       // Execute this method on the above class
       'cordovaStartVuforia',
       // Provide an array of arguments above method
-      [ imageFile , imageTargets, overlayCopy, vuforiaLicense, showAndroidCloseButton, showDevicesIcon ]
+      [ imageFile , imageTargets, overlayCopy, vuforiaLicense, showAndroidCloseButton, showDevicesIcon, autostopOnImageFound ]
     );
   },
 
@@ -73,6 +76,44 @@ var VuforiaPlugin = {
       VuforiaPlugin.pluginClass,
       // Execute this method on the above class
       'cordovaStopVuforia',
+      // Provide an empty array of arguments to the above method
+      []
+    );
+  },
+
+  pauseVuforia: function(success, errorCallback){
+    cordova.exec(
+      // Register the callback handler
+      function callback(data) {
+        success(data);
+      },
+      // Register the error handler
+      function errorHandler(err) {
+        VuforiaPlugin.errorHandler(err, errorCallback);
+      },
+      // Define what class to route messages to
+      VuforiaPlugin.pluginClass,
+      // Execute this method on the above class
+      'pauseVuforia',
+      // Provide an empty array of arguments to the above method
+      []
+    );
+  },
+
+  resumeVuforia: function(success, errorCallback){
+    cordova.exec(
+      // Register the callback handler
+      function callback(data) {
+        success(data);
+      },
+      // Register the error handler
+      function errorHandler(err) {
+        VuforiaPlugin.errorHandler(err, errorCallback);
+      },
+      // Define what class to route messages to
+      VuforiaPlugin.pluginClass,
+      // Execute this method on the above class
+      'resumeVuforia',
       // Provide an empty array of arguments to the above method
       []
     );

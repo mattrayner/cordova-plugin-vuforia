@@ -1,10 +1,13 @@
 #import "ViewController.h"
 #import "ImageTargetsViewController.h"
 
+#import <QCAR/TrackerManager.h>
+#import <QCAR/ObjectTracker.h>
 
 @interface ViewController ()
 
 @property BOOL launchedCamera;
+@property ImageTargetsViewController *imageTargetsViewController;
 
 @end
 
@@ -36,19 +39,27 @@
     [super viewDidAppear:animated];
 
     if (self.launchedCamera == false) {
-        ImageTargetsViewController *vc = [[ImageTargetsViewController alloc]  initWithOverlayOptions:self.overlayOptions vuforiaLicenseKey:self.vuforiaLicenseKey];
+        self.imageTargetsViewController = [[ImageTargetsViewController alloc]  initWithOverlayOptions:self.overlayOptions vuforiaLicenseKey:self.vuforiaLicenseKey];
         self.launchedCamera = true;
 
-        vc.imageTargetFile = [self.imageTargets objectForKey:@"imageTargetFile"];
-        vc.imageTargetNames = [self.imageTargets objectForKey:@"imageTargetNames"];
+        self.imageTargetsViewController.imageTargetFile = [self.imageTargets objectForKey:@"imageTargetFile"];
+        self.imageTargetsViewController.imageTargetNames = [self.imageTargets objectForKey:@"imageTargetNames"];
 
-        [self.navigationController pushViewController:vc animated:YES];
+        [self.navigationController pushViewController:self.imageTargetsViewController animated:YES];
     }
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (bool) stopTrackers {
+    return [self.imageTargetsViewController doStopTrackers];
+}
+
+- (bool) startTrackers {
+    return [self.imageTargetsViewController doStartTrackers];
 }
 
 - (void)dismissMe {

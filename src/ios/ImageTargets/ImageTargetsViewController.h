@@ -35,5 +35,7 @@
 @property (nonatomic) bool delaying;
 
 - (id)initWithOverlayOptions:(NSDictionary *)overlayOptions vuforiaLicenseKey:(NSString *)vuforiaLicenseKey;
+- (bool) doStartTrackers;
+- (bool) doStopTrackers;
 
 @end
