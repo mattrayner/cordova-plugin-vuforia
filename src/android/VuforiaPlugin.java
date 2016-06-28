@@ -115,12 +115,12 @@ public class VuforiaPlugin extends CordovaPlugin {
                 sendAction(DISMISS_ACTION);
                 vuforiaStarted = false;
             }
-        }else if(action.equals("pauseVuforia")){
+        }else if(action.equals("cordovaStopTrackers")){
             Log.d(LOGTAG, "Pausing trackers");
-            
+
             sendSuccessPluginResult();
             sendAction(PAUSE_ACTION);
-        }else if(action.equals("resumeVuforia")){
+        }else if(action.equals("cordovaStartTrackers")){
             Log.d(LOGTAG, "Resuming trackers");
 
             sendSuccessPluginResult();

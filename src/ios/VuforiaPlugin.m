@@ -61,11 +61,11 @@
     [self VP_closeView];
 }
 
-- (void) pauseVuforia:(CDVInvokedUrlCommand *)command{
+- (void) cordovaStopTrackers:(CDVInvokedUrlCommand *)command{
     [self.imageRecViewController stopTrackers];
 }
 
-- (void) resumeVuforia:(CDVInvokedUrlCommand *)command{
+- (void) cordovaStartTrackers:(CDVInvokedUrlCommand *)command{
     [self.imageRecViewController startTrackers];
 }
 
