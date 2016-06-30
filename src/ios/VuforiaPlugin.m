@@ -62,11 +62,15 @@
 }
 
 - (void) cordovaStopTrackers:(CDVInvokedUrlCommand *)command{
-    [self.imageRecViewController stopTrackers];
+    bool result = [self.imageRecViewController stopTrackers];
+
+    [self handleResultMessage:result command:command];
 }
 
 - (void) cordovaStartTrackers:(CDVInvokedUrlCommand *)command{
-    [self.imageRecViewController startTrackers];
+    bool result = [self.imageRecViewController startTrackers];
+
+    [self handleResultMessage:result command:command];
 }
 
 #pragma mark - Util_Methods
@@ -114,8 +118,6 @@
     [self VP_closeView];
 }
 
-
-
 - (void) VP_closeView {
     if(self.startedVuforia == true){
         UINavigationController *nc = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
@@ -123,6 +125,37 @@
 
         self.startedVuforia = false;
     }
+}
+
+-(void) handleResultMessage:(bool)result command:(CDVInvokedUrlCommand *)command {
+    if(result){
+        [self sendSuccessMessage:command];
+    } else {
+        [self sendErrorMessage:command];
+    }
+}
+
+-(void) sendSuccessMessage:(CDVInvokedUrlCommand *)command {
+    NSDictionary *jsonObj = [ [NSDictionary alloc] initWithObjectsAndKeys :
+                             @"true", @"success",
+                             nil
+                             ];
+
+    CDVPluginResult *pluginResult = [ CDVPluginResult
+                                     resultWithStatus    : CDVCommandStatus_OK
+                                     messageAsDictionary : jsonObj
+                                     ];
+
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+}
+
+-(void) sendErrorMessage:(CDVInvokedUrlCommand *)command {
+    CDVPluginResult *pluginResult = [ CDVPluginResult
+                                     resultWithStatus    : CDVCommandStatus_ERROR
+                                     messageAsString: @"Did not successfully complete"
+                                     ];
+
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 @end
