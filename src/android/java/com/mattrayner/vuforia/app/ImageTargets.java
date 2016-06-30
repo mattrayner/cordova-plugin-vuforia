@@ -10,13 +10,6 @@ package com.mattrayner.vuforia.app;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import org.json.JSONObject;
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.PluginResult;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
