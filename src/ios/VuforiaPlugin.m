@@ -93,6 +93,10 @@
 
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsDictionary: jsonObj];
 
+    if(!self.autostopOnImageFound){
+        [pluginResult setKeepCallbackAsBool:TRUE];
+    }
+
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.command.callbackId];
 
     if(self.autostopOnImageFound){

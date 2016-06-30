@@ -52,10 +52,10 @@
         <!-- Add our activities to the Android Manifest -->
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <activity
-                    android:name="com.mattrayner.vuforia.app.ImageTargets"
-                    android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
-                    android:screenOrientation="landscape"
-                    android:noHistory="true">
+                android:name="com.mattrayner.vuforia.app.ImageTargets"
+                android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
+                android:screenOrientation="landscape"
+                android:noHistory="true">
             </activity>
         </config-file>
 
@@ -126,6 +126,11 @@
             <feature name="VuforiaPlugin">
                 <param name="ios-package" value="VuforiaPlugin" />
             </feature>
+        </config-file>
+
+        <!-- Add a value to our Info.plist file for iOS 10+ security permissions -->
+        <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
+            <string>To scan for images.</string>
         </config-file>
 
         <header-file src="src/ios/VuforiaPlugin.h" />

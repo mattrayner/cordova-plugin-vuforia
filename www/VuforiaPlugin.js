@@ -23,12 +23,12 @@ var VuforiaPlugin = {
    * @param {boolean} options.showAndroidCloseButton (Optional). Display or not the close button on Android.
    * @param {boolean} options.showDevicesIcon (Optional). Display or not the devices icon
    * @param {boolean} options.autoStopOnImageFound (Optional). When finding an image, should the plugin automatically return to Cordova?
-   * @param {function} imageFoundCallback A callback for when an image is found. Passes a data object with the image
+   * @param {function} successCallback A callback for when an image is found. Passes a data object with the image
    *                                      name inside.
    * @param {function|null} errorCallback A callback for when an error occurs. Could include device not having a camera,
    *                                      or invalid Vuforia key. Passes an error string with more information.
    */
-  startVuforia: function(options, imageFoundCallback, errorCallback){
+  startVuforia: function(options, successCallback, errorCallback){
     var exec_options,
       databaseXmlFile = options.databaseXmlFile,
       targetList = options.targetList,
@@ -43,7 +43,7 @@ var VuforiaPlugin = {
 
     exec_options = [ databaseXmlFile , targetList, overlayMessage, vuforiaLicense, showAndroidCloseButton, showDevicesIcon, autostopOnImageFound ];
 
-    VuforiaPlugin.exec(imageFoundCallback, errorCallback, 'cordovaStartVuforia', exec_options);
+    VuforiaPlugin.exec(successCallback, errorCallback, 'cordovaStartVuforia', exec_options);
   },
 
   /**
@@ -103,9 +103,7 @@ var VuforiaPlugin = {
   exec: function(success, error, method, options) {
     cordova.exec(
       // Register the success callback
-      function successCallback(data) {
-        success(data);
-      },
+      success,
       // Register the error callback
       function errorCallback(err) {
         VuforiaPlugin.errorHandler(err, error);

@@ -10,6 +10,13 @@ package com.mattrayner.vuforia.app;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.PluginResult;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -127,7 +134,7 @@ public class ImageTargets extends Activity implements ApplicationControl
             String receivedAction = intent.getExtras().getString(VuforiaPlugin.PLUGIN_ACTION);
 
             if (receivedAction.equals(VuforiaPlugin.DISMISS_ACTION)) {
-                onBackPressed();
+                doFinish();
             }else if(receivedAction.equals(VuforiaPlugin.PAUSE_ACTION)){
                 doStopTrackers();
             }else if(receivedAction.equals(VuforiaPlugin.RESUME_ACTION)){
@@ -718,19 +725,33 @@ public class ImageTargets extends Activity implements ApplicationControl
         super.onBackPressed();
     }
 
+    public void doFinish() {
+        Intent mIntent = new Intent();
+        setResult(VuforiaPlugin.NO_RESULT, mIntent);
+        super.onBackPressed();
+    }
+
     public void handleCloseButton(View view){
         onBackPressed();
     }
 
-    public void imageFound(String imageName){
+    public void imageFound(String imageName) {
         Context context =  this.getApplicationContext();
         Intent resultIntent = new Intent();
         resultIntent.putExtra("name", imageName);
+
         this.setResult(0, resultIntent);
 
         doStopTrackers();
 
-        if(mAutostopOnImageFound)
+        Log.d(LOGTAG, "mAuto Stop On Image Found: " + mAutostopOnImageFound);
+
+        if(mAutostopOnImageFound) {
             this.finish();
+        } else {
+            Log.d(LOGTAG, "Sending repeat callback");
+
+            VuforiaPlugin.sendImageFoundUpdate(imageName);
+        }
     }
 }

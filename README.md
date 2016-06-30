@@ -46,9 +46,9 @@ Android (Minimum 4), iOS (Minimum 8)
 ## Requirements
 Cordova-Plugin-Vuforia requires the following:
 * [npm][npm]
-* [Cordova 6.*][cordova] - 6.* is required as it adds support for Android 6 (Marshmellow) and iOS 9.
+* [Cordova 6.*][cordova] - 6.* is required as of v2.1 of this plugin, it adds support for Android 6 (Marshmellow) and iOS 9.
   * If you haven't yet installed the Cordova CLI, grab the latest version by following [these steps][install-cordova].
-  * If you've already got a project running with an older version of Cordova (e.g. 4 or 5), [see here][updating-cordova] how to update your project's Cordova version.
+  * If you've already got a project running with an older version of Cordova, [see here][updating-cordova] for instructions on how to update your project's Cordova version.
   * Or if you want to upgrade to the latest version on a platform-by-platform basis, see either [upgrading to cordova-ios 4][upgrading-ios] or [upgrading to cordova-android 5][upgrading-android].
 
 > **NOTE:** You will require an Android or iOS device for development and testing. Cordova-Plugin-Vuforia requires hardware and software support that is not present in either the iOS or Android simulators.
@@ -62,14 +62,14 @@ cordova plugin add cordova-plugin-vuforia
 
 
 ### JavaScript
-Cordova-Plugin-Vuforia comes with these JavaScript methods:
+Cordova-Plugin-Vuforia comes with the following JavaScript methods:
 
 Method | Description
 --- | ---
-[`startVuforia`](#startvuforia---start-your-vuforia-session) | **Begin a Vuforia session** - Launch the camera and begin searching for images to recognise.
-[`stopVuforia`](#stopvuforia---stop-your-vuforia-session) | **Stop a Vuforia session** - Close the camera and return back to Cordova.
-[`stopVuforiaTrackers`](#stopvuforiatrackers---stop-vuforia-image-trackers) | **Stop the Vuforia tracking system** - Leave the Vuforia camera running, just stop searching for images.
-[`startVuforiaTrackers`](#startvuforiatrackers---start-vuforia-image-trackers) | **Start the Vuforia tracking system** - Leave the Vuforia camera running and start searching for images again.
+[`startVuforia`][start-vuforia-doc-link] | **Begin a Vuforia session** - Launch the camera and begin searching for images to recognise.
+[`stopVuforia`][stop-vuforia-doc-link] | **Stop a Vuforia session** - Close the camera and return back to Cordova.
+[`stopVuforiaTrackers`][stop-vuforia-trackers-doc-link] | **Stop the Vuforia tracking system** - Leave the Vuforia camera running, just stop searching for images.
+[`startVuforiaTrackers`][start-vuforia-trackers-doc-link] | **Start the Vuforia tracking system** - Leave the Vuforia camera running and start searching for images again.
 
 #### `startVuforia` - Start your Vuforia session
 From within your JavaScript file, add the following to launch the [Vuforia][vuforia] session.
@@ -85,7 +85,7 @@ var options = {
 navigator.VuforiaPlugin.startVuforia(
   options,
   function(data) {
-    // To see exactly what `data` can return, see below.
+    // To see exactly what `data` can return, see 'Success callback `data` API' within the plugin's documentation.
     console.log(data);
     
     if(data.status.imageFound) {
@@ -309,3 +309,8 @@ Cordova-Plugin-Vuforia is licensed under the [MIT License][info-license].
 [shield-license]: https://img.shields.io/badge/license-MIT-blue.svg
 [shield-bithound]: https://www.bithound.io/github/mattrayner/cordova-plugin-vuforia/badges/score.svg
 [shield-cordova]: https://img.shields.io/badge/cordova%20support-6.*-blue.svg
+
+[start-vuforia-doc-link]: #startvuforia---start-your-vuforia-session
+[stop-vuforia-doc-link]: #stopvuforia---stop-your-vuforia-session
+[stop-vuforia-trackers-doc-link]: #stopvuforiatrackers---stop-vuforia-image-trackers
+[start-vuforia-trackers-doc-link]: #startvuforiatrackers---start-vuforia-image-trackers
