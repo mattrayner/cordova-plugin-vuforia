@@ -4,7 +4,7 @@
 
 - (void) cordovaStartVuforia:(CDVInvokedUrlCommand *)command;
 - (void) cordovaStopVuforia:(CDVInvokedUrlCommand *)command;
-- (void) pauseVuforia:(CDVInvokedUrlCommand *)command;
-- (void) resumeVuforia:(CDVInvokedUrlCommand *)command;
+- (void) cordovaStopTrackers:(CDVInvokedUrlCommand *)command;
+- (void) cordovaStartTrackers:(CDVInvokedUrlCommand *)command;
 
 @end

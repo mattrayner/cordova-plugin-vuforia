@@ -61,11 +61,11 @@
     [self VP_closeView];
 }
 
-- (void) pauseVuforia:(CDVInvokedUrlCommand *)command{
+- (void) cordovaStopTrackers:(CDVInvokedUrlCommand *)command{
     [self.imageRecViewController stopTrackers];
 }
 
-- (void) resumeVuforia:(CDVInvokedUrlCommand *)command{
+- (void) cordovaStartTrackers:(CDVInvokedUrlCommand *)command{
     [self.imageRecViewController startTrackers];
 }
 
@@ -92,6 +92,10 @@
     NSDictionary* jsonObj = @{@"status": @{@"imageFound": @true, @"message": @"Image Found."}, @"result": @{@"imageName": userInfo[@"result"][@"imageName"]}};
 
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus: CDVCommandStatus_OK messageAsDictionary: jsonObj];
+
+    if(!self.autostopOnImageFound){
+        [pluginResult setKeepCallbackAsBool:TRUE];
+    }
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.command.callbackId];
 

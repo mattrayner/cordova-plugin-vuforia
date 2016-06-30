@@ -27,9 +27,12 @@ public class VuforiaPlugin extends CordovaPlugin {
     public static final String PAUSE_ACTION = "pause";
     public static final String RESUME_ACTION = "resume";
 
+    public static CallbackContext persistantVuforiaStartCallback;
+
     public static final int IMAGE_REC_RESULT = 0;
     public static final int MANUAL_CLOSE_RESULT = 1;
     public static final int ERROR_RESULT = 2;
+    public static final int NO_RESULT = 3;
 
     private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
 
@@ -41,6 +44,7 @@ public class VuforiaPlugin extends CordovaPlugin {
     static final int IMAGE_REC_REQUEST = 1;
 
     private boolean vuforiaStarted = false;
+    private boolean autostopOnImageFound = true;
 
     CallbackContext callback;
 
@@ -58,6 +62,9 @@ public class VuforiaPlugin extends CordovaPlugin {
         callback = callbackContext;
 
         if(action.equals("cordovaStartVuforia")) {
+            // If we are starting Vuforia, set the public variable referencing our start action callback
+            VuforiaPlugin.persistantVuforiaStartCallback = callbackContext;
+
             ACTION = action;
             ARGS = args;
 
@@ -67,7 +74,7 @@ public class VuforiaPlugin extends CordovaPlugin {
             String vuforiaLicense = args.getString(3);
             Boolean closeButton = args.getBoolean(4);
             Boolean showDevicesIcon = args.getBoolean(5);
-            Boolean autostopOnImageFound = args.getBoolean(6);
+            autostopOnImageFound = args.getBoolean(6);
 
             Log.d(LOGTAG, "Args: "+args);
             Log.d(LOGTAG, "Text: "+overlayText);
@@ -109,18 +116,20 @@ public class VuforiaPlugin extends CordovaPlugin {
                 json.put("message", "No Vuforia session running");
             }
 
-            callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, json));
+            PluginResult result = new PluginResult(PluginResult.Status.OK, json);
+            result.setKeepCallback(false);
+            callback.sendPluginResult(result);
 
             if(vuforiaStarted) {
                 sendAction(DISMISS_ACTION);
                 vuforiaStarted = false;
             }
-        }else if(action.equals("pauseVuforia")){
+        }else if(action.equals("cordovaStopTrackers")){
             Log.d(LOGTAG, "Pausing trackers");
-            
+
             sendSuccessPluginResult();
             sendAction(PAUSE_ACTION);
-        }else if(action.equals("resumeVuforia")){
+        }else if(action.equals("cordovaStartTrackers")){
             Log.d(LOGTAG, "Resuming trackers");
 
             sendSuccessPluginResult();
@@ -143,6 +152,10 @@ public class VuforiaPlugin extends CordovaPlugin {
                 break;
         }
 
+    }
+
+    public void asyncResult(int resultCode, Intent data){
+        Log.d(LOGTAG, "GOT DATA: " + data);
     }
 
     @Override
@@ -176,7 +189,9 @@ public class VuforiaPlugin extends CordovaPlugin {
                         jsonObj.put("status", jsonStatus);
                         jsonObj.put("result", jsonResult);
 
-                        callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, jsonObj));
+                        PluginResult result = new PluginResult(PluginResult.Status.OK, jsonObj);
+
+                        persistantVuforiaStartCallback.sendPluginResult(result);
                     }
                     catch(JSONException e) {
                         Log.d(LOGTAG, "JSON ERROR: " + e);
@@ -192,7 +207,7 @@ public class VuforiaPlugin extends CordovaPlugin {
 
                         jsonObj.put("status", jsonStatus);
 
-                        callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, jsonObj));
+                        persistantVuforiaStartCallback.sendPluginResult(new PluginResult(PluginResult.Status.OK, jsonObj));
                     }
                     catch( JSONException e ) {
                         Log.d(LOGTAG, "JSON ERROR: " + e);
@@ -220,5 +235,29 @@ public class VuforiaPlugin extends CordovaPlugin {
         catch( JSONException e ) {
             Log.d(LOGTAG, "JSON ERROR: " + e);
         }
+    }
+
+    public static void sendImageFoundUpdate(String imageName){
+        Log.d(LOGTAG, "SENDING UPDATE: Attempting to send an update for image: " + imageName);
+
+        JSONObject jsonObj = new JSONObject();;
+
+        try {
+            JSONObject jsonStatus = new JSONObject();
+            jsonStatus.put("imageFound", true);
+            jsonStatus.put("message", "An image was found.");
+
+            JSONObject jsonResult = new JSONObject();
+            jsonResult.put("imageName", imageName);
+
+            jsonObj.put("status", jsonStatus);
+            jsonObj.put("result", jsonResult);
+        } catch (JSONException e) {
+            Log.d(LOGTAG, "JSON ERROR: " + e);
+        }
+
+        PluginResult result = new PluginResult(PluginResult.Status.OK, jsonObj);
+        result.setKeepCallback(true);
+        persistantVuforiaStartCallback.sendPluginResult(result);
     }
 }

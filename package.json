@@ -1,7 +1,7 @@
 {
   "name": "cordova-plugin-vuforia",
   "description": "Cordova Vuforia Plugin",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "homepage": "https://github.com/mattrayner/cordova-plugin-vuforia",
   "repository": {
     "type": "git",
@@ -27,12 +27,25 @@
     "recognition",
     "mattrayner"
   ],
-  "engines": [
-    {
-      "name": "cordova",
-      "version": ">=5.0.0"
+  "engines": {
+    "cordovaDependencies": {
+      ">=0.0.1": {
+        "cordova": ">=5.0.0"
+      },
+      "<2.0.0": {
+        "cordova-ios": ">=3.0.0 <4.0.0",
+        "cordova-android": ">=4.0.0 <5.0.0"
+      },
+      ">=2.0.0": {
+        "cordova": ">=6.0.0",
+        "cordova-ios": ">=4.0.0",
+        "cordova-android": ">=5.0.0"
+      },
+      ">=3.0.0": {
+        "cordova": ">=6.1.0"
+      }
     }
-  ],
+  },
   "author": "Matthew Rayner",
   "license": "MIT"
 }
