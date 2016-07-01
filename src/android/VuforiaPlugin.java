@@ -29,6 +29,7 @@ public class VuforiaPlugin extends CordovaPlugin {
     public static final String DISMISS_ACTION = "dismiss";
     public static final String PAUSE_ACTION = "pause";
     public static final String RESUME_ACTION = "resume";
+    public static final String UPDATE_TARGETS_ACTION = "update_targets";
 
     // Save some ENUM values to describe plugin results
     public static final int IMAGE_REC_RESULT = 0;
@@ -79,6 +80,9 @@ public class VuforiaPlugin extends CordovaPlugin {
         else if(action.equals("cordovaStartTrackers")) {
             startVuforiaTrackers(action, args, callbackContext);
         }
+        else if(action.equals("cordovaUpdateTargets")) {
+            updateVuforiaTargets(action, args, callbackContext);
+        }
         else {
             return false;
         }
@@ -87,7 +91,7 @@ public class VuforiaPlugin extends CordovaPlugin {
     }
 
     // Start our Vuforia activities
-    public void startVuforia(String action, JSONArray args, CallbackContext callbackContext) {
+    public void startVuforia(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         // If we are starting Vuforia, set the public variable referencing our start callback for later use
         VuforiaPlugin.persistantVuforiaStartCallback = callbackContext;
 
@@ -172,6 +176,19 @@ public class VuforiaPlugin extends CordovaPlugin {
         Log.d(LOGTAG, "Resuming trackers");
 
         sendAction(RESUME_ACTION);
+
+        sendSuccessPluginResult();
+    }
+
+    // Start Vuforia trackers
+    public void updateVuforiaTargets(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+        Log.d(LOGTAG, "Updating targets");
+
+        Log.d(LOGTAG, "ARGS: "+args);
+
+        String targets = args.getJSONArray(0).toString();
+
+        sendAction(UPDATE_TARGETS_ACTION, targets);
 
         sendSuccessPluginResult();
     }
@@ -272,6 +289,14 @@ public class VuforiaPlugin extends CordovaPlugin {
     private void sendAction(String action){
         Intent resumeIntent = new Intent(PLUGIN_ACTION);
         resumeIntent.putExtra(PLUGIN_ACTION, action);
+        this.cordova.getActivity().sendBroadcast(resumeIntent);
+    }
+
+    // Send a broadcast to our open activity (probably Vuforia)
+    private void sendAction(String action, String data){
+        Intent resumeIntent = new Intent(PLUGIN_ACTION);
+        resumeIntent.putExtra(PLUGIN_ACTION, action);
+        resumeIntent.putExtra("ACTION_DATA", data);
         this.cordova.getActivity().sendBroadcast(resumeIntent);
     }
 
