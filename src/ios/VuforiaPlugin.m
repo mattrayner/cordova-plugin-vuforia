@@ -38,23 +38,23 @@
         NSLog(@"Vuforia Plugin :: Stopping plugin");
 
         jsonObj = [ [NSDictionary alloc] initWithObjectsAndKeys :
-                     @"true", @"success",
-                     nil
+                   @"true", @"success",
+                   nil
                    ];
     }else{
         NSLog(@"Vuforia Plugin :: Cannot stop the plugin because it wasn't started");
 
         jsonObj = [ [NSDictionary alloc] initWithObjectsAndKeys :
-                     @"false", @"success",
-                     @"No Vuforia session running", @"message",
-                     nil
+                   @"false", @"success",
+                   @"No Vuforia session running", @"message",
+                   nil
                    ];
     }
 
     CDVPluginResult *pluginResult = [ CDVPluginResult
                                      resultWithStatus    : CDVCommandStatus_OK
                                      messageAsDictionary : jsonObj
-                                    ];
+                                     ];
 
     [self.commandDelegate sendPluginResult:pluginResult callbackId:self.command.callbackId];
 
@@ -69,6 +69,29 @@
 
 - (void) cordovaStartTrackers:(CDVInvokedUrlCommand *)command{
     bool result = [self.imageRecViewController startTrackers];
+
+    [self handleResultMessage:result command:command];
+}
+
+- (void) cordovaUpdateTargets:(CDVInvokedUrlCommand *)command{
+    NSArray *targets = [command.arguments objectAtIndex:0];
+
+    // We need to ensure our targets are flatened, if we pass an array of items it'll crash if we dont
+    NSMutableArray *flattenedTargets = [[NSMutableArray alloc] init];
+    for (int i = 0; i < targets.count ; i++)
+    {
+        if([[targets objectAtIndex:i] respondsToSelector:@selector(count)]) {
+            [flattenedTargets addObjectsFromArray:[targets objectAtIndex:i]];
+        } else {
+            [flattenedTargets addObject:[targets objectAtIndex:i]];
+        }
+    }
+
+    targets = [flattenedTargets copy];
+
+    NSLog(@"Updating targets: %@", targets);
+
+    bool result = [self.imageRecViewController updateTargets:targets];
 
     [self handleResultMessage:result command:command];
 }

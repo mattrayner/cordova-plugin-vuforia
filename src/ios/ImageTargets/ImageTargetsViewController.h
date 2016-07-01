@@ -37,5 +37,6 @@
 - (id)initWithOverlayOptions:(NSDictionary *)overlayOptions vuforiaLicenseKey:(NSString *)vuforiaLicenseKey;
 - (bool) doStartTrackers;
 - (bool) doStopTrackers;
+- (bool) doUpdateTargets:(NSArray *)targets;
 
 @end
