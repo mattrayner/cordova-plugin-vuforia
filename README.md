@@ -29,6 +29,7 @@ You can see a live example in the [Peugeot 208][peugeot] app on iOS and Android 
     - [`stopVuforia` - Stop your Vuforia session](#stopvuforia---stop-your-vuforia-session)
     - [`stopVuforiaTrackers` - Stop Vuforia image trackers](#stopvuforiatrackers---stop-vuforia-image-trackers)
     - [`startVuforiaTrackers` - Start Vuforia image trackers](#startvuforiatrackers---start-vuforia-image-trackers)
+    - [`updateVuforiaTargets` - Update the list of targets Vuforia is searching for](#updatevuforiatargets---update-the-list-of-targets-vuforia-is-searching-for)
   - [Using your own data](#using-your-own-data)
     - [`www/targets/`](#wwwtargets)
     - [JavaScript](#javascript-1)
@@ -70,6 +71,7 @@ Method | Description
 [`stopVuforia`][stop-vuforia-doc-link] | **Stop a Vuforia session** - Close the camera and return back to Cordova.
 [`stopVuforiaTrackers`][stop-vuforia-trackers-doc-link] | **Stop the Vuforia tracking system** - Leave the Vuforia camera running, just stop searching for images.
 [`startVuforiaTrackers`][start-vuforia-trackers-doc-link] | **Start the Vuforia tracking system** - Leave the Vuforia camera running and start searching for images again.
+[`updateVuforiaTargets`][update-vuforia-targets-doc-link] | **Update Vuforia target list** - Update the list of images we are searching for, but leave the camera and Vuforia running.
 
 #### `startVuforia` - Start your Vuforia session
 From within your JavaScript file, add the following to launch the [Vuforia][vuforia] session.
@@ -237,6 +239,26 @@ navigator.VuforiaPlugin.startVuforiaTrackers(
 ```
 
 
+#### `updateVuforiaTargets` - Update the list of targets Vuforia is searching for
+From within your JavaScript file, add the following to update the list of images [Vuforia][vuforia] is searching for. `updateVuforiaTargets` takes three options, an array of images you want to scan for, a callback for `success` and a callback for `faliure`.
+
+**Why?** - Well, you may want to change the images you are searching for after launching Vuforia. For example, consider a scenario where a game requires users to scan images one after another in a certain order. For example, a museum app may want you to scan all of the Rembrandt paintings in a room from oldest to newest to unlock some content. This method can offload the burdon of decision from your app to Vuforia, instead of writing login in your JavaScript, we're letting Vuforia take care of it.
+
+```javascript
+navigator.VuforiaPlugin.updateVuforiaTargets(
+    ['iceland', 'canterbury-grass'], // Only return a success if the 'iceland' or 'canterbury-grass' images are found.
+    function(data){
+        console.log(data);
+        
+        alert('Updated trackers');
+    },
+    function(data) {
+        alert("Error: " + data);
+    }
+);
+```
+
+
 ### Using your own data
 We know that eventually you're going to want to use your own data. To do so, follow these extra steps.
 
@@ -314,3 +336,4 @@ Cordova-Plugin-Vuforia is licensed under the [MIT License][info-license].
 [stop-vuforia-doc-link]: #stopvuforia---stop-your-vuforia-session
 [stop-vuforia-trackers-doc-link]: #stopvuforiatrackers---stop-vuforia-image-trackers
 [start-vuforia-trackers-doc-link]: #startvuforiatrackers---start-vuforia-image-trackers
+[update-vuforia-targets-doc-link]: #updatevuforiatargets---update-the-list-of-targets-vuforia-is-searching-for

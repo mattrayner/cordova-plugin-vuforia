@@ -62,6 +62,10 @@
     return [self.imageTargetsViewController doStartTrackers];
 }
 
+- (bool) updateTargets:(NSArray *)targets {
+    return [self.imageTargetsViewController doUpdateTargets:targets];
+}
+
 - (void)dismissMe {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"CameraHasFound" object:self];
 }

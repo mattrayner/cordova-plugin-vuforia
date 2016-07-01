@@ -132,6 +132,9 @@ public class ImageTargets extends Activity implements ApplicationControl
                 doStopTrackers();
             }else if(receivedAction.equals(VuforiaPlugin.RESUME_ACTION)){
                 doStartTrackers();
+            }else if(receivedAction.equals(VuforiaPlugin.UPDATE_TARGETS_ACTION)){
+                String targets = intent.getStringExtra("ACTION_DATA");
+                doUpdateTargets(targets);
             }
         }
     }
@@ -746,5 +749,11 @@ public class ImageTargets extends Activity implements ApplicationControl
 
             VuforiaPlugin.sendImageFoundUpdate(imageName);
         }
+    }
+
+    public void doUpdateTargets(String targets) {
+        mTargets = targets;
+
+        mRenderer.updateTargetStrings(mTargets);
     }
 }

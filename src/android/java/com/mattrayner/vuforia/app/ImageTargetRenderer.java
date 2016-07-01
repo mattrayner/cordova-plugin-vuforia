@@ -155,4 +155,8 @@ public class ImageTargetRenderer implements GLSurfaceView.Renderer
         mRenderer.end();
     }
 
+    public void updateTargetStrings(String targets) {
+        mTargets = targets;
+    }
+
 }

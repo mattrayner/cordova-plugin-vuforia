@@ -77,6 +77,18 @@ var VuforiaPlugin = {
   },
 
   /**
+   * Update Vuforia image targets.
+   *
+   * @param {Array.<string>} targets An array of images we are going to search for within our database. For example
+   *                                  you may have a database of 100 images, but only be interested in 5 right now.
+   * @param {function} successCallback A callback for when the session is resumed successfully.
+   * @param {function|null} errorCallback A callback for when an error occurs.
+   */
+  updateVuforiaTargets: function(targets, successCallback, errorCallback){
+    VuforiaPlugin.exec(successCallback, errorCallback, 'cordovaUpdateTargets', [ targets ]);
+  },
+
+  /**
    * Handle an error from one of the plugin methods. If a callback is defined, an error message is passed to it. If not,
    * the error message is logged to the console.
    *
