@@ -33,6 +33,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -413,12 +414,16 @@ public class ImageTargets extends Activity implements ApplicationControl
         if(!mDisplayDevicesIcon)
             devicesIconImage.setVisibility(View.GONE);
         // Updates the overlay message with the text passed-in
-        overlayText.setText( mOverlayMessage );
+        overlayText.setText(mOverlayMessage);
+
+        // If the message doesn't exist/is empty, set the black overlay container to be nearly transparent.
+        LinearLayout overlayContainer = (LinearLayout) mUILayout.findViewById(resources.getIdentifier("layout_top", "id", package_name));
+        if(overlayText == null || overlayText.getText().equals("")) {
+            overlayContainer.setBackgroundColor(Color.parseColor("#00000000"));
+        }
 
         // Adds the inflated layout to the view
-        addContentView(mUILayout, new LayoutParams(LayoutParams.MATCH_PARENT,
-            LayoutParams.MATCH_PARENT));
-
+        addContentView(mUILayout, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     }
 
 

@@ -54,6 +54,10 @@
 
         // Custom initialization
         self.title = @"Image Targets";
+
+        // get whether the user opted to show the device icon
+        bool showDevicesIcon = [[self.overlayOptions objectForKey:@"showDevicesIcon"] integerValue];
+
         // Create the EAGLView with the screen dimensions
         CGRect screenBounds = [[UIScreen mainScreen] bounds];
         viewFrame = screenBounds;
@@ -86,62 +90,76 @@
          name:UIApplicationDidBecomeActiveNotification
          object:nil];
 
-        NSString *overlayText = [self.overlayOptions objectForKey:@"overlayText"];
-        bool showDevicesIcon = [[self.overlayOptions objectForKey:@"showDevicesIcon"] integerValue];
+        // set up the overlay back bar
+        UIView *vuforiaBarView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 75)];
+        vuforiaBarView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
+        vuforiaBarView.tag = 8;
+        [self.view addSubview:vuforiaBarView];
 
-         UIView *vuforiaBarView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 50)];
-         vuforiaBarView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5f];
-         [self.view addSubview:vuforiaBarView];
-
-
+        // set up the close button
         UIImage * buttonImage = [UIImage imageNamed:@"close-button.png"];
         UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [button addTarget:self
-                   action:@selector(buttonPressed)
-         forControlEvents:UIControlEventTouchUpInside];
+        [button addTarget:self action:@selector(buttonPressed) forControlEvents:UIControlEventTouchUpInside];
         [button setTitle:@"" forState:UIControlStateNormal];
         [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
-        button.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - 75.0, 0.0, 75.0, 50.0);
+        button.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - 65, (vuforiaBarView.frame.size.height / 2.0) - 30, 60, 60);
         button.tag = 10;
         [vuforiaBarView addSubview:button];
 
-        UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, 180, 60)];
-
-        [detailLabel setTextColor:[UIColor colorWithRed:0.74 green:0.74 blue:0.74 alpha:1.0]];
-        [detailLabel setBackgroundColor:[UIColor clearColor]];
-        [detailLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 16.0f]];
-
-        NSLog(@"Vuforia Plugin :: overlayText: %@", overlayText);
-        NSLog(@"Vuforia Plugin :: showDevicesIcon: %s", showDevicesIcon ? "true" : "false");
-
-        [detailLabel setText: overlayText];
-
-        detailLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        detailLabel.numberOfLines = 0;
-        [detailLabel sizeToFit];
-
-        /* Reposition label based on height */
-        // Get the container height
-        int frameHeight = vuforiaBarView.frame.size.height;
-        // Get the height of the label
-        int labelHeight = detailLabel.frame.size.height;
-
-
-        // Create a new Y value for the label
-        int labelY = (frameHeight / 2) - (labelHeight / 2);
-
-        // Create a new frame with the new Y origin
-        CGRect frameRect = detailLabel.frame;
-        frameRect.origin.y = labelY;
-
-
-        [vuforiaBarView addSubview:detailLabel];
-
-        if(showDevicesIcon){
+        // if the device logo is set by the user
+        if(showDevicesIcon) {
             UIImage *image = [UIImage imageNamed:@"iOSDevices.png"];
             UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-            imageView.frame = CGRectMake(0, 0, 50, 50);
+            imageView.frame = CGRectMake(10, (vuforiaBarView.frame.size.height / 2.0) - 25, 50, 50);
+            imageView.tag = 11;
             [vuforiaBarView addSubview:imageView];
+        }
+
+        // set up the detail label
+        UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, vuforiaBarView.frame.size.width / 2 - button.frame.size.width, 60)];
+        [detailLabel setTextColor:[UIColor colorWithRed:0.74 green:0.74 blue:0.74 alpha:1.0]];
+        [detailLabel setBackgroundColor:[UIColor clearColor]];
+        [detailLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 15.0f]];
+
+        // get and set the overlay text (if passed by user). if the text is empty, make the back bar transparent
+        NSString *overlayText = [self.overlayOptions objectForKey:@"overlayText"];
+
+        [detailLabel setText: overlayText];
+        detailLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        detailLabel.numberOfLines = 0;
+        detailLabel.tag = 9;
+        [detailLabel sizeToFit];
+        if([overlayText length] == 0) {
+            vuforiaBarView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.0f];
+        }
+
+        // if the device icon is to be shown, adapt the text to fit.
+        CGRect detailFrame = detailLabel.frame;
+        if(showDevicesIcon) {
+            detailFrame = CGRectMake(70, 10, [[UIScreen mainScreen] bounds].size.width - 130, detailLabel.frame.size.height);
+        }
+        else {
+            detailFrame = CGRectMake(20, 10, [[UIScreen mainScreen] bounds].size.width - 130, detailLabel.frame.size.height);
+        }
+        detailLabel.frame = detailFrame;
+        [detailLabel sizeToFit];
+        [vuforiaBarView addSubview:detailLabel];
+
+        if(detailLabel.frame.size.height > button.frame.size.height) {
+            CGRect vuforiaFrame = vuforiaBarView.frame;
+            vuforiaFrame.size.height = detailLabel.frame.size.height + 25;
+            vuforiaBarView.frame = vuforiaFrame;
+
+            CGRect buttonFrame = button.frame;
+            buttonFrame.origin.y = detailLabel.frame.size.height / 3.0;
+            button.frame = buttonFrame;
+
+            if(showDevicesIcon) {
+                UIImageView *imageView = (UIImageView *)[eaglView viewWithTag:11];
+                CGRect imageFrame = imageView.frame;
+                imageFrame.origin.y = detailLabel.frame.size.height / 3.0;
+                imageView.frame = imageFrame;
+            }
         }
     }
     return self;
@@ -584,6 +602,8 @@
 {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 
+    bool showDevicesIcon = [[self.overlayOptions objectForKey:@"showDevicesIcon"] integerValue];
+
     // Code here will execute before the rotation begins.
     // Equivalent to placing it in the deprecated method -[willRotateToInterfaceOrientation:duration:]
 
@@ -595,24 +615,68 @@
             [self showLoadingAnimation];
         }
     } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-        if(!self.delaying){
+        if(!self.delaying) {
             self.delaying = true;
 
             [self performSelector:@selector(startVuforia) withObject:nil afterDelay:1];
-            //        [self performSelectorOnMainThread:@selector(startVuforia) withObject:nil waitUntilDone:YES];
         }
 
         CGRect mainBounds = [[UIScreen mainScreen] bounds];
 
+        UIView *vuforiaBarView = (UIView *)[eaglView viewWithTag:8];
 
         UIButton *closeButton = (UIButton *)[eaglView viewWithTag:10];
         UIActivityIndicatorView *loadingIndicator = (UIActivityIndicatorView *)[eaglView viewWithTag:1];
 
-        [UIView animateWithDuration:0.33 animations:^{
-            closeButton.frame = CGRectMake(mainBounds.size.width - 75.0, 0.0, 75.0, 50.0);
+        UILabel *detailLabel = (UILabel *)[eaglView viewWithTag:9];
+        UIActivityIndicatorView *labelLoadingIndicator = (UIActivityIndicatorView *)[eaglView viewWithTag:1];
 
-            loadingIndicator.frame = CGRectMake(mainBounds.size.width / 2 - 12,
-                                                mainBounds.size.height / 2 - 12, 24, 24);
+        [UIView animateWithDuration:0.33 animations:^{
+
+            // handle close button location
+            CGRect closeRect = closeButton.frame;
+            closeRect.origin.x = [[UIScreen mainScreen] bounds].size.width - 65;
+            closeButton.frame = closeRect;
+
+            // if the device icon is to be shown, adapt the text to fit.
+            CGRect detailFrame = detailLabel.frame;
+            if(showDevicesIcon) {
+                detailFrame = CGRectMake(70, 10, [[UIScreen mainScreen] bounds].size.width - 130, detailLabel.frame.size.height);
+            }
+            else {
+                detailFrame = CGRectMake(20, 10, [[UIScreen mainScreen] bounds].size.width - 130, detailLabel.frame.size.height);
+            }
+            detailLabel.frame = detailFrame;
+            [detailLabel sizeToFit];
+            [vuforiaBarView addSubview:detailLabel];
+
+            CGRect vuforiaFrame = vuforiaBarView.frame;
+            vuforiaFrame.size.height = detailLabel.frame.size.height + 25;
+            vuforiaBarView.frame = vuforiaFrame;
+
+            if(detailLabel.frame.size.height > closeButton.frame.size.height) {
+                CGRect buttonFrame = closeButton.frame;
+                buttonFrame.origin.y = detailLabel.frame.size.height / 3.0;
+                closeButton.frame = buttonFrame;
+            }
+            else {
+                // handle close button location
+                CGRect closeRect = closeButton.frame;
+                closeRect.origin.y = 5;
+                closeButton.frame = closeRect;
+
+                // handle case where text is short
+                vuforiaFrame.size.height = 75;
+                vuforiaBarView.frame = vuforiaFrame;
+            }
+
+            // handle showDevicesIcon if it exists
+            if(showDevicesIcon) {
+                UIImageView *imageView = (UIImageView *)[eaglView viewWithTag:11];
+                CGRect imageFrame = imageView.frame;
+                imageFrame.origin.y = detailLabel.frame.size.height / 3.0;
+                imageView.frame = imageFrame;
+            }
         }];
 
 
@@ -676,11 +740,5 @@
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
-}
-
--(bool) doUpdateTargets:(NSArray *)targets {
-    self.imageTargetNames = targets;
-
-    return TRUE;
 }
 @end
