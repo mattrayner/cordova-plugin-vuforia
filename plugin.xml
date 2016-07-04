@@ -4,7 +4,7 @@
         xmlns:rim="http://www.blackberry.com/ns/widgets"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-plugin-vuforia"
-        version="3.0.0">
+        version="3.0.1">
     <name>Vuforia</name>
     <description>Cordova Vuforia Plugin</description>
     <license>MIT</license>
@@ -15,7 +15,7 @@
     <author>Matthew Rayner</author>
 
     <info>
-        Cordova Vuforia Plugin version 3.0.0, Copyright (C) 2016 Matthew Rayner
+        Cordova Vuforia Plugin version 3.0.1, Copyright (C) 2016 Matthew Rayner
         Cordova Vuforia Plugin comes with ABSOLUTELY NO WARRANTY; see the
         LICENSE file for more information.
         This is free software, and you are welcome to redistribute it

@@ -19,7 +19,9 @@
     NSLog(@"Arguments: %@", command.arguments);
     NSLog(@"KEY: %@", [command.arguments objectAtIndex:3]);
 
-    NSDictionary *overlayOptions =  [[NSDictionary alloc] initWithObjectsAndKeys: [command.arguments objectAtIndex:2], @"overlayText", [NSNumber numberWithBool:[[command.arguments objectAtIndex:5] integerValue]], @"showDevicesIcon", nil];
+    NSString *overlayText = ([command.arguments objectAtIndex:2] == (id)[NSNull null]) ? @"" : [command.arguments objectAtIndex:2];
+
+    NSDictionary *overlayOptions =  [[NSDictionary alloc] initWithObjectsAndKeys: overlayText, @"overlayText", [NSNumber numberWithBool:[[command.arguments objectAtIndex:5] integerValue]], @"showDevicesIcon", nil];
 
     self.autostopOnImageFound = [[command.arguments objectAtIndex:6] integerValue];
 
