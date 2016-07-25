@@ -175,10 +175,6 @@
 }
 
 
-- (BOOL)shouldAutorotate {
-    return NO;
-}
-
 - (void) pauseAR {
     NSError * error = nil;
     if (![vapp pauseAR:&error]) {
@@ -729,6 +725,19 @@
     [vapp resumeAR:nil];
 
     [self performSelector:@selector(test) withObject:nil afterDelay:.5];
+}
+
+- (BOOL)shouldAutorotate {
+    return [[self presentingViewController] shouldAutorotate];
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return [[self presentingViewController] supportedInterfaceOrientations];
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return [[self presentingViewController] preferredInterfaceOrientationForPresentation];
 }
 
 -(void)test

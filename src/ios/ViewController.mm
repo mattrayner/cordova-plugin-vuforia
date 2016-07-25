@@ -45,7 +45,7 @@
         self.imageTargetsViewController.imageTargetFile = [self.imageTargets objectForKey:@"imageTargetFile"];
         self.imageTargetsViewController.imageTargetNames = [self.imageTargets objectForKey:@"imageTargetNames"];
 
-        [self.navigationController pushViewController:self.imageTargetsViewController animated:YES];
+        [self presentViewController:self.imageTargetsViewController animated:NO completion:nil];
     }
 }
 
@@ -66,8 +66,26 @@
     return [self.imageTargetsViewController doUpdateTargets:targets];
 }
 
+- (void) close{
+    [self.imageTargetsViewController dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)dismissMe {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"CameraHasFound" object:self];
+}
+
+- (BOOL)shouldAutorotate {
+    return [[self presentingViewController] shouldAutorotate];
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return [[self presentingViewController] supportedInterfaceOrientations];
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+{
+    return [[self presentingViewController] preferredInterfaceOrientationForPresentation];
 }
 
 @end

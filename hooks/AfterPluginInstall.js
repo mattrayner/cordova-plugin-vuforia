@@ -73,49 +73,8 @@ module.exports = function(context) {
       console.log('Successfully updated HEADER_SEARCH_PATHS in build.xcconfig');
     });
 
-    modifyAppDelegate();
   };
 
-  // Finally, modify the AppDelegate file by searching for and replacing the old method with the newer required one.
-  const modifyAppDelegate = function() {
-    console.log('Attempting to modify the AppDelegate.m for iOS');
-
-    let appDelegateFilePath = path.join(cwd, 'platforms', 'ios', projectName, 'Classes', 'AppDelegate.m');
-
-    // Ugly file modification but it does the job.
-    let oldMethod = hookData.methodToReplace;
-    let newMethod = hookData.replaceMethod;
-
-    try {
-      let appDelegateFileExists = fs.accessSync(appDelegateFilePath);
-    }
-    catch(e) {
-      console.log('Could not locate AppDelegate.m, you will need to modify it manually');
-      return;
-    }
-
-    let appDelegateContent = fs.readFileSync(appDelegateFilePath, 'utf8');
-
-    if(appDelegateContent.indexOf(oldMethod) > -1) {
-      let newAppDelegateContent = appDelegateContent.replace(oldMethod, newMethod);
-
-      fs.writeFile(appDelegateFilePath, newAppDelegateContent, function (err) {
-        if (err) {
-          console.log(`Error updating AppDelegate.m! err: ${err}`);
-          return;
-        }
-        console.log('Successfully updated the AppDelegate.m file with the right code');
-      });
-    }
-    else {
-      if(appDelegateContent.indexOf(newMethod) > -1) {
-        console.log('AppDelegate.m has already been modified');
-      }
-      else {
-        console.log('Did not find the code to modify');
-      }
-    }
-  };
 
   modifyBuildConfig();
 };

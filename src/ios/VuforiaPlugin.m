@@ -106,10 +106,9 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"CloseRequest" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeRequest:) name:@"CloseRequest" object:nil];
 
-    UINavigationController *nc = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     self.imageRecViewController = [[ViewController alloc] initWithFileName:imageTargetfile targetNames:imageTargetNames overlayOptions:overlayOptions vuforiaLicenseKey:vuforiaLicenseKey];
 
-    [nc pushViewController:self.imageRecViewController animated:YES];
+    [self.viewController presentViewController:self.imageRecViewController animated:YES completion:nil];
 }
 
 
@@ -145,9 +144,7 @@
 
 - (void) VP_closeView {
     if(self.startedVuforia == true){
-        UINavigationController *nc = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-        [nc popToRootViewControllerAnimated:YES];
-
+        [self.imageRecViewController close];
         self.startedVuforia = false;
     }
 }

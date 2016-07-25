@@ -11,5 +11,5 @@
 - (bool) stopTrackers;
 - (bool) startTrackers;
 - (bool) updateTargets:(NSArray *)targets;
-
+- (void) close;
 @end
