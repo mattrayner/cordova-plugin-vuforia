@@ -760,4 +760,10 @@
 - (BOOL)prefersStatusBarHidden {
     return YES;
 }
+
+-(bool) doUpdateTargets:(NSArray *)targets {
+    self.imageTargetNames = targets;
+
+    return TRUE;
+}
 @end
