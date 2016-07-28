@@ -11,6 +11,7 @@
 We'll merge any approriate contributions after reviewing for the following:
 
 1. Documentation.
+1. Has been tested on both Android and iOS (add your plugin to the Vuforia example repo and check everything still works).
 1. Passing CI tests.
 1. Consistent code style. **Note:** We use BitHound and a decreasing score will block a PR.
 1. Good descriptive commit messages.
