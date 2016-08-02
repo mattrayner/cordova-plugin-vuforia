@@ -1,7 +1,7 @@
 # ![Cordova-Plugin-Vuforia][logo]
 Cordova-Plugin-Vuforia is a [Cordova][cordova] plugin that uses [Vuforia][vuforia] to perform image recognition.
 
-You can see a live example in the [Peugeot 208][peugeot] app on iOS and Android and a basic open source example in the [cordova-vuforia-example][example-repo] repo.
+You can see a live example in the [Peugeot 208][peugeot] app on iOS and Android, and an open source example in the [cordova-vuforia-example][example-repo] repo.
 
 [![NPM Version][shield-npm]][info-npm]
 [![Supported Cordova Versions][shield-cordova]][info-npm]
@@ -17,6 +17,7 @@ You can see a live example in the [Peugeot 208][peugeot] app on iOS and Android 
 
 - [Supported Platforms](#supported-platforms)
 - [Requirements](#requirements)
+  - [Dependencies](#dependencies)
 - [Getting Started](#getting-started)
   - [Plugin Installation](#plugin-installation)
   - [JavaScript](#javascript)
@@ -43,6 +44,8 @@ Android (Minimum 4), iOS (Minimum 8)
 
 
 ## Requirements
+> **NOTE:** You will require an Android or iOS device for development and testing. Cordova-Plugin-Vuforia requires hardware and software support that is not present in either the iOS or Android simulators.
+
 Cordova-Plugin-Vuforia requires the following:
 * [npm][npm]
 * [Cordova 6.*][cordova] - 6.* is required as of v2.1 of this plugin, it adds support for Android 6 (Marshmellow) and iOS 9.
@@ -50,7 +53,9 @@ Cordova-Plugin-Vuforia requires the following:
   * If you've already got a project running with an older version of Cordova, [see here][updating-cordova] for instructions on how to update your project's Cordova version.
   * Or if you want to upgrade to the latest version on a platform-by-platform basis, see either [upgrading to cordova-ios 4][upgrading-ios] or [upgrading to cordova-android 5][upgrading-android].
 
-> **NOTE:** You will require an Android or iOS device for development and testing. Cordova-Plugin-Vuforia requires hardware and software support that is not present in either the iOS or Android simulators.
+### Dependencies
+At present there is one major dependency for Cordova-Plugin-Vuforia:
+* [Cordova-Plugin-Vuforia-SDK][cordova-plugin-vuforia-sdk] - This plugin is used to inject the Vuforia SDK into our Cordova applications
 
 
 ## Getting Started
@@ -316,6 +321,7 @@ Cordova-Plugin-Vuforia is licensed under the [MIT License][info-license].
 [updating-cordova]: https://cordova.apache.org/docs/en/latest/guide/cli/index.html#updating-cordova-and-your-project
 [upgrading-ios]: https://cordova.apache.org/docs/en/latest/guide/platforms/ios/upgrade.html#upgrading-360-projects-to-400
 [upgrading-android]: https://cordova.apache.org/docs/en/latest/guide/platforms/android/upgrade.html#upgrading-to-5xx
+[cordova-plugin-vuforia-sdk]: https://github.com/mattrayner/cordova-plugin-vuforia-sdk
 [issue-16]: https://github.com/mattrayner/cordova-plugin-vuforia/issues/16
 [cordova-orientation-issue]: https://github.com/apache/cordova-lib/pull/260
 [peugeot]: https://itunes.apple.com/gb/app/new-peugeot-208/id1020630968?mt=8

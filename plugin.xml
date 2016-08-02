@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        xmlns:rim="http://www.blackberry.com/ns/widgets"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-plugin-vuforia"
-        version="3.0.2">
+        version="3.1.0">
     <name>Vuforia</name>
     <description>Cordova Vuforia Plugin</description>
     <license>MIT</license>
@@ -15,7 +14,7 @@
     <author>Matthew Rayner</author>
 
     <info>
-        Cordova Vuforia Plugin version 3.0.2, Copyright (C) 2016 Matthew Rayner
+        Cordova Vuforia Plugin version 3.1.0, Copyright (C) 2016 Matthew Rayner
         Cordova Vuforia Plugin comes with ABSOLUTELY NO WARRANTY; see the
         LICENSE file for more information.
         This is free software, and you are welcome to redistribute it
@@ -35,20 +34,6 @@
             </feature>
         </config-file>
 
-        <!-- Add our permissions to the Android Manifest -->
-        <config-file target="AndroidManifest.xml" parent="/*">
-            <uses-feature android:glEsVersion="0x00020000" />
-            <uses-feature android:name="android.hardware.camera" />
-
-            <uses-permission android:name="android.permission.CAMERA" />
-
-            <uses-permission android:name="android.permission.INTERNET"/>
-            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-            <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-        </config-file>
-
         <!-- Add our activities to the Android Manifest -->
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <activity
@@ -66,10 +51,6 @@
 
         <!-- Plugin Source -->
         <source-file src="src/android/VuforiaPlugin.java" target-dir="src/com/mattrayner/vuforia" />
-
-        <!-- Libraries -->
-        <source-file src="src/vuforia/jniLibs/armeabi/libVuforia.so" target-dir="libs/armeabi-v7a" />
-        <source-file src="src/vuforia/Vuforia.jar" target-dir="libs" />
 
         <!-- Assets -->
         <resource-file src="src/android/res/drawable/devices.png" target="res/drawable/devices.png" />
@@ -118,9 +99,6 @@
 
     <!-- ios -->
     <platform name="ios">
-        <hook type="after_plugin_install" src="hooks/AfterPluginInstall.js" />
-        <hook type="before_plugin_uninstall" src="hooks/BeforePluginUninstall.js" />
-
         <!-- config file -->
         <config-file target="config.xml" parent="/*">
             <feature name="VuforiaPlugin">
@@ -137,20 +115,6 @@
         <source-file src="src/ios/VuforiaPlugin.m" />
         <header-file src="src/ios/ViewController.h" />
         <source-file src="src/ios/ViewController.mm" />
-
-        <framework src="AVFoundation.framework" weak="true" />
-        <framework src="CoreGraphics.framework" weak="true" />
-        <framework src="CoreMedia.framework" weak="true" />
-        <framework src="CoreMotion.framework" weak="true" />
-        <framework src="CoreVideo.framework" weak="true" />
-        <framework src="Foundation.framework" weak="true" />
-        <framework src="OpenGLES.framework" weak="true" />
-        <framework src="QuartzCore.framework" weak="true" />
-        <framework src="Security.framework" weak="true" />
-        <framework src="SystemConfiguration.framework" weak="true" />
-        <framework src="UIKit.framework" weak="true" />
-
-        <source-file src="src/vuforia/lib/arm/libVuforia.a" target-dir="libs" framework="true" />
 
 
         <header-file src="src/ios/ImageTargets/ImageTargetsEAGLView.h" />
@@ -177,4 +141,6 @@
         <resource-file src="src/ios/Assets/ImageTargets/close-button.png" target-dir="Resources" />
         <resource-file src="src/ios/Assets/ImageTargets/iOSDevices.png" target-dir="Resources" />
     </platform>
+
+    <dependency id="cordova-plugin-vuforia-sdk" version="0.0.2" />
 </plugin>
