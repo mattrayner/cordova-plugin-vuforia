@@ -354,7 +354,7 @@
     if (initError == nil) {
 
         NSError * error = nil;
-        [vapp startAR:Vuforia::CameraDevice::CAMERA_BACK error:&error];
+        [vapp startAR:Vuforia::CameraDevice::CAMERA_DIRECTION_BACK error:&error];
 
         // by default, we try to set the continuous auto focus mode
     } else {

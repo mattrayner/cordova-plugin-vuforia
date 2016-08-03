@@ -27,7 +27,7 @@ namespace {
     int mVuforiaInitFlags;
 
     // camera to use for the session
-    Vuforia::CameraDevice::CAMERA mCamera = Vuforia::CameraDevice::CAMERA_DEFAULT;
+    Vuforia::CameraDevice::CAMERA_DIRECTION mCamera = Vuforia::CameraDevice::CAMERA_DIRECTION_DEFAULT;
 
     // class used to support the Vuforia callback mechanism
     class VuforiaApplication_UpdateCallback : public Vuforia::UpdateCallback {
@@ -365,7 +365,7 @@ namespace {
     // Configure the video background
     Vuforia::VideoBackgroundConfig config;
     config.mEnabled = true;
-    config.mSynchronous = true;
+//    config.mSynchronous = true; // NOT SURE IF THIS IS NOW REDUNDANT
     config.mPosition.data[0] = 0.0f;
     config.mPosition.data[1] = 0.0f;
 
@@ -488,7 +488,7 @@ namespace {
 }
 
 // Start Vuforia camera with the specified view size
-- (bool)startCamera:(Vuforia::CameraDevice::CAMERA)camera viewWidth:(float)viewWidth andHeight:(float)viewHeight error:(NSError **)error
+- (bool)startCamera:(Vuforia::CameraDevice::CAMERA_DIRECTION)camera viewWidth:(float)viewWidth andHeight:(float)viewHeight error:(NSError **)error
 {
     // initialize the camera
     if (! Vuforia::CameraDevice::getInstance().init(camera)) {
@@ -528,7 +528,7 @@ namespace {
 }
 
 
-- (bool) startAR:(Vuforia::CameraDevice::CAMERA)camera error:(NSError **)error {
+- (bool) startAR:(Vuforia::CameraDevice::CAMERA_DIRECTION)camera error:(NSError **)error {
     // Start the camera.  This causes Vuforia to locate our EAGLView in the view
     // hierarchy, start a render thread, and then call renderFrameVuforia on the
     // view periodically
