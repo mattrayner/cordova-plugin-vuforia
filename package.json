@@ -47,5 +47,8 @@
     }
   },
   "author": "Matthew Rayner",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cordova-plugin-vuforia-sdk": "1.x.x"
+  }
 }

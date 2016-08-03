@@ -142,5 +142,5 @@
         <resource-file src="src/ios/Assets/ImageTargets/iOSDevices.png" target-dir="Resources" />
     </platform>
 
-    <dependency id="cordova-plugin-vuforia-sdk" version="0.0.2" />
+    <dependency id="cordova-plugin-vuforia-sdk" version="1.x.x" />
 </plugin>
