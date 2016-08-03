@@ -1,8 +1,8 @@
 #import "ViewController.h"
 #import "ImageTargetsViewController.h"
 
-#import <QCAR/TrackerManager.h>
-#import <QCAR/ObjectTracker.h>
+#import <Vuforia/TrackerManager.h>
+#import <Vuforia/ObjectTracker.h>
 
 @interface ViewController ()
 

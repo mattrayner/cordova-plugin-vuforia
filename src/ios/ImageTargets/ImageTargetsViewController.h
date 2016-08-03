@@ -8,13 +8,13 @@
 #import <UIKit/UIKit.h>
 #import "ImageTargetsEAGLView.h"
 #import "ApplicationSession.h"
-#import <QCAR/DataSet.h>
+#import <Vuforia/DataSet.h>
 
 @interface ImageTargetsViewController : UIViewController <ApplicationControl>{
     CGRect viewFrame;
     ImageTargetsEAGLView* eaglView;
-    QCAR::DataSet*  dataSetCurrent;
-    QCAR::DataSet*  dataSetTargets;
+    Vuforia::DataSet*  dataSetCurrent;
+    Vuforia::DataSet*  dataSetTargets;
     UITapGestureRecognizer * tapGestureRecognizer;
     ApplicationSession * vapp;
 
