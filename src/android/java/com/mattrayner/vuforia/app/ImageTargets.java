@@ -604,7 +604,7 @@ public class ImageTargets extends Activity implements ApplicationControl
 
 
     @Override
-    public void onQCARUpdate(State state)
+    public void onVuforiaUpdate(State state)
     {
         if (mSwitchDatasetAsap)
         {

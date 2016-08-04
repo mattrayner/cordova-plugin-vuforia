@@ -20,12 +20,12 @@ import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.qualcomm.vuforia.Renderer;
-import com.qualcomm.vuforia.State;
-import com.qualcomm.vuforia.Trackable;
-import com.qualcomm.vuforia.TrackableResult;
-import com.qualcomm.vuforia.VIDEO_BACKGROUND_REFLECTION;
-import com.qualcomm.vuforia.Vuforia;
+import com.vuforia.Renderer;
+import com.vuforia.State;
+import com.vuforia.Trackable;
+import com.vuforia.TrackableResult;
+import com.vuforia.VIDEO_BACKGROUND_REFLECTION;
+import com.vuforia.Vuforia;
 import com.mattrayner.vuforia.app.ApplicationSession;
 import com.mattrayner.vuforia.app.utils.LoadingDialogHandler;
 import com.mattrayner.vuforia.app.utils.Texture;
