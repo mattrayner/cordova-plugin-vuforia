@@ -10,15 +10,15 @@
 
 #import <UIKit/UIKit.h>
 #import "ImageTargetsViewController.h"
-#import <QCAR/QCAR.h>
-#import <QCAR/TrackerManager.h>
-#import <QCAR/ObjectTracker.h>
-#import <QCAR/Trackable.h>
-#import <QCAR/TrackableResult.h>
-#import <QCAR/DataSet.h>
-#import <QCAR/CameraDevice.h>
+#import <Vuforia/Vuforia.h>
+#import <Vuforia/TrackerManager.h>
+#import <Vuforia/ObjectTracker.h>
+#import <Vuforia/Trackable.h>
+#import <Vuforia/TrackableResult.h>
+#import <Vuforia/DataSet.h>
+#import <Vuforia/CameraDevice.h>
 
-#import <QCAR/QCAR_iOS.h>
+#import <Vuforia/Vuforia_iOS.h>
 
 @interface ImageTargetsViewController ()
 
@@ -62,7 +62,7 @@
         viewFrame = screenBounds;
 
         // If this device has a retina display, scale the view bounds that will
-        // be passed to QCAR; this allows it to calculate the size and position of
+        // be passed to Vuforia; this allows it to calculate the size and position of
         // the viewport correctly when rendering the video background
         if (YES == vapp.isRetinaDisplay) {
             viewFrame.size.width *= 2.0;
@@ -198,7 +198,7 @@
         NSLog(@"Error resuming AR:%@", [error description]);
     }
     // on resume, we reset the flash and the associated menu item
-    QCAR::CameraDevice::getInstance().setFlashTorchMode(false);
+    Vuforia::CameraDevice::getInstance().setFlashTorchMode(false);
 }
 
 - (void)dealloc
@@ -223,7 +223,7 @@
     [self showLoadingAnimation];
 
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    [vapp initAR:QCAR::GL_20 ARViewBoundsSize:viewFrame.size orientation:orientation];
+    [vapp initAR:Vuforia::GL_20 ARViewBoundsSize:viewFrame.size orientation:orientation];
 
     [self performSelector:@selector(test) withObject:nil afterDelay:.5];
 }
@@ -245,7 +245,7 @@
 
     [self stopVuforia];
 
-    // Be a good OpenGL ES citizen: now that QCAR is paused and the render
+    // Be a good OpenGL ES citizen: now that Vuforia is paused and the render
     // thread is not executing, inform the root view controller that the
     // EAGLView should finish any OpenGL ES commands
     [eaglView finishOpenGLESCommands];
@@ -306,10 +306,10 @@
 
 - (bool) doInitTrackers {
     // Initialize the image or marker tracker
-    QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
+    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
 
     // Image Tracker...
-    QCAR::Tracker* trackerBase = trackerManager.initTracker(QCAR::ObjectTracker::getClassType());
+    Vuforia::Tracker* trackerBase = trackerManager.initTracker(Vuforia::ObjectTracker::getClassType());
     if (trackerBase == NULL)
     {
         NSLog(@"Failed to initialize ObjectTracker.");
@@ -337,8 +337,8 @@
 }
 
 - (bool) doStartTrackers {
-    QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::Tracker* tracker = trackerManager.getTracker(QCAR::ObjectTracker::getClassType());
+    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::Tracker* tracker = trackerManager.getTracker(Vuforia::ObjectTracker::getClassType());
     if(tracker == 0) {
         return NO;
     }
@@ -354,7 +354,7 @@
     if (initError == nil) {
 
         NSError * error = nil;
-        [vapp startAR:QCAR::CameraDevice::CAMERA_BACK error:&error];
+        [vapp startAR:Vuforia::CameraDevice::CAMERA_DIRECTION_BACK error:&error];
 
         // by default, we try to set the continuous auto focus mode
     } else {
@@ -382,12 +382,12 @@
 
 
 //	Update function called while camera is tracking images
-- (void) onQCARUpdate: (QCAR::State *) state {
+- (void) onVuforiaUpdate: (Vuforia::State *) state {
 
     for (int i = 0; i < state->getNumTrackableResults(); ++i) {
 
-        const QCAR::TrackableResult* result = state->getTrackableResult(i);
-        const QCAR::Trackable& trackable = result->getTrackable();
+        const Vuforia::TrackableResult* result = state->getTrackableResult(i);
+        const Vuforia::Trackable& trackable = result->getTrackable();
 
 
         for(NSString *imageName in self.imageTargetNames) {
@@ -409,14 +409,14 @@
 
 
 // Load the image tracker data set
-- (QCAR::DataSet *)loadObjectTrackerDataSet:(NSString*)dataFile
+- (Vuforia::DataSet *)loadObjectTrackerDataSet:(NSString*)dataFile
 {
     NSLog(@"loadObjectTrackerDataSet (%@)", dataFile);
-    QCAR::DataSet * dataSet = NULL;
+    Vuforia::DataSet * dataSet = NULL;
 
-    // Get the QCAR tracker manager image tracker
-    QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ObjectTracker* objectTracker = static_cast<QCAR::ObjectTracker*>(trackerManager.getTracker(QCAR::ObjectTracker::getClassType()));
+    // Get the Vuforia tracker manager image tracker
+    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::ObjectTracker* objectTracker = static_cast<Vuforia::ObjectTracker*>(trackerManager.getTracker(Vuforia::ObjectTracker::getClassType()));
 
     if (NULL == objectTracker) {
         NSLog(@"ERROR: failed to get the ObjectTracker from the tracker manager");
@@ -428,15 +428,15 @@
             NSLog(@"INFO: successfully loaded data set");
 
             //Determine the storage type.
-            QCAR::STORAGE_TYPE storageType;
+            Vuforia::STORAGE_TYPE storageType;
             if([dataFile hasPrefix:@"file://"]) {
                 dataFile = [dataFile stringByReplacingOccurrencesOfString:@"file://" withString:@""];
-                storageType = QCAR::STORAGE_ABSOLUTE;
+                storageType = Vuforia::STORAGE_ABSOLUTE;
                 NSLog(@"Reading the absolute path to target file : %@", dataFile);
 
             }else{
                 NSLog(@"Reading the path to target file %@ from resources folder", dataFile);
-                storageType = QCAR::STORAGE_APPRESOURCE;
+                storageType = Vuforia::STORAGE_APPRESOURCE;
             }
 
             // Load the data set from the app's resources location
@@ -457,8 +457,8 @@
 
 - (bool) doStopTrackers {
     // Stop the tracker
-    QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::Tracker* tracker = trackerManager.getTracker(QCAR::ObjectTracker::getClassType());
+    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::Tracker* tracker = trackerManager.getTracker(Vuforia::ObjectTracker::getClassType());
 
     if (NULL != tracker) {
         tracker->stop();
@@ -476,8 +476,8 @@
     dataSetCurrent = nil;
 
     // Get the image tracker:
-    QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ObjectTracker* objectTracker = static_cast<QCAR::ObjectTracker*>(trackerManager.getTracker(QCAR::ObjectTracker::getClassType()));
+    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::ObjectTracker* objectTracker = static_cast<Vuforia::ObjectTracker*>(trackerManager.getTracker(Vuforia::ObjectTracker::getClassType()));
 
     // Destroy the data sets:
     if (!objectTracker->destroyDataSet(dataSetTargets))
@@ -489,7 +489,7 @@
     return YES;
 }
 
-- (BOOL)activateDataSet:(QCAR::DataSet *)theDataSet
+- (BOOL)activateDataSet:(Vuforia::DataSet *)theDataSet
 {
     // if we've previously recorded an activation, deactivate it
     if (dataSetCurrent != nil)
@@ -499,8 +499,8 @@
     BOOL success = NO;
 
     // Get the image tracker:
-    QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ObjectTracker* objectTracker = static_cast<QCAR::ObjectTracker*>(trackerManager.getTracker(QCAR::ObjectTracker::getClassType()));
+    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::ObjectTracker* objectTracker = static_cast<Vuforia::ObjectTracker*>(trackerManager.getTracker(Vuforia::ObjectTracker::getClassType()));
 
     if (objectTracker == NULL) {
         NSLog(@"Failed to load tracking data set because the ObjectTracker has not been initialized.");
@@ -528,7 +528,7 @@
     return success;
 }
 
-- (BOOL)deactivateDataSet:(QCAR::DataSet *)theDataSet
+- (BOOL)deactivateDataSet:(Vuforia::DataSet *)theDataSet
 {
     if ((dataSetCurrent == nil) || (theDataSet != dataSetCurrent))
     {
@@ -542,8 +542,8 @@
     [self setExtendedTrackingForDataSet:theDataSet start:NO];
 
     // Get the image tracker:
-    QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ObjectTracker* objectTracker = static_cast<QCAR::ObjectTracker*>(trackerManager.getTracker(QCAR::ObjectTracker::getClassType()));
+    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::ObjectTracker* objectTracker = static_cast<Vuforia::ObjectTracker*>(trackerManager.getTracker(Vuforia::ObjectTracker::getClassType()));
 
     if (objectTracker == NULL)
     {
@@ -567,10 +567,10 @@
     return success;
 }
 
-- (BOOL) setExtendedTrackingForDataSet:(QCAR::DataSet *)theDataSet start:(BOOL) start {
+- (BOOL) setExtendedTrackingForDataSet:(Vuforia::DataSet *)theDataSet start:(BOOL) start {
     BOOL result = YES;
     for (int tIdx = 0; tIdx < theDataSet->getNumTrackables(); tIdx++) {
-        QCAR::Trackable* trackable = theDataSet->getTrackable(tIdx);
+        Vuforia::Trackable* trackable = theDataSet->getTrackable(tIdx);
         if (start) {
             if (!trackable->startExtendedTracking())
             {
@@ -589,8 +589,8 @@
 }
 
 - (bool) doDeinitTrackers {
-    QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    trackerManager.deinitTracker(QCAR::ObjectTracker::getClassType());
+    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
+    trackerManager.deinitTracker(Vuforia::ObjectTracker::getClassType());
     return YES;
 }
 
@@ -601,7 +601,7 @@
 
 - (void)cameraPerformAutoFocus
 {
-    QCAR::CameraDevice::getInstance().setFocusMode(QCAR::CameraDevice::FOCUS_MODE_TRIGGERAUTO);
+    Vuforia::CameraDevice::getInstance().setFocusMode(Vuforia::CameraDevice::FOCUS_MODE_TRIGGERAUTO);
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
@@ -694,7 +694,7 @@
     //[vapp pauseAR:nil];
 
     [vapp stopAR:nil];
-    // Be a good OpenGL ES citizen: now that QCAR is paused and the render
+    // Be a good OpenGL ES citizen: now that Vuforia is paused and the render
     // thread is not executing, inform the root view controller that the
     // EAGLView should finish any OpenGL ES commands
     [eaglView finishOpenGLESCommands];
@@ -709,29 +709,29 @@
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
 
     // Frames from the camera are always landscape, no matter what the
-    // orientation of the device.  Tell QCAR to rotate the video background (and
+    // orientation of the device.  Tell Vuforia to rotate the video background (and
     // the projection matrix it provides to us for rendering our augmentation)
     // by the proper angle in order to match the EAGLView orientation
     if (orientation == UIInterfaceOrientationPortrait)
     {
-        QCAR::setRotation(QCAR::ROTATE_IOS_90);
+        Vuforia::setRotation(Vuforia::ROTATE_IOS_90);
     }
     else if (orientation == UIInterfaceOrientationPortraitUpsideDown)
     {
-        QCAR::setRotation(QCAR::ROTATE_IOS_270);
+        Vuforia::setRotation(Vuforia::ROTATE_IOS_270);
     }
     else if (orientation == UIInterfaceOrientationLandscapeLeft)
     {
-        QCAR::setRotation(QCAR::ROTATE_IOS_180);
+        Vuforia::setRotation(Vuforia::ROTATE_IOS_180);
     }
     else if (orientation == UIInterfaceOrientationLandscapeRight)
     {
-        QCAR::setRotation(1);
+        Vuforia::setRotation(1);
     }
 
 
     // initialize the AR session
-    //[vapp initAR:QCAR::GL_20 ARViewBoundsSize:viewFrame.size orientation:orientation];
+    //[vapp initAR:Vuforia::GL_20 ARViewBoundsSize:viewFrame.size orientation:orientation];
     [vapp resumeAR:nil];
 
     [self performSelector:@selector(test) withObject:nil afterDelay:.5];

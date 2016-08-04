@@ -1,7 +1,7 @@
 {
   "name": "cordova-plugin-vuforia",
   "description": "Cordova Vuforia Plugin",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "homepage": "https://github.com/mattrayner/cordova-plugin-vuforia",
   "repository": {
     "type": "git",
@@ -47,5 +47,8 @@
     }
   },
   "author": "Matthew Rayner",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cordova-plugin-vuforia-sdk": "1.x.x"
+  }
 }

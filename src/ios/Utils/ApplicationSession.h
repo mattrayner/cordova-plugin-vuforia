@@ -1,16 +1,16 @@
 /*===============================================================================
 Copyright (c) 2012-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
 
-Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States
 and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 ===============================================================================*/
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
-#import <QCAR/Matrices.h>
-#import <QCAR/CameraDevice.h>
-#import <QCAR/State.h>
+#import <Vuforia/Matrices.h>
+#import <Vuforia/CameraDevice.h>
+#import <Vuforia/State.h>
 
-#define E_INITIALIZING_QCAR         100
+#define E_INITIALIZING_Vuforia         100
 
 #define E_INITIALIZING_CAMERA       110
 #define E_STARTING_CAMERA           111
@@ -56,8 +56,8 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
 - (bool) doDeinitTrackers;
 
 @optional
-// optional method to handle the QCAR callback - can be used to swap dataset for instance
-- (void) onQCARUpdate: (QCAR::State *) state;
+// optional method to handle the Vuforia callback - can be used to swap dataset for instance
+- (void) onVuforiaUpdate: (Vuforia::State *) state;
 
 @end
 
@@ -66,10 +66,10 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
 - (id)initWithDelegate:(id<ApplicationControl>) delegate vuforiaLicenseKey:(NSString *) vuforiaLicenseKey;
 
 // initialize the AR library. This is an asynchronous method. When the initialization is complete, the callback method initARDone will be called
-- (void) initAR:(int) QCARInitFlags ARViewBoundsSize:(CGSize) ARViewBoundsSize orientation:(UIInterfaceOrientation) ARViewOrientation;
+- (void) initAR:(int) VuforiaInitFlags ARViewBoundsSize:(CGSize) ARViewBoundsSize orientation:(UIInterfaceOrientation) ARViewOrientation;
 
 // start the AR session
-- (bool) startAR:(QCAR::CameraDevice::CAMERA) camera error:(NSError **)error;
+- (bool) startAR:(Vuforia::CameraDevice::CAMERA) camera error:(NSError **)error;
 
 // pause the AR session
 - (bool) pauseAR:(NSError **)error;
@@ -88,7 +88,7 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
 
 @property (nonatomic, readwrite) BOOL isRetinaDisplay;
 @property (nonatomic, readwrite) BOOL cameraIsStarted;
-@property (nonatomic, readwrite) QCAR::Matrix44F projectionMatrix;
+@property (nonatomic, readwrite) Vuforia::Matrix44F projectionMatrix;
 
 @property (retain, nonatomic) NSString *vuforiaLicenseKey;
 

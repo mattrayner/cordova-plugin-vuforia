@@ -43,15 +43,15 @@ import android.widget.Toast;
 //import android.R;
 //import com.example.hello.R;
 
-import com.qualcomm.vuforia.CameraDevice;
-import com.qualcomm.vuforia.DataSet;
-import com.qualcomm.vuforia.ObjectTracker;
-import com.qualcomm.vuforia.State;
-import com.qualcomm.vuforia.STORAGE_TYPE;
-import com.qualcomm.vuforia.Trackable;
-import com.qualcomm.vuforia.Tracker;
-import com.qualcomm.vuforia.TrackerManager;
-import com.qualcomm.vuforia.Vuforia;
+import com.vuforia.CameraDevice;
+import com.vuforia.DataSet;
+import com.vuforia.ObjectTracker;
+import com.vuforia.State;
+import com.vuforia.STORAGE_TYPE;
+import com.vuforia.Trackable;
+import com.vuforia.Tracker;
+import com.vuforia.TrackerManager;
+import com.vuforia.Vuforia;
 import com.mattrayner.vuforia.app.ApplicationControl;
 import com.mattrayner.vuforia.app.ApplicationException;
 import com.mattrayner.vuforia.app.ApplicationSession;
@@ -128,7 +128,8 @@ public class ImageTargets extends Activity implements ApplicationControl
             String receivedAction = intent.getExtras().getString(VuforiaPlugin.PLUGIN_ACTION);
 
             if (receivedAction.equals(VuforiaPlugin.DISMISS_ACTION)) {
-                doFinish();
+                Vuforia.deinit();
+                finish();
             }else if(receivedAction.equals(VuforiaPlugin.PAUSE_ACTION)){
                 doStopTrackers();
             }else if(receivedAction.equals(VuforiaPlugin.RESUME_ACTION)){
@@ -541,7 +542,7 @@ public class ImageTargets extends Activity implements ApplicationControl
 
             try
             {
-                vuforiaAppSession.startAR(CameraDevice.CAMERA.CAMERA_DEFAULT);
+                vuforiaAppSession.startAR(CameraDevice.CAMERA_DIRECTION.CAMERA_DIRECTION_DEFAULT);
             } catch (ApplicationException e)
             {
                 Log.e(LOGTAG, e.getString());
@@ -604,7 +605,7 @@ public class ImageTargets extends Activity implements ApplicationControl
 
 
     @Override
-    public void onQCARUpdate(State state)
+    public void onVuforiaUpdate(State state)
     {
         if (mSwitchDatasetAsap)
         {
@@ -723,6 +724,7 @@ public class ImageTargets extends Activity implements ApplicationControl
         Intent mIntent = new Intent();
         mIntent.putExtra("name", "CLOSED");
         setResult(VuforiaPlugin.MANUAL_CLOSE_RESULT, mIntent);
+        Vuforia.deinit();
         super.onBackPressed();
     }
 
@@ -748,7 +750,9 @@ public class ImageTargets extends Activity implements ApplicationControl
         Log.d(LOGTAG, "mAuto Stop On Image Found: " + mAutostopOnImageFound);
 
         if(mAutostopOnImageFound) {
-            this.finish();
+            Vuforia.deinit();
+
+            finish();
         } else {
             Log.d(LOGTAG, "Sending repeat callback");
 
