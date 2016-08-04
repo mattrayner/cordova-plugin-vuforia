@@ -1,8 +1,10 @@
 /*===============================================================================
+Copyright (c) 2016 PTC Inc. All Rights Reserved.
+
 Copyright (c) 2012-2015 Qualcomm Connected Experiences, Inc. All Rights Reserved.
 
-Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States
-and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
+Vuforia is a trademark of PTC Inc., registered in the United States and other
+countries.
 ===============================================================================*/
 
 
@@ -15,6 +17,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.OrientationEventListener;
 import android.view.WindowManager;
 import android.R;
 
@@ -33,7 +36,7 @@ import com.vuforia.Vuforia.UpdateCallbackInterface;
 public class ApplicationSession implements UpdateCallbackInterface
 {
 
-    private static final String LOGTAG = "Vuforia_Applications";
+    private static final String LOGTAG = "Vuforia_Application";
 
     // Reference to the current activity
     private Activity mActivity;
@@ -68,6 +71,9 @@ public class ApplicationSession implements UpdateCallbackInterface
     // Stores the projection matrix to use for rendering purposes
     private Matrix44F mProjectionMatrix;
 
+    // Stores viewport to be used for rendering purposes
+    private int[] mViewport;
+
     // Stores orientation
     private boolean mIsPortrait = false;
 
@@ -89,6 +95,28 @@ public class ApplicationSession implements UpdateCallbackInterface
         if ((screenOrientation == ActivityInfo.SCREEN_ORIENTATION_SENSOR)
             && (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO))
             screenOrientation = ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR;
+
+        // Use an OrientationChangeListener here to capture all orientation changes.  Android
+        // will not send an Activity.onConfigurationChanged() callback on a 180 degree rotation,
+        // ie: Left Landscape to Right Landscape.  Vuforia needs to react to this change and the
+        // ApplicationSession needs to update the Projection Matrix.
+        OrientationEventListener orientationEventListener = new OrientationEventListener(mActivity) {
+            @Override
+            public void onOrientationChanged(int i) {
+                int activityRotation = mActivity.getWindowManager().getDefaultDisplay().getRotation();
+                if(mLastRotation != activityRotation)
+                {
+                    // Signal the ApplicationSession to refresh the projection matrix
+                    setProjectionMatrix();
+                    mLastRotation = activityRotation;
+                }
+            }
+
+            int mLastRotation = -1;
+        };
+
+        if(orientationEventListener.canDetectOrientation())
+            orientationEventListener.enable();
 
         // Apply screen orientation
         mActivity.setRequestedOrientation(screenOrientation);
@@ -162,8 +190,6 @@ public class ApplicationSession implements UpdateCallbackInterface
                 ApplicationException.CAMERA_INITIALIZATION_FAILURE, error);
         }
 
-        configureVideoBackground();
-
         if (!CameraDevice.getInstance().selectVideoMode(
             CameraDevice.MODE.MODE_DEFAULT))
         {
@@ -172,6 +198,9 @@ public class ApplicationSession implements UpdateCallbackInterface
             throw new ApplicationException(
                 ApplicationException.CAMERA_INITIALIZATION_FAILURE, error);
         }
+
+        // Configure the rendering of the video background
+        configureVideoBackground();
 
         if (!CameraDevice.getInstance().start())
         {
@@ -187,9 +216,10 @@ public class ApplicationSession implements UpdateCallbackInterface
 
         mCameraRunning = true;
 
-        if(!CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_TRIGGERAUTO))
+        if(!CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_CONTINUOUSAUTO))
         {
-            CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_NORMAL);
+            if(!CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_TRIGGERAUTO))
+                CameraDevice.getInstance().setFocusMode(CameraDevice.FOCUS_MODE.FOCUS_MODE_NORMAL);
         }
     }
 
@@ -281,6 +311,11 @@ public class ApplicationSession implements UpdateCallbackInterface
         return mProjectionMatrix;
     }
 
+    // Gets the viewport to be used fo rendering
+    public int[] getViewport()
+    {
+        return mViewport;
+    }
 
     // Callback called every cycle
     @Override
@@ -345,8 +380,6 @@ public class ApplicationSession implements UpdateCallbackInterface
             // Prevent the onDestroy() method to overlap with initialization:
             synchronized (mShutdownLock)
             {
-                Log.d(LOGTAG, "Session License: "+mLicenseKey);
-
                 Vuforia.setInitParameters(mActivity, mVuforiaFlags, mLicenseKey);
 
                 do
@@ -511,6 +544,8 @@ public class ApplicationSession implements UpdateCallbackInterface
             return "No network available. Please make sure you are connected to the Internet.";
         if (code == Vuforia.INIT_LICENSE_ERROR_CANCELED_KEY)
             return "This app license key has been canceled and may no longer be used. Please get a new license key.";
+        if (code == Vuforia.INIT_LICENSE_ERROR_PRODUCT_TYPE_MISMATCH)
+            return "Vuforia App key is not valid for this product. Please get a valid key, by logging into your account at developer.vuforia.com and choosing the right product type during project creation.";
         else
         {
             return "Failed to initialize Vuforia.";
@@ -574,20 +609,6 @@ public class ApplicationSession implements UpdateCallbackInterface
     }
 
 
-    // Applies auto focus if supported by the current device
-    private boolean setFocusMode(int mode) throws ApplicationException
-    {
-        boolean result = CameraDevice.getInstance().setFocusMode(mode);
-
-        if (!result)
-            throw new ApplicationException(
-                ApplicationException.SET_FOCUS_MODE_FAILURE,
-                "Failed to set focus mode: " + mode);
-
-        return result;
-    }
-
-
     // Configures the video mode and sets offsets for the camera's image
     private void configureVideoBackground()
     {
@@ -627,6 +648,15 @@ public class ApplicationSession implements UpdateCallbackInterface
 
         config.setSize(new Vec2I(xSize, ySize));
 
+        // The Vuforia VideoBackgroundConfig takes the position relative to the
+        // centre of the screen, where as the OpenGL glViewport call takes the
+        // position relative to the lower left corner
+        mViewport = new int[4];
+        mViewport[0] = ((mScreenWidth - xSize) / 2) + config.getPosition().getData()[0];
+        mViewport[1] = ((mScreenHeight - ySize) / 2) + config.getPosition().getData()[1];
+        mViewport[2] = xSize;
+        mViewport[3] = ySize;
+
         Log.i(LOGTAG, "Configure Video Background : Video (" + vm.getWidth()
             + " , " + vm.getHeight() + "), Screen (" + mScreenWidth + " , "
             + mScreenHeight + "), mSize (" + xSize + " , " + ySize + ")");
@@ -634,7 +664,6 @@ public class ApplicationSession implements UpdateCallbackInterface
         Renderer.getInstance().setVideoBackgroundConfig(config);
 
     }
-
 
     // Returns true if Vuforia is initialized, the trackers started and the
     // tracker data loaded
