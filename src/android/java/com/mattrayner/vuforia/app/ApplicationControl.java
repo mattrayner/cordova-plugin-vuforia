@@ -7,7 +7,7 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
 
 package com.mattrayner.vuforia.app;
 
-import com.qualcomm.vuforia.State;
+import com.vuforia.State;
 
 
 //  Interface to be implemented by the activity which uses ApplicationSession
