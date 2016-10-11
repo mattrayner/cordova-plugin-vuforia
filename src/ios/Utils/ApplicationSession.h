@@ -69,7 +69,7 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
 - (void) initAR:(int) VuforiaInitFlags ARViewBoundsSize:(CGSize) ARViewBoundsSize orientation:(UIInterfaceOrientation) ARViewOrientation;
 
 // start the AR session
-- (bool) startAR:(Vuforia::CameraDevice::CAMERA) camera error:(NSError **)error;
+- (bool) startAR:(Vuforia::CameraDevice::CAMERA_DIRECTION) camera error:(NSError **)error;
 
 // pause the AR session
 - (bool) pauseAR:(NSError **)error;
