@@ -145,6 +145,7 @@
 - (void) VP_closeView {
     if(self.startedVuforia == true){
         [self.imageRecViewController close];
+        self.imageRecViewController = nil;
         self.startedVuforia = false;
     }
 }
